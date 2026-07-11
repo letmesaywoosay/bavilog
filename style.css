@@ -508,7 +508,7 @@ img {
     transition: all var(--transition-fast) ease;
 }
 
-.streaming-item i {
+.streaming-item .brand-icon {
     width: 16px;
     height: 16px;
 }
