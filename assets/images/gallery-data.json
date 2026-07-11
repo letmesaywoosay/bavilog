@@ -1,12 +1,12 @@
 [
     {
-        "src": "assets/images/CONCEPT/Cozy Kitchen Portrait.jpg",
-        "title": "Cozy Kitchen Portrait",
+        "src": "assets/images/CONCEPT/brunch.jpg",
+        "title": "brunch",
         "category": "CONCEPT"
     },
     {
-        "src": "assets/images/CONCEPT/Female_idol_BAVI_on_rooftop_202607112113.jpeg",
-        "title": "Female idol BAVI on rooftop 202607112113",
+        "src": "assets/images/CONCEPT/Rooftop glitch.jpeg",
+        "title": "Rooftop glitch",
         "category": "CONCEPT"
     },
     {
@@ -15,13 +15,13 @@
         "category": "CONCEPT"
     },
     {
-        "src": "assets/images/STAGE/Stage Performance.jpg",
-        "title": "Stage Performance",
+        "src": "assets/images/STAGE/Glitch stage.jpg",
+        "title": "Glitch stage",
         "category": "STAGE"
     },
     {
-        "src": "assets/images/STAGE/Stage Portrait.jpg",
-        "title": "Stage Portrait",
+        "src": "assets/images/STAGE/On stage.jpg",
+        "title": "On stage",
         "category": "STAGE"
     },
     {
