@@ -1,5 +1,15 @@
 [
     {
+        "src": "assets/images/CONCEPT/BABI Profile 1st.jpeg",
+        "title": "BABI Profile 1st",
+        "category": "CONCEPT"
+    },
+    {
+        "src": "assets/images/CONCEPT/BABI Profile 2nd.jpeg",
+        "title": "BABI Profile 2nd",
+        "category": "CONCEPT"
+    },
+    {
         "src": "assets/images/CONCEPT/brunch.jpg",
         "title": "brunch",
         "category": "CONCEPT"
