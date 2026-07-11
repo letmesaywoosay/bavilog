@@ -534,28 +534,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // 9. Debut Release Schedule Countdown
+    // 9. Launch Date Count-Up Timer
     // ==========================================================================
     const countdownTimer = document.getElementById('countdownTimer');
-    // Set target date for next release (July 17, 2026 12:00:00 KST)
-    const targetDate = new Date("2026-07-17T12:00:00+09:00").getTime();
+    // Set launch date (July 11, 2026 00:00:00 KST)
+    const launchDate = new Date("2026-07-11T00:00:00+09:00").getTime();
 
     function updateCountdown() {
         const now = new Date().getTime();
-        const difference = targetDate - now;
-
-        if (difference < 0) {
-            countdownTimer.textContent = "ALBUM LAUNCHED!";
-            clearInterval(timerInterval);
-            return;
-        }
+        const difference = now - launchDate; // count up since launch date
 
         const days = Math.floor(difference / (1000 * 60 * 60 * 24));
         const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-        countdownTimer.textContent = `D-${days}D ${String(hours).padStart(2, '0')}H ${String(minutes).padStart(2, '0')}M ${String(seconds).padStart(2, '0')}S`;
+        countdownTimer.textContent = `${days}D ${String(hours).padStart(2, '0')}H ${String(minutes).padStart(2, '0')}M ${String(seconds).padStart(2, '0')}S`;
     }
 
     updateCountdown(); // Run once initially
