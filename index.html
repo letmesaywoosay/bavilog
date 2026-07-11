@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="솔로 아티스트 BAVI(바비)의 공식 포트폴리오 웹사이트. 몽환적인 신스팝의 세계로 여러분을 초대합니다.">
+    <title>BAVI | Official Portfolio</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+
+    <!-- Mouse Interactive Background Glow -->
+    <div class="bg-glow" id="bgGlow"></div>
+    <div class="bg-noise"></div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor"></div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Header / Global Navigation Bar -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#home" class="logo" id="headerLogo"><img src="assets/images/logo.png" alt="BAVI logo"></a>
+            <nav class="nav-desktop">
+                <a href="#home" class="nav-link active">HOME</a>
+                <a href="#profile" class="nav-link">PROFILE</a>
+                <a href="#discography" class="nav-link">DISCOGRAPHY</a>
+                <a href="#gallery" class="nav-link">GALLERY</a>
+                <a href="#schedule" class="nav-link">SCHEDULE</a>
+                <a href="#contact" class="nav-link">CONTACT</a>
+            </nav>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="nav-mobile" id="navMobile">
+        <a href="#home" class="nav-mobile-link">HOME</a>
+        <a href="#profile" class="nav-mobile-link">PROFILE</a>
+        <a href="#discography" class="nav-mobile-link">DISCOGRAPHY</a>
+        <a href="#gallery" class="nav-mobile-link">GALLERY</a>
+        <a href="#schedule" class="nav-mobile-link">SCHEDULE</a>
+        <a href="#contact" class="nav-mobile-link">CONTACT</a>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- SECTION 1: HOME -->
+        <section id="home" class="hero-section">
+            <div class="hero-content">
+                <span class="hero-subtitle">SPECIAL EP RELEASE</span>
+                <h1 class="hero-title animate-text">BAVIation</h1>
+                <p class="hero-desc">
+                    BAVI의 스페셜 EP 앨범 'BAVIation' 발매.<br>
+                    몽환적이면서도 세련된 타이틀곡 'Perfect Glitch'를 지금 감상해보세요.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" id="heroPlayBtn">
+                        <i data-lucide="play" class="btn-icon"></i> LISTEN NOW
+                    </button>
+                    <a href="#profile" class="btn btn-secondary">DISCOVER BAVI</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-image-wrapper">
+                    <img src="assets/images/album_baviation.jpg" alt="BAVI Hero Visual" class="hero-img">
+                    <div class="hero-image-glow"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: PROFILE -->
+        <section id="profile" class="profile-section section-padding">
+            <div class="section-header text-center">
+                <h2 class="section-title gradient-text">PROFILE</h2>
+                <p class="section-subtitle">아티스트 바비(BAVI)의 스토리와 핵심 소개</p>
+            </div>
+            
+            <div class="profile-container">
+                <div class="profile-card profile-bio glass">
+                    <div class="bio-header">
+                        <div class="bio-avatar-wrapper">
+                            <img src="assets/images/hero_portrait_cozy.jpg" alt="BAVI profile avatar" class="bio-avatar">
+                        </div>
+                        <div class="bio-title">
+                            <h3>BAVI <span class="korean-name">(바비)</span></h3>
+                            <p class="bio-tag">Soloist / Singer-Songwriter</p>
+                        </div>
+                    </div>
+                    <div class="bio-body">
+                        <p class="bio-paragraph">
+                            BAVI는 몽환적인 신스웨이브(Synthwave)와 세련된 시티팝(City Pop)을 결합한 독창적인 음악 스타일을 지향하는 솔로 여성 아티스트입니다.
+                            맑고 투명하면서도 깊은 소울이 담긴 보이스는 듣는 이로 하여금 우주적인 공간 속에 와있는 듯한 신비로운 몰입감을 전합니다.
+                        </p>
+                        <p class="bio-paragraph">
+                            독자적인 작사/작곡 능력을 바탕으로 음악적 메세지를 직접 멜로디에 담아내며, 무대 위에서는 감각적인 비주얼과 강렬한 퍼포먼스로 대중의 오감을 압도하는 힘을 지니고 있습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="profile-details-grid">
+                    <!-- Info Card -->
+                    <div class="profile-card glass info-card">
+                        <h4 class="card-title"><i data-lucide="user"></i> Information</h4>
+                        <ul class="info-list">
+                            <li><strong>Name :</strong> BAVI (박하은)</li>
+                            <li><strong>Debut :</strong> 2026.07.11 ('Velvet Dream')</li>
+                            <li><strong>Genre :</strong> Synth-pop, Dream-pop, Cyber-pop</li>
+                            <li><strong>Label :</strong> VVS Producing</li>
+                        </ul>
+                    </div>
+
+                    <!-- Skills/Keywords Card -->
+                    <div class="profile-card glass keywords-card">
+                        <h4 class="card-title"><i data-lucide="sparkles"></i> Identity</h4>
+                        <div class="keyword-tags">
+                            <span class="tag tag-cyan">#Synthwave</span>
+                            <span class="tag tag-pink">#DreamyVoice</span>
+                            <span class="tag tag-purple">#ProducerSoloist</span>
+                            <span class="tag tag-blue">#VisualConcept</span>
+                            <span class="tag tag-cyan">#RomanticCyber</span>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Card -->
+                    <div class="profile-card glass timeline-card">
+                        <h4 class="card-title"><i data-lucide="milestone"></i> Timeline</h4>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <span class="timeline-date">2026.07.11</span>
+                                <p class="timeline-desc">Mini Album 'Velvet Dream' 발매 & 데뷔</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <span class="timeline-date">2026.08.20</span>
+                                <p class="timeline-desc">두 번째 싱글 'Cyber-Romantic' 발매 예정</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <span class="timeline-date">2026.10.15</span>
+                                <p class="timeline-desc">첫 단독 온/오프라인 쇼케이스 'BAVI: Space Velvet' 개최 예정</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DISCOGRAPHY -->
+        <section id="discography" class="discography-section section-padding">
+            <div class="section-header text-center">
+                <h2 class="section-title gradient-text">DISCOGRAPHY</h2>
+                <p class="section-subtitle">바비(BAVI)가 들려주는 빛나는 은하수 같은 음반 목록</p>
+            </div>
+
+            <div class="album-grid">
+                <!-- Album (BAVIation) -->
+                <div class="album-card glass" data-album-id="album-3">
+                    <div class="album-cover-wrapper">
+                        <img src="assets/images/album_baviation.jpg" alt="BAVIation Album Cover" class="album-cover">
+                        <div class="album-hover-overlay">
+                            <button class="btn-icon-play" data-track-url="assets/audio/06. BAVI_Perfect Glitch.wav" data-track-name="Perfect Glitch" data-album-name="BAVIation" data-album-img="assets/images/album_baviation.jpg">
+                                <i data-lucide="play"></i>
+                            </button>
+                            <button class="btn btn-sm btn-glass btn-album-details">VIEW TRACKS</button>
+                        </div>
+                    </div>
+                    <div class="album-info">
+                        <span class="album-type">1st Special EP</span>
+                        <h3 class="album-name">BAVIation</h3>
+                        <span class="album-release">2026.07.11</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Album Details Modal (Hidden by default) -->
+        <div class="modal-backdrop" id="albumModal">
+            <div class="modal-content glass">
+                <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">
+                    <i data-lucide="x"></i>
+                </button>
+                <div class="modal-body-grid">
+                    <div class="modal-album-visual">
+                        <img src="" alt="Album Cover Large" class="modal-album-img" id="modalAlbumImg">
+                    </div>
+                    <div class="modal-album-details">
+                        <span class="album-type" id="modalAlbumType">Album Type</span>
+                        <h3 class="modal-album-name" id="modalAlbumName">Album Name</h3>
+                        <p class="modal-album-desc" id="modalAlbumDesc">앨범에 대한 소개 문구가 여기에 노출됩니다.</p>
+                        
+                        <h4 class="tracklist-title">TRACK LIST</h4>
+                        <div class="tracklist" id="modalTracklist">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: GALLERY -->
+        <section id="gallery" class="gallery-section section-padding">
+            <div class="section-header text-center">
+                <h2 class="section-title gradient-text">GALLERY</h2>
+                <p class="section-subtitle">바비(BAVI)의 매혹적인 비주얼 모먼트</p>
+            </div>
+
+            <!-- Gallery Filter Tabs -->
+            <div class="gallery-filters">
+                <button class="btn-filter active" data-filter="all">ALL</button>
+                <button class="btn-filter" data-filter="concept">CONCEPT</button>
+                <button class="btn-filter" data-filter="stage">STAGE</button>
+                <button class="btn-filter" data-filter="behind">BEHIND</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Image 1 -->
+                <div class="gallery-item concept" data-src="assets/images/hero_portrait_cozy.jpg">
+                    <div class="gallery-img-wrapper">
+                        <img src="assets/images/hero_portrait_cozy.jpg" alt="BAVI Cozy Kitchen Portrait" class="gallery-img">
+                        <div class="gallery-hover-overlay">
+                            <span class="gallery-category">CONCEPT</span>
+                            <span class="gallery-title">Cozy Kitchen Portrait</span>
+                            <i data-lucide="zoom-in" class="gallery-zoom-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox Modal (Hidden by default) -->
+        <div class="lightbox-backdrop" id="lightbox">
+            <button class="lightbox-close" id="lightboxCloseBtn" aria-label="Close gallery lightbox">
+                <i data-lucide="x"></i>
+            </button>
+            <button class="lightbox-prev" id="lightboxPrevBtn" aria-label="Previous image">
+                <i data-lucide="chevron-left"></i>
+            </button>
+            <div class="lightbox-content">
+                <img src="" alt="Enlarged gallery visual" class="lightbox-img" id="lightboxImg">
+                <div class="lightbox-caption" id="lightboxCaption">Caption Text</div>
+            </div>
+            <button class="lightbox-next" id="lightboxNextBtn" aria-label="Next image">
+                <i data-lucide="chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- SECTION 5: SCHEDULE -->
+        <section id="schedule" class="schedule-section section-padding">
+            <div class="section-header text-center">
+                <h2 class="section-title gradient-text">SCHEDULE</h2>
+                <p class="section-subtitle">BAVI의 향후 활동 및 일정 안내</p>
+            </div>
+
+            <div class="schedule-container glass">
+                <div class="schedule-header-summary">
+                    <div class="countdown-card">
+                        <span class="countdown-label">DEBUT RELEASE COUNTDOWN</span>
+                        <div class="countdown-time" id="countdownTimer">D-00D 00H 00M 00S</div>
+                    </div>
+                </div>
+                
+                <div class="schedule-list">
+                    <!-- Schedule Item 1 -->
+                    <div class="schedule-item">
+                        <div class="schedule-date-badge">
+                            <span class="day">11</span>
+                            <span class="month">JUL</span>
+                        </div>
+                        <div class="schedule-details">
+                            <span class="schedule-time">18:00 KST</span>
+                            <h3 class="schedule-title">1st Mini Album 'Velvet Dream' 발매 및 뮤직비디오 공개</h3>
+                            <p class="schedule-desc">각종 음원 사이트 및 공식 유튜브 채널 공개</p>
+                        </div>
+                        <div class="schedule-status-badge live">LIVE</div>
+                    </div>
+
+                    <!-- Schedule Item 2 -->
+                    <div class="schedule-item">
+                        <div class="schedule-date-badge">
+                            <span class="day">12</span>
+                            <span class="month">JUL</span>
+                        </div>
+                        <div class="schedule-details">
+                            <span class="schedule-time">20:00 KST</span>
+                            <h3 class="schedule-title">BAVI 데뷔 기념 스페셜 트위터 스페이스 & 라이브 토크</h3>
+                            <p class="schedule-desc">팬들과 실시간 Q&A 및 앨범 비하인드 토크</p>
+                        </div>
+                        <div class="schedule-status-badge upcoming">UPCOMING</div>
+                    </div>
+
+                    <!-- Schedule Item 3 -->
+                    <div class="schedule-item">
+                        <div class="schedule-date-badge">
+                            <span class="day">15</span>
+                            <span class="month">JUL</span>
+                        </div>
+                        <div class="schedule-details">
+                            <span class="schedule-time">17:00 KST</span>
+                            <h3 class="schedule-title">Mnet '엠카운트다운' 첫 데뷔 무대 방송</h3>
+                            <p class="schedule-desc">타이틀곡 'Velvet Dream' 스페셜 퍼포먼스 최초 공개</p>
+                        </div>
+                        <div class="schedule-status-badge upcoming">UPCOMING</div>
+                    </div>
+
+                    <!-- Schedule Item 4 -->
+                    <div class="schedule-item">
+                        <div class="schedule-date-badge">
+                            <span class="day">20</span>
+                            <span class="month">AUG</span>
+                        </div>
+                        <div class="schedule-details">
+                            <span class="schedule-time">12:00 KST</span>
+                            <h3 class="schedule-title">Digital Single 'Cyber-Romantic' 선공개</h3>
+                            <p class="schedule-desc">글로벌 리스너를 위한 퓨처리스틱 댄스 팝 트랙 선공개</p>
+                        </div>
+                        <div class="schedule-status-badge future">D-39</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: CONTACT & EPK -->
+        <section id="contact" class="contact-section section-padding">
+            <div class="section-header text-center">
+                <h2 class="section-title gradient-text">CONTACT & EPK</h2>
+                <p class="section-subtitle">보도자료 다운로드 및 비즈니스 협업 문의</p>
+            </div>
+
+            <div class="contact-grid">
+                <!-- EPK Card -->
+                <div class="contact-card glass epk-card">
+                    <h3 class="contact-card-title"><i data-lucide="folder-open"></i> PRESS KIT (EPK)</h3>
+                    <p class="epk-desc">
+                        아티스트 BAVI의 바이오그래피, 고화질 프로필 사진 컬렉션, 공식 로고 벡터 파일, 그리고 앨범 관련 보도자료를 포함한 프레스킷 파일 패키지입니다.
+                    </p>
+                    <div class="epk-stats">
+                        <div class="stat-item">
+                            <span class="stat-val">PDF / ZIP</span>
+                            <span class="stat-lbl">Format</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-val">124 MB</span>
+                            <span class="stat-lbl">File Size</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-val">2026.07.11</span>
+                            <span class="stat-lbl">Updated</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" id="btnDownloadEPK">
+                        <i data-lucide="download" class="btn-icon"></i> DOWNLOAD EPK (ZIP)
+                    </button>
+                </div>
+
+                <!-- Inquiry Form -->
+                <div class="contact-card glass form-card">
+                    <h3 class="contact-card-title"><i data-lucide="mail"></i> BUSINESS INQUIRY</h3>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="formName">NAME / COMPANY</label>
+                                <input type="text" id="formName" required placeholder="성함 또는 기업명">
+                            </div>
+                            <div class="form-group">
+                                <label for="formEmail">EMAIL ADDRESS</label>
+                                <input type="email" id="formEmail" required placeholder="이메일 주소">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="formSubject">SUBJECT</label>
+                            <input type="text" id="formSubject" required placeholder="문의 제목">
+                        </div>
+                        <div class="form-group">
+                            <label for="formMessage">MESSAGE</label>
+                            <textarea id="formMessage" rows="5" required placeholder="문의하실 세부 내용을 입력해주세요..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary btn-block">
+                            <i data-lucide="send" class="btn-icon"></i> SEND MESSAGE
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <span class="footer-logo"><img src="assets/images/logo.png" alt="BAVI logo"></span>
+                <p class="footer-copyright">&copy; 2026 VVS Producing. All rights reserved.</p>
+            </div>
+            <div class="footer-socials">
+                <a href="#" class="social-link" aria-label="Youtube"><i data-lucide="youtube"></i></a>
+                <a href="#" class="social-link" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                <a href="#" class="social-link" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+                <a href="#" class="social-link" aria-label="Spotify"><i data-lucide="music-4"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Persistent Bottom Audio Player -->
+    <div class="persistent-player-bar glass" id="playerBar">
+        <div class="player-container">
+            <!-- Left: Song details -->
+            <div class="player-song-details">
+                <div class="player-album-art-wrapper">
+                    <img src="assets/images/album_baviation.jpg" alt="Album Cover Playing" class="player-album-art" id="playerAlbumImg">
+                </div>
+                <div class="player-song-meta">
+                    <span class="player-song-title" id="playerSongTitle">Perfect Glitch</span>
+                    <span class="player-song-artist" id="playerSongArtist">BAVI</span>
+                </div>
+                <!-- Mini Visualizer Bars -->
+                <div class="player-mini-visualizer" id="miniVisualizer">
+                    <span class="vis-bar"></span>
+                    <span class="vis-bar"></span>
+                    <span class="vis-bar"></span>
+                    <span class="vis-bar"></span>
+                </div>
+            </div>
+
+            <!-- Center: Audio Controls & Progress -->
+            <div class="player-controls-group">
+                <div class="player-buttons">
+                    <button class="player-btn" id="playerBtnPrev" aria-label="Previous track"><i data-lucide="skip-back"></i></button>
+                    <button class="player-btn btn-play-main" id="playerBtnPlay" aria-label="Play or Pause"><i data-lucide="play" id="playIcon"></i></button>
+                    <button class="player-btn" id="playerBtnNext" aria-label="Next track"><i data-lucide="skip-forward"></i></button>
+                </div>
+                <div class="player-progress-container">
+                    <span class="time-label" id="currentTimeLabel">0:00</span>
+                    <div class="player-progress-bar-wrapper" id="progressBarWrapper">
+                        <div class="player-progress-bar" id="progressBar"></div>
+                    </div>
+                    <span class="time-label" id="durationLabel">0:00</span>
+                </div>
+            </div>
+
+            <!-- Right: Secondary Controls (Volume, etc.) -->
+            <div class="player-options-group">
+                <button class="player-btn" id="playerBtnMute" aria-label="Mute or Unmute"><i data-lucide="volume-2" id="muteIcon"></i></button>
+                <div class="volume-slider-wrapper" id="volumeSliderWrapper">
+                    <div class="volume-slider-bar" id="volumeSliderBar" style="width: 80%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HTML5 Audio Source Element (Hidden) -->
+    <audio id="audioElement" preload="auto"></audio>
+
+    <script src="app.js?v=9"></script>
+</body>
+</html>
