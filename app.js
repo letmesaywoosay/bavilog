@@ -616,10 +616,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // 10. Contact Form & EPK Download Animations
+    // 10. Contact Form Animations
     // ==========================================================================
     const contactForm = document.getElementById('contactForm');
-    const btnDownloadEPK = document.getElementById('btnDownloadEPK');
 
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -640,22 +639,6 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.innerHTML = originalHtml;
             lucide.createIcons();
         }, 1500);
-    });
-
-    btnDownloadEPK.addEventListener('click', () => {
-        btnDownloadEPK.classList.add('loading');
-        showToast('Preparing download package...', 'loader');
-
-        setTimeout(() => {
-            showToast('Download started: BAVI_Official_EPK_2026.zip', 'download-cloud');
-            // Mock download action by triggering a fake download event
-            const link = document.createElement('a');
-            link.href = '#';
-            link.setAttribute('download', 'BAVI_Official_EPK_2026.zip');
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-        }, 1200);
     });
 
 

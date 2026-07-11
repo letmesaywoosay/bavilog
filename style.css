@@ -1389,7 +1389,9 @@ img {
    ========================================================================== */
 .contact-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1.8fr;
+    grid-template-columns: 1fr;
+    max-width: 800px;
+    margin: 0 auto;
     gap: 40px;
 }
 
