@@ -537,8 +537,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 9. Debut Release Schedule Countdown
     // ==========================================================================
     const countdownTimer = document.getElementById('countdownTimer');
-    // Set target date for next release (August 20, 2026 12:00:00 KST)
-    const targetDate = new Date("2026-08-20T12:00:00+09:00").getTime();
+    // Set target date for next release (July 17, 2026 12:00:00 KST)
+    const targetDate = new Date("2026-07-17T12:00:00+09:00").getTime();
 
     function updateCountdown() {
         const now = new Date().getTime();
