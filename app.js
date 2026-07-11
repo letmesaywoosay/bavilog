@@ -437,10 +437,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // 8. Gallery Filters & Lightbox Slider
+    // 8. Gallery Filters & Lightbox Slider (Dynamic Loader)
     // ==========================================================================
     const filterButtons = document.querySelectorAll('.btn-filter');
-    const galleryItems = document.querySelectorAll('.gallery-item');
+    const galleryGrid = document.getElementById('galleryGrid');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
     const lightboxCaption = document.getElementById('lightboxCaption');
@@ -448,10 +448,69 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxPrevBtn = document.getElementById('lightboxPrevBtn');
     const lightboxNextBtn = document.getElementById('lightboxNextBtn');
 
-    let activeGalleryItems = Array.from(galleryItems);
+    let activeGalleryItems = [];
     let currentLightboxIndex = 0;
 
-    // Filter Logic
+    // Load and render gallery from dynamic data
+    function loadGallery() {
+        if (!galleryGrid) return;
+
+        fetch('assets/images/gallery-data.json?t=' + new Date().getTime()) // Prevent browser caching
+            .then(res => {
+                if (!res.ok) throw new Error("Metadata file not found");
+                return res.json();
+            })
+            .then(data => {
+                galleryGrid.innerHTML = '';
+                
+                if (!data || data.length === 0) {
+                    galleryGrid.innerHTML = '<div class="gallery-empty" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">No images found in CONCEPT, STAGE, or BEHIND folders.</div>';
+                    activeGalleryItems = [];
+                    return;
+                }
+
+                data.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = `gallery-item ${item.category.toLowerCase()}`;
+                    el.setAttribute('data-src', item.src);
+                    el.innerHTML = `
+                        <div class="gallery-img-wrapper">
+                            <img src="${item.src}" alt="${item.title}" class="gallery-img" loading="lazy">
+                            <div class="gallery-hover-overlay">
+                                <span class="gallery-category">${item.category}</span>
+                                <span class="gallery-title">${item.title}</span>
+                                <i data-lucide="zoom-in" class="gallery-zoom-icon"></i>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Bind click directly to open lightbox
+                    el.addEventListener('click', () => {
+                        currentLightboxIndex = activeGalleryItems.indexOf(el);
+                        if (currentLightboxIndex !== -1) {
+                            openLightbox();
+                        }
+                    });
+
+                    galleryGrid.appendChild(el);
+                });
+
+                // Set initial active gallery items (ALL items)
+                const galleryItems = galleryGrid.querySelectorAll('.gallery-item');
+                activeGalleryItems = Array.from(galleryItems);
+
+                // Run Lucide update to render dynamic zoom icon SVGs
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            })
+            .catch(err => {
+                console.error("[Gallery] Failed to load gallery data:", err);
+                galleryGrid.innerHTML = '<div class="gallery-error" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--accent-pink);">Failed to load gallery. Make sure dev server/watcher is running.</div>';
+            });
+    }
+
+    // Filter Logic (supports dynamic items)
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             // Remove active class from buttons
@@ -459,6 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
 
             const filter = btn.getAttribute('data-filter');
+            const galleryItems = galleryGrid.querySelectorAll('.gallery-item');
             activeGalleryItems = [];
 
             galleryItems.forEach(item => {
@@ -472,18 +532,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Lightbox Open
-    galleryItems.forEach(item => {
-        item.addEventListener('click', () => {
-            // Find current index in filtered list
-            currentLightboxIndex = activeGalleryItems.indexOf(item);
-            if (currentLightboxIndex !== -1) {
-                openLightbox();
-            }
-        });
-    });
-
     function openLightbox() {
+        if (activeGalleryItems.length === 0) return;
         const item = activeGalleryItems[currentLightboxIndex];
         const src = item.getAttribute('data-src');
         const captionTitle = item.querySelector('.gallery-title').textContent;
@@ -497,28 +547,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Lightbox navigation
-    lightboxCloseBtn.addEventListener('click', closeLightbox);
+    if (lightboxCloseBtn) lightboxCloseBtn.addEventListener('click', closeLightbox);
     
-    lightboxPrevBtn.addEventListener('click', () => {
-        if (activeGalleryItems.length === 0) return;
-        currentLightboxIndex = (currentLightboxIndex - 1 + activeGalleryItems.length) % activeGalleryItems.length;
-        openLightbox();
-    });
+    if (lightboxPrevBtn) {
+        lightboxPrevBtn.addEventListener('click', () => {
+            if (activeGalleryItems.length === 0) return;
+            currentLightboxIndex = (currentLightboxIndex - 1 + activeGalleryItems.length) % activeGalleryItems.length;
+            openLightbox();
+        });
+    }
 
-    lightboxNextBtn.addEventListener('click', () => {
-        if (activeGalleryItems.length === 0) return;
-        currentLightboxIndex = (currentLightboxIndex + 1) % activeGalleryItems.length;
-        openLightbox();
-    });
+    if (lightboxNextBtn) {
+        lightboxNextBtn.addEventListener('click', () => {
+            if (activeGalleryItems.length === 0) return;
+            currentLightboxIndex = (currentLightboxIndex + 1) % activeGalleryItems.length;
+            openLightbox();
+        });
+    }
 
-    lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) closeLightbox();
-    });
+    if (lightbox) {
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+    }
 
     function closeLightbox() {
-        lightbox.classList.remove('active');
+        if (lightbox) lightbox.classList.remove('active');
         document.body.style.overflow = '';
     }
+
+    // Run initial gallery load
+    loadGallery();
 
     // Keyboard navigation for lightbox & modal
     window.addEventListener('keydown', (e) => {

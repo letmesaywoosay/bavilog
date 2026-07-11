@@ -1,0 +1,10 @@
+{
+  "name": "bavilog",
+  "version": "1.0.0",
+  "description": "BAVI Official Website & Log",
+  "scripts": {
+    "watch": "node watcher.js",
+    "server": "npx http-server -c-1 -p 3000",
+    "dev": "node -e \"const { spawn } = require('child_process'); spawn('node', ['watcher.js'], { stdio: 'inherit', shell: true }); spawn('npx', ['http-server', '-c-1', '-p', '3000'], { stdio: 'inherit', shell: true });\""
+  }
+}

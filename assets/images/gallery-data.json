@@ -1,0 +1,32 @@
+[
+    {
+        "src": "assets/images/CONCEPT/Cozy Kitchen Portrait.jpg",
+        "title": "Cozy Kitchen Portrait",
+        "category": "CONCEPT"
+    },
+    {
+        "src": "assets/images/CONCEPT/Street Cat Mood.jpg",
+        "title": "Street Cat Mood",
+        "category": "CONCEPT"
+    },
+    {
+        "src": "assets/images/STAGE/Stage Performance.jpg",
+        "title": "Stage Performance",
+        "category": "STAGE"
+    },
+    {
+        "src": "assets/images/STAGE/Stage Portrait.jpg",
+        "title": "Stage Portrait",
+        "category": "STAGE"
+    },
+    {
+        "src": "assets/images/BEHIND/Studio Dress Behind.jpg",
+        "title": "Studio Dress Behind",
+        "category": "BEHIND"
+    },
+    {
+        "src": "assets/images/BEHIND/Studio Photoshoot.jpg",
+        "title": "Studio Photoshoot",
+        "category": "BEHIND"
+    }
+]
