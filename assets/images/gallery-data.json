@@ -25,6 +25,11 @@
         "category": "STAGE"
     },
     {
+        "src": "assets/images/BEHIND/mirror_selfie.jpeg",
+        "title": "mirror selfie",
+        "category": "BEHIND"
+    },
+    {
         "src": "assets/images/BEHIND/Studio Dress Behind.jpg",
         "title": "Studio Dress Behind",
         "category": "BEHIND"

@@ -472,6 +472,70 @@ img {
     gap: 16px;
 }
 
+.hero-streaming {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.streaming-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+}
+
+.streaming-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.streaming-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all var(--transition-fast) ease;
+}
+
+.streaming-item i {
+    width: 16px;
+    height: 16px;
+}
+
+.streaming-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.streaming-item.spotify:hover {
+    background: rgba(29, 185, 84, 0.1);
+    border-color: rgba(29, 185, 84, 0.4);
+    color: #1DB954;
+}
+
+.streaming-item.youtube-music:hover {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: rgba(255, 0, 0, 0.4);
+    color: #FF4B4B;
+}
+
+.streaming-item.apple-music:hover {
+    background: rgba(250, 36, 60, 0.1);
+    border-color: rgba(250, 36, 60, 0.4);
+    color: #FF5A79;
+}
+
 .hero-visual {
     flex: 0.8;
     display: flex;
