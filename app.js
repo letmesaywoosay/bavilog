@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function playSong() {
         isPlaying = true;
         audioElement.play().then(() => {
-            playIcon.setAttribute('data-lucide', 'pause');
+            playerBtnPlay.innerHTML = '<i data-lucide="pause"></i>';
             miniVisualizer.classList.add('playing');
             lucide.createIcons();
         }).catch(err => {
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function pauseSong() {
         isPlaying = false;
         audioElement.pause();
-        playIcon.setAttribute('data-lucide', 'play');
+        playerBtnPlay.innerHTML = '<i data-lucide="play"></i>';
         miniVisualizer.classList.remove('playing');
         lucide.createIcons();
     }
@@ -317,11 +317,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateMuteIcon() {
         if (isMuted || currentVolume === 0) {
-            muteIcon.setAttribute('data-lucide', 'volume-x');
+            playerBtnMute.innerHTML = '<i data-lucide="volume-x"></i>';
         } else if (currentVolume < 0.4) {
-            muteIcon.setAttribute('data-lucide', 'volume-1');
+            playerBtnMute.innerHTML = '<i data-lucide="volume-1"></i>';
         } else {
-            muteIcon.setAttribute('data-lucide', 'volume-2');
+            playerBtnMute.innerHTML = '<i data-lucide="volume-2"></i>';
         }
         lucide.createIcons();
     }
