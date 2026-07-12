@@ -18,12 +18,22 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: '바비(BAVI)의 독보적인 예술성과 다채로운 음악 스펙트럼을 모은 스페셜 EP 앨범 "BAVIation"입니다. 몽환적이면서도 세련된 트랙들이 수록되어 아티스트의 고유한 감성을 깊이 있게 전합니다.',
             cover: 'assets/images/album_baviation.jpg',
             tracks: [
-                { id: 'track-3-1', title: 'Easter Egg', duration: '3:45', isTitle: false, url: 'assets/audio/01.BAVI_Easter Egg.wav' },
-                { id: 'track-3-2', title: 'Secret Room', duration: '3:12', isTitle: false, url: 'assets/audio/02.BAVI_Secret Room.wav' },
-                { id: 'track-3-3', title: 'Ocean Form', duration: '4:01', isTitle: false, url: 'assets/audio/03.BAVI_Ocean Form.wav' },
-                { id: 'track-3-4', title: 'Branch', duration: '3:30', isTitle: false, url: 'assets/audio/04.BAVI_Branch.wav' },
-                { id: 'track-3-5', title: 'Hello, World!', duration: '3:20', isTitle: false, url: 'assets/audio/05.BAVI_Hello, World!.wav' },
-                { id: 'track-3-6', title: 'Perfect Glitch', duration: '3:55', isTitle: true, url: 'assets/audio/06. BAVI_Perfect Glitch.wav' }
+                { id: 'track-3-1', title: 'Easter Egg', duration: '2:43', isTitle: false, url: 'assets/audio/EP_BAVIation part1/01.BAVI_Easter Egg.wav' },
+                { id: 'track-3-2', title: 'Secret Room', duration: '2:57', isTitle: false, url: 'assets/audio/EP_BAVIation part1/02.BAVI_Secret Room.wav' },
+                { id: 'track-3-3', title: 'Ocean Form', duration: '2:55', isTitle: false, url: 'assets/audio/EP_BAVIation part1/03.BAVI_Ocean Form.wav' },
+                { id: 'track-3-4', title: 'Branch', duration: '2:51', isTitle: false, url: 'assets/audio/EP_BAVIation part1/04.BAVI_Branch.wav' },
+                { id: 'track-3-5', title: 'Hello, World!', duration: '3:40', isTitle: false, url: 'assets/audio/EP_BAVIation part1/05.BAVI_Hello, World!.wav' },
+                { id: 'track-3-6', title: 'Perfect Glitch', duration: '3:03', isTitle: true, url: 'assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.wav' }
+            ]
+        },
+        'album-4': {
+            name: 'Just One Minute',
+            type: 'Single',
+            release: '2026.07.17',
+            desc: '바비(BAVI)의 청량하면서도 위트 있는 음악적 시도를 담아낸 싱글 "Just One Minute"입니다. 중독성 있는 멜로디와 경쾌한 리듬이 어우러져 리스너들의 귓가를 매료시킵니다.',
+            cover: 'assets/images/album_just_one_minute.png',
+            tracks: [
+                { id: 'track-4-1', title: 'Just One Minute', duration: '2:59', isTitle: true, url: 'assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav' }
             ]
         }
     };
@@ -437,10 +447,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // 8. Gallery Filters & Lightbox Slider (Dynamic Loader)
+    // 8. Gallery Filters & Lightbox Slider (Dynamic Loader with Pagination)
     // ==========================================================================
     const filterButtons = document.querySelectorAll('.btn-filter');
     const galleryGrid = document.getElementById('galleryGrid');
+    const galleryPagination = document.getElementById('galleryPagination');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
     const lightboxCaption = document.getElementById('lightboxCaption');
@@ -451,7 +462,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeGalleryItems = [];
     let currentLightboxIndex = 0;
 
-    // Load and render gallery from dynamic data
+    let allGalleryData = [];
+    let currentFilter = 'all';
+    let currentPage = 1;
+    const itemsPerPage = 9;
+
+    // Load dynamic gallery data from JSON
     function loadGallery() {
         if (!galleryGrid) return;
 
@@ -461,74 +477,141 @@ document.addEventListener('DOMContentLoaded', () => {
                 return res.json();
             })
             .then(data => {
-                galleryGrid.innerHTML = '';
-                
-                if (!data || data.length === 0) {
-                    galleryGrid.innerHTML = '<div class="gallery-empty" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">No images found in CONCEPT, STAGE, or BEHIND folders.</div>';
-                    activeGalleryItems = [];
-                    return;
-                }
-
-                data.forEach(item => {
-                    const el = document.createElement('div');
-                    el.className = `gallery-item ${item.category.toLowerCase()}`;
-                    el.setAttribute('data-src', item.src);
-                    el.innerHTML = `
-                        <div class="gallery-img-wrapper">
-                            <img src="${item.src}" alt="${item.title}" class="gallery-img" loading="lazy">
-                            <div class="gallery-hover-overlay">
-                                <span class="gallery-category">${item.category}</span>
-                                <span class="gallery-title">${item.title}</span>
-                                <i data-lucide="zoom-in" class="gallery-zoom-icon"></i>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Bind click directly to open lightbox
-                    el.addEventListener('click', () => {
-                        currentLightboxIndex = activeGalleryItems.indexOf(el);
-                        if (currentLightboxIndex !== -1) {
-                            openLightbox();
-                        }
-                    });
-
-                    galleryGrid.appendChild(el);
-                });
-
-                // Set initial active gallery items (ALL items)
-                const galleryItems = galleryGrid.querySelectorAll('.gallery-item');
-                activeGalleryItems = Array.from(galleryItems);
-
-                // Run Lucide update to render dynamic zoom icon SVGs
-                if (typeof lucide !== 'undefined') {
-                    lucide.createIcons();
-                }
+                allGalleryData = data || [];
+                renderGallery();
             })
             .catch(err => {
                 console.error("[Gallery] Failed to load gallery data:", err);
                 galleryGrid.innerHTML = '<div class="gallery-error" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--accent-pink);">Failed to load gallery. Make sure dev server/watcher is running.</div>';
+                if (galleryPagination) galleryPagination.innerHTML = '';
             });
     }
 
-    // Filter Logic (supports dynamic items)
+    // Render gallery and pagination
+    function renderGallery() {
+        if (!galleryGrid) return;
+        galleryGrid.innerHTML = '';
+
+        // 1. Filter data based on active category
+        const filteredData = allGalleryData.filter(item => {
+            return currentFilter === 'all' || item.category.toLowerCase() === currentFilter;
+        });
+
+        const totalItems = filteredData.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
+        // 2. Adjust current page bounds
+        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage < 1) currentPage = 1;
+
+        // 3. Check for empty gallery
+        if (totalItems === 0) {
+            galleryGrid.innerHTML = '<div class="gallery-empty" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">No images found in CONCEPT, STAGE, or BEHIND folders.</div>';
+            if (galleryPagination) galleryPagination.innerHTML = '';
+            activeGalleryItems = [];
+            return;
+        }
+
+        // 4. Slice data for the current page
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const slicedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
+
+        // 5. Render items into grid
+        slicedData.forEach(item => {
+            const el = document.createElement('div');
+            el.className = `gallery-item ${item.category.toLowerCase()}`;
+            el.setAttribute('data-src', item.src);
+            el.innerHTML = `
+                <div class="gallery-img-wrapper">
+                    <img src="${item.src}" alt="${item.title}" class="gallery-img" loading="lazy">
+                    <div class="gallery-hover-overlay">
+                        <span class="gallery-category">${item.category}</span>
+                        <span class="gallery-title">${item.title}</span>
+                        <i data-lucide="zoom-in" class="gallery-zoom-icon"></i>
+                    </div>
+                </div>
+            `;
+            
+            // Bind click directly to open lightbox
+            el.addEventListener('click', () => {
+                currentLightboxIndex = activeGalleryItems.indexOf(el);
+                if (currentLightboxIndex !== -1) {
+                    openLightbox();
+                }
+            });
+
+            galleryGrid.appendChild(el);
+        });
+
+        // 6. Set active gallery items for lightbox (sliced page items)
+        const galleryItems = galleryGrid.querySelectorAll('.gallery-item');
+        activeGalleryItems = Array.from(galleryItems);
+
+        // 7. Render pagination controls
+        renderPagination(totalPages);
+
+        // 8. Run Lucide update to render dynamic zoom icon SVGs
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    // Render pagination buttons dynamically
+    function renderPagination(totalPages) {
+        if (!galleryPagination) return;
+        galleryPagination.innerHTML = '';
+
+        if (totalPages <= 1) return;
+
+        // Prev Button
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'page-btn arrow-btn';
+        prevBtn.innerHTML = '&laquo;';
+        prevBtn.title = 'Previous Page';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.addEventListener('click', () => {
+            currentPage--;
+            renderGallery();
+            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+        });
+        galleryPagination.appendChild(prevBtn);
+
+        // Number Buttons
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+            pageBtn.innerText = i;
+            pageBtn.addEventListener('click', () => {
+                currentPage = i;
+                renderGallery();
+                document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+            });
+            galleryPagination.appendChild(pageBtn);
+        }
+
+        // Next Button
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'page-btn arrow-btn';
+        nextBtn.innerHTML = '&raquo;';
+        nextBtn.title = 'Next Page';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.addEventListener('click', () => {
+            currentPage++;
+            renderGallery();
+            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+        });
+        galleryPagination.appendChild(nextBtn);
+    }
+
+    // Filter Logic
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Remove active class from buttons
             filterButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            const filter = btn.getAttribute('data-filter');
-            const galleryItems = galleryGrid.querySelectorAll('.gallery-item');
-            activeGalleryItems = [];
-
-            galleryItems.forEach(item => {
-                if (filter === 'all' || item.classList.contains(filter)) {
-                    item.style.display = 'block';
-                    activeGalleryItems.push(item);
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+            currentFilter = btn.getAttribute('data-filter').toLowerCase();
+            currentPage = 1;
+            renderGallery();
         });
     });
 

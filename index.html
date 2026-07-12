@@ -191,7 +191,7 @@
                     <div class="album-cover-wrapper">
                         <img src="assets/images/album_baviation.jpg" alt="BAVIation Album Cover" class="album-cover">
                         <div class="album-hover-overlay">
-                            <button class="btn-icon-play" data-track-url="assets/audio/06. BAVI_Perfect Glitch.wav" data-track-name="Perfect Glitch" data-album-name="BAVIation" data-album-img="assets/images/album_baviation.jpg">
+                            <button class="btn-icon-play" data-track-url="assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.wav" data-track-name="Perfect Glitch" data-album-name="BAVIation" data-album-img="assets/images/album_baviation.jpg">
                                 <i data-lucide="play"></i>
                             </button>
                             <button class="btn btn-sm btn-glass btn-album-details">VIEW TRACKS</button>
@@ -201,6 +201,24 @@
                         <span class="album-type">1st Special EP</span>
                         <h3 class="album-name">BAVIation</h3>
                         <span class="album-release">2026.07.11</span>
+                    </div>
+                </div>
+
+                <!-- Album (Just One Minute) -->
+                <div class="album-card glass" data-album-id="album-4">
+                    <div class="album-cover-wrapper">
+                        <img src="assets/images/album_just_one_minute.png" alt="Just One Minute Album Cover" class="album-cover">
+                        <div class="album-hover-overlay">
+                            <button class="btn-icon-play" data-track-url="assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav" data-track-name="Just One Minute" data-album-name="Just One Minute" data-album-img="assets/images/album_just_one_minute.png">
+                                <i data-lucide="play"></i>
+                            </button>
+                            <button class="btn btn-sm btn-glass btn-album-details">VIEW TRACKS</button>
+                        </div>
+                    </div>
+                    <div class="album-info">
+                        <span class="album-type">Single</span>
+                        <h3 class="album-name">Just One Minute</h3>
+                        <span class="album-release">2026.07.17</span>
                     </div>
                 </div>
             </div>
@@ -250,6 +268,9 @@
                 <!-- Dynamically populated from assets/images/gallery-data.json -->
                 <div class="gallery-loading">Loading gallery...</div>
             </div>
+
+            <!-- Gallery Pagination -->
+            <div class="gallery-pagination" id="galleryPagination"></div>
         </section>
 
         <!-- Lightbox Modal (Hidden by default) -->
@@ -422,6 +443,6 @@
     <!-- HTML5 Audio Source Element (Hidden) -->
     <audio id="audioElement" preload="auto"></audio>
 
-    <script src="app.js?v=28"></script>
+    <script src="app.js?v=30"></script>
 </body>
 </html>

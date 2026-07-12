@@ -1133,6 +1133,56 @@ img {
     gap: 20px;
 }
 
+.gallery-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 48px;
+}
+
+.page-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast) ease;
+    outline: none;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFF;
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.page-btn.active {
+    background: var(--accent-pink);
+    color: #FFF;
+    border-color: var(--accent-pink);
+    box-shadow: 0 0 15px rgba(255, 46, 147, 0.4);
+}
+
+.page-btn.arrow-btn {
+    font-size: 1.1rem;
+    color: var(--accent-cyan);
+}
+
+.page-btn:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .gallery-item {
     border-radius: 12px;
     overflow: hidden;
