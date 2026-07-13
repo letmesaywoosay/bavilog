@@ -345,53 +345,87 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // Hero Carousel — auto-rotate every 5 s with smooth Y-rotation transition
+    // Hero Crossfade — swap title/desc/img in-place every 5 s
     // ==========================================================================
-    const heroSlides = document.querySelectorAll('.hero-slide');
-    const heroDots   = document.querySelectorAll('.hero-dot');
-    let currentSlide = 0;
-    let carouselTimer = null;
+    const heroAlbums = [
+        {
+            title: 'BAVIation',
+            desc: 'BAVI의 스페셜 EP 앨범 \'BAVIation\' 발매.<br>몽환적이면서도 세련된 타이틀곡 \'Perfect Glitch\'를 지금 감상해보세요.',
+            img: 'assets/images/album_baviation.jpg',
+            imgAlt: 'BAVIation Album Cover',
+            trackTitle: 'Perfect Glitch',
+            toastMsg: 'Playing: Perfect Glitch (1st Special EP)'
+        },
+        {
+            title: 'Just One Minute',
+            desc: 'BAVI의 신보 싱글 \'Just One Minute\' 발매.<br>중독성 있는 멜로디와 경쾌한 리듬이 귓가를 매료시킵니다.',
+            img: 'assets/images/album_just_one_minute.png',
+            imgAlt: 'Just One Minute Album Cover',
+            trackTitle: 'Just One Minute',
+            toastMsg: 'Playing: Just One Minute (Single)'
+        }
+    ];
 
-    const goToSlide = (idx) => {
-        heroSlides[currentSlide].classList.remove('active');
-        heroDots[currentSlide].classList.remove('active');
-        currentSlide = (idx + heroSlides.length) % heroSlides.length;
-        heroSlides[currentSlide].classList.add('active');
-        heroDots[currentSlide].classList.add('active');
+    const heroTitleEl = document.getElementById('heroTitle');
+    const heroDescEl  = document.getElementById('heroDesc');
+    const heroImgEl   = document.getElementById('heroImg');
+    const heroDots    = document.querySelectorAll('.hero-dot');
+    let currentHeroIdx = 0;
+    let heroTimer = null;
+
+    const FADE_DURATION = 550; // ms — must match CSS transition
+
+    const swapHeroContent = (idx) => {
+        const album = heroAlbums[idx];
+        // 1. Fade out changing elements
+        heroTitleEl.classList.add('hero-fading');
+        heroDescEl.classList.add('hero-fading');
+        heroImgEl.classList.add('hero-fading');
+
+        setTimeout(() => {
+            // 2. Swap content while invisible
+            heroTitleEl.textContent = album.title;
+            heroDescEl.innerHTML = album.desc;
+            heroImgEl.src = album.img;
+            heroImgEl.alt = album.imgAlt;
+
+            // Update dots
+            heroDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+
+            // 3. Fade back in
+            heroTitleEl.classList.remove('hero-fading');
+            heroDescEl.classList.remove('hero-fading');
+            heroImgEl.classList.remove('hero-fading');
+        }, FADE_DURATION);
     };
 
-    const startCarousel = () => {
-        carouselTimer = setInterval(() => goToSlide(currentSlide + 1), 5000);
+    const goToHeroSlide = (idx) => {
+        currentHeroIdx = (idx + heroAlbums.length) % heroAlbums.length;
+        swapHeroContent(currentHeroIdx);
     };
 
-    const resetCarousel = () => {
-        clearInterval(carouselTimer);
-        startCarousel();
+    const startHeroTimer = () => {
+        heroTimer = setInterval(() => goToHeroSlide(currentHeroIdx + 1), 5000);
     };
 
     heroDots.forEach((dot, i) => {
-        dot.addEventListener('click', () => { goToSlide(i); resetCarousel(); });
+        dot.addEventListener('click', () => {
+            clearInterval(heroTimer);
+            goToHeroSlide(i);
+            startHeroTimer();
+        });
     });
 
-    startCarousel();
+    startHeroTimer();
 
-    // Hero LISTEN NOW — Slide 1 (BAVIation → Perfect Glitch)
+    // Hero LISTEN NOW — plays whichever album is currently shown
     const heroPlayBtn = document.getElementById('heroPlayBtn');
     heroPlayBtn.addEventListener('click', () => {
-        const trackIdx = playlist.findIndex(t => t.title === 'Perfect Glitch');
+        const album = heroAlbums[currentHeroIdx];
+        const trackIdx = playlist.findIndex(t => t.title === album.trackTitle);
         if (trackIdx !== -1) {
             loadSong(trackIdx);
-            showToast('Playing: Perfect Glitch (1st Special EP)', 'music');
-        }
-    });
-
-    // Hero LISTEN NOW — Slide 2 (Just One Minute)
-    const heroPlayBtn2 = document.getElementById('heroPlayBtn2');
-    heroPlayBtn2.addEventListener('click', () => {
-        const trackIdx = playlist.findIndex(t => t.title === 'Just One Minute');
-        if (trackIdx !== -1) {
-            loadSong(trackIdx);
-            showToast('Playing: Just One Minute (Single)', 'music');
+            showToast(album.toastMsg, 'music');
         }
     });
 

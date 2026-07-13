@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -63,126 +63,67 @@
         
         <!-- SECTION 1: HOME -->
         <section id="home" class="hero-section">
-            <!-- Hero Carousel Wrapper -->
-            <div class="hero-carousel" id="heroCarousel">
-
-                <!-- SLIDE 1: BAVIation -->
-                <div class="hero-slide active" data-slide="0">
-                    <div class="hero-content">
-                        <span class="hero-subtitle">NEW ALBUM JUST DROPPED!</span>
-                        <h1 class="hero-title animate-text">BAVIation</h1>
-                        <p class="hero-desc">
-                            BAVI의 스페셜 EP 앨범 'BAVIation' 발매.<br>
-                            몽환적이면서도 세련된 타이틀곡 'Perfect Glitch'를 지금 감상해보세요.
-                        </p>
-                        <div class="hero-actions">
-                            <button class="btn btn-primary" id="heroPlayBtn">
-                                <i data-lucide="play" class="btn-icon"></i> LISTEN NOW
-                            </button>
-                            <a href="#profile" class="btn btn-secondary">DISCOVER BAVI</a>
-                        </div>
-                        <div class="hero-streaming">
-                            <span class="streaming-label">LISTEN ON</span>
-                            <div class="streaming-links">
-                                <a href="https://open.spotify.com/artist/3LAVKyNfSUhK5RZzJ25a20?si=6yH9qs2xTBiSL2i1KqR9sw" target="_blank" rel="noopener noreferrer" class="streaming-item spotify" title="Spotify">
-                                    <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.565.387-.86.207-2.377-1.454-5.37-1.783-8.893-1.026-.33.078-.667-.125-.74-.463-.078-.33.125-.667.463-.74 3.854-.88 7.15-.506 9.822 1.13.295.18.387.563.208.862zm1.224-2.724c-.226.367-.707.487-1.074.26-2.72-1.672-6.87-2.157-10.082-1.182-.413.125-.85-.107-.978-.52-.125-.413.107-.85.52-.978 3.673-1.114 8.243-.574 11.35 1.337.368.227.487.707.264 1.083zm.107-2.834C14.862 8.942 9.78 8.775 6.84 9.667c-.46.14-.943-.12-.108-.58-.14-.46.12-.943.58-1.08 3.39-1.03 9-1.025 12.56 1.09.414.246.55.776.304 1.19-.247.414-.777.55-1.19.304z"/>
-                                    </svg> Spotify
-                                </a>
-                                <a href="https://music.youtube.com/channel/UCmr8Wt03FOxg6LyorEFgOtg?si=sdgEFXI0FgnP_H_0" target="_blank" rel="noopener noreferrer" class="streaming-item youtube-music" title="YouTube Music">
-                                    <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                                    </svg> YouTube Music
-                                </a>
-                                <a href="https://music.apple.com/kr/artist/bavi/6779288188" target="_blank" rel="noopener noreferrer" class="streaming-item apple-music" title="Apple Music">
-                                    <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-.96.04-2.13.64-2.82 1.45-.6.7-1.13 1.84-.99 2.94.99.08 2.16-.52 2.82-1.33"/>
-                                    </svg> Apple Music
-                                </a>
-                            </div>
-                        </div>
-                        <div class="hero-socials">
-                            <span class="streaming-label">CONNECT ON</span>
-                            <div class="social-links">
-                                <a href="https://www.instagram.com/bavibabygirl" target="_blank" rel="noopener noreferrer" class="social-item instagram" title="Instagram">
-                                    <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                                    </svg> Instagram
-                                </a>
-                            </div>
+            <div class="hero-inner">
+                <div class="hero-content">
+                    <span class="hero-subtitle" id="heroSubtitle">NEW ALBUM JUST DROPPED!</span>
+                    <h1 class="hero-title animate-text" id="heroTitle">BAVIation</h1>
+                    <p class="hero-desc" id="heroDesc">
+                        BAVI의 스페셜 EP 앨범 'BAVIation' 발매.<br>
+                        몽환적이면서도 세련된 타이틀곡 'Perfect Glitch'를 지금 감상해보세요.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" id="heroPlayBtn">
+                            <i data-lucide="play" class="btn-icon"></i> LISTEN NOW
+                        </button>
+                        <a href="#profile" class="btn btn-secondary">DISCOVER BAVI</a>
+                    </div>
+                    <div class="hero-streaming">
+                        <span class="streaming-label">LISTEN ON</span>
+                        <div class="streaming-links">
+                            <a href="https://open.spotify.com/artist/3LAVKyNfSUhK5RZzJ25a20?si=6yH9qs2xTBiSL2i1KqR9sw" target="_blank" rel="noopener noreferrer" class="streaming-item spotify" title="Spotify">
+                                <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.565.387-.86.207-2.377-1.454-5.37-1.783-8.893-1.026-.33.078-.667-.125-.74-.463-.078-.33.125-.667.463-.74 3.854-.88 7.15-.506 9.822 1.13.295.18.387.563.208.862zm1.224-2.724c-.226.367-.707.487-1.074.26-2.72-1.672-6.87-2.157-10.082-1.182-.413.125-.85-.107-.978-.52-.125-.413.107-.85.52-.978 3.673-1.114 8.243-.574 11.35 1.337.368.227.487.707.264 1.083zm.107-2.834C14.862 8.942 9.78 8.775 6.84 9.667c-.46.14-.943-.12-.108-.58-.14-.46.12-.943.58-1.08 3.39-1.03 9-1.025 12.56 1.09.414.246.55.776.304 1.19-.247.414-.777.55-1.19.304z"/>
+                                </svg> Spotify
+                            </a>
+                            <a href="https://music.youtube.com/channel/UCmr8Wt03FOxg6LyorEFgOtg?si=sdgEFXI0FgnP_H_0" target="_blank" rel="noopener noreferrer" class="streaming-item youtube-music" title="YouTube Music">
+                                <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                </svg> YouTube Music
+                            </a>
+                            <a href="https://music.apple.com/kr/artist/bavi/6779288188" target="_blank" rel="noopener noreferrer" class="streaming-item apple-music" title="Apple Music">
+                                <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-.96.04-2.13.64-2.82 1.45-.6.7-1.13 1.84-.99 2.94.99.08 2.16-.52 2.82-1.33"/>
+                                </svg> Apple Music
+                            </a>
                         </div>
                     </div>
-                    <div class="hero-visual">
-                        <div class="hero-image-wrapper">
-                            <img src="assets/images/album_baviation.jpg" alt="BAVIation Album Cover" class="hero-img">
-                            <div class="hero-image-glow"></div>
+                    <div class="hero-socials">
+                        <span class="streaming-label">CONNECT ON</span>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/bavibabygirl" target="_blank" rel="noopener noreferrer" class="social-item instagram" title="Instagram">
+                                <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg> Instagram
+                            </a>
                         </div>
+                    </div>
+                    <!-- Dot indicators sit below streaming links, inside content column -->
+                    <div class="hero-dots">
+                        <button class="hero-dot active" data-dot="0" aria-label="Slide 1"></button>
+                        <button class="hero-dot" data-dot="1" aria-label="Slide 2"></button>
                     </div>
                 </div>
-
-                <!-- SLIDE 2: Just One Minute -->
-                <div class="hero-slide" data-slide="1">
-                    <div class="hero-content">
-                        <span class="hero-subtitle">NEW ALBUM JUST DROPPED!</span>
-                        <h1 class="hero-title animate-text">Just One Minute</h1>
-                        <p class="hero-desc">
-                            BAVI의 신보 싱글 'Just One Minute' 발매.<br>
-                            중독성 있는 멜로디와 경쾌한 리듬이 귓가를 매료시킵니다.
-                        </p>
-                        <div class="hero-actions">
-                            <button class="btn btn-primary" id="heroPlayBtn2">
-                                <i data-lucide="play" class="btn-icon"></i> LISTEN NOW
-                            </button>
-                            <a href="#profile" class="btn btn-secondary">DISCOVER BAVI</a>
-                        </div>
-                        <div class="hero-streaming">
-                            <span class="streaming-label">LISTEN ON</span>
-                            <div class="streaming-links">
-                                <a href="https://open.spotify.com/artist/3LAVKyNfSUhK5RZzJ25a20?si=6yH9qs2xTBiSL2i1KqR9sw" target="_blank" rel="noopener noreferrer" class="streaming-item spotify" title="Spotify">
-                                    <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.565.387-.86.207-2.377-1.454-5.37-1.783-8.893-1.026-.33.078-.667-.125-.74-.463-.078-.33.125-.667.463-.74 3.854-.88 7.15-.506 9.822 1.13.295.18.387.563.208.862zm1.224-2.724c-.226.367-.707.487-1.074.26-2.72-1.672-6.87-2.157-10.082-1.182-.413.125-.85-.107-.978-.52-.125-.413.107-.85.52-.978 3.673-1.114 8.243-.574 11.35 1.337.368.227.487.707.264 1.083zm.107-2.834C14.862 8.942 9.78 8.775 6.84 9.667c-.46.14-.943-.12-.108-.58-.14-.46.12-.943.58-1.08 3.39-1.03 9-1.025 12.56 1.09.414.246.55.776.304 1.19-.247.414-.777.55-1.19.304z"/>
-                                    </svg> Spotify
-                                </a>
-                                <a href="https://music.youtube.com/channel/UCmr8Wt03FOxg6LyorEFgOtg?si=sdgEFXI0FgnP_H_0" target="_blank" rel="noopener noreferrer" class="streaming-item youtube-music" title="YouTube Music">
-                                    <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                                    </svg> YouTube Music
-                                </a>
-                                <a href="https://music.apple.com/kr/artist/bavi/6779288188" target="_blank" rel="noopener noreferrer" class="streaming-item apple-music" title="Apple Music">
-                                    <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-.96.04-2.13.64-2.82 1.45-.6.7-1.13 1.84-.99 2.94.99.08 2.16-.52 2.82-1.33"/>
-                                    </svg> Apple Music
-                                </a>
-                            </div>
-                        </div>
-                        <div class="hero-socials">
-                            <span class="streaming-label">CONNECT ON</span>
-                            <div class="social-links">
-                                <a href="https://www.instagram.com/bavibabygirl" target="_blank" rel="noopener noreferrer" class="social-item instagram" title="Instagram">
-                                    <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                                    </svg> Instagram
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hero-visual">
-                        <div class="hero-image-wrapper">
-                            <img src="assets/images/album_just_one_minute.png" alt="Just One Minute Album Cover" class="hero-img">
-                            <div class="hero-image-glow"></div>
-                        </div>
+                <div class="hero-visual">
+                    <div class="hero-image-wrapper">
+                        <img src="assets/images/album_baviation.jpg" alt="Album Cover" class="hero-img" id="heroImg">
+                        <div class="hero-image-glow"></div>
                     </div>
                 </div>
-
-            </div>
-
-            <!-- Carousel Dots -->
-            <div class="hero-dots">
-                <button class="hero-dot active" data-dot="0" aria-label="Slide 1"></button>
-                <button class="hero-dot" data-dot="1" aria-label="Slide 2"></button>
             </div>
         </section>
 
+
+        <!-- SECTION 2: PROFILE -->
         <!-- SECTION 2: PROFILE -->
         <section id="profile" class="profile-section section-padding">
             <div class="section-header text-center">
@@ -549,6 +490,7 @@
     <!-- HTML5 Audio Source Element (Hidden) -->
     <audio id="audioElement" preload="auto"></audio>
 
-    <script src="app.js?v=33"></script>
+    <script src="app.js?v=34"></script>
 </body>
 </html>
+

@@ -421,52 +421,45 @@ img {
 .hero-section {
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding: var(--header-height) 0 0 0;
+    align-items: center;
+    padding: var(--header-height) 8% 60px 8%;
     position: relative;
-    overflow: hidden;
 }
 
-/* Carousel wrapper fills full section */
-.hero-carousel {
-    flex: 1;
-    position: relative;
-    min-height: calc(100vh - var(--header-height));
-}
-
-/* Each slide is absolutely positioned, full size */
-.hero-slide {
-    position: absolute;
-    inset: 0;
+/* Single fixed layout — nothing moves */
+.hero-inner {
     display: flex;
     align-items: center;
-    padding: 60px 8%;
+    width: 100%;
     max-width: 1400px;
     margin: 0 auto;
     gap: 5%;
+}
+
+/* Elements that crossfade: title, desc, image */
+.hero-title,
+.hero-desc,
+.hero-img {
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+/* Fade-out state — JS adds this before swapping content */
+.hero-title.hero-fading,
+.hero-desc.hero-fading,
+.hero-img.hero-fading {
     opacity: 0;
-    transform: perspective(1200px) rotateY(12deg) scale(0.97);
-    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-    /* left/right must be set for centering trick */
-    left: 0; right: 0;
+    transform: translateY(8px);
 }
 
-.hero-slide.active {
-    opacity: 1;
-    transform: perspective(1200px) rotateY(0deg) scale(1);
-    pointer-events: auto;
-    position: relative; /* active slide takes up flow height */
+.hero-img.hero-fading {
+    transform: scale(0.97);
 }
 
-/* Dot indicators */
+/* Dots */
 .hero-dots {
     display: flex;
-    justify-content: center;
     gap: 10px;
-    padding: 20px 0 40px;
+    margin-top: 28px;
 }
 
 .hero-dot {
