@@ -344,14 +344,54 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // Hero banner Play trigger
+    // ==========================================================================
+    // Hero Carousel — auto-rotate every 5 s with smooth Y-rotation transition
+    // ==========================================================================
+    const heroSlides = document.querySelectorAll('.hero-slide');
+    const heroDots   = document.querySelectorAll('.hero-dot');
+    let currentSlide = 0;
+    let carouselTimer = null;
+
+    const goToSlide = (idx) => {
+        heroSlides[currentSlide].classList.remove('active');
+        heroDots[currentSlide].classList.remove('active');
+        currentSlide = (idx + heroSlides.length) % heroSlides.length;
+        heroSlides[currentSlide].classList.add('active');
+        heroDots[currentSlide].classList.add('active');
+    };
+
+    const startCarousel = () => {
+        carouselTimer = setInterval(() => goToSlide(currentSlide + 1), 5000);
+    };
+
+    const resetCarousel = () => {
+        clearInterval(carouselTimer);
+        startCarousel();
+    };
+
+    heroDots.forEach((dot, i) => {
+        dot.addEventListener('click', () => { goToSlide(i); resetCarousel(); });
+    });
+
+    startCarousel();
+
+    // Hero LISTEN NOW — Slide 1 (BAVIation → Perfect Glitch)
     const heroPlayBtn = document.getElementById('heroPlayBtn');
     heroPlayBtn.addEventListener('click', () => {
-        // Find Perfect Glitch track in playlist
         const trackIdx = playlist.findIndex(t => t.title === 'Perfect Glitch');
         if (trackIdx !== -1) {
             loadSong(trackIdx);
             showToast('Playing: Perfect Glitch (1st Special EP)', 'music');
+        }
+    });
+
+    // Hero LISTEN NOW — Slide 2 (Just One Minute)
+    const heroPlayBtn2 = document.getElementById('heroPlayBtn2');
+    heroPlayBtn2.addEventListener('click', () => {
+        const trackIdx = playlist.findIndex(t => t.title === 'Just One Minute');
+        if (trackIdx !== -1) {
+            loadSong(trackIdx);
+            showToast('Playing: Just One Minute (Single)', 'music');
         }
     });
 

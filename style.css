@@ -421,11 +421,69 @@ img {
 .hero-section {
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--header-height) 0 0 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Carousel wrapper fills full section */
+.hero-carousel {
+    flex: 1;
+    position: relative;
+    min-height: calc(100vh - var(--header-height));
+}
+
+/* Each slide is absolutely positioned, full size */
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
     align-items: center;
-    padding: var(--header-height) 8% 60px 8%;
+    padding: 60px 8%;
     max-width: 1400px;
     margin: 0 auto;
     gap: 5%;
+    opacity: 0;
+    transform: perspective(1200px) rotateY(12deg) scale(0.97);
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    /* left/right must be set for centering trick */
+    left: 0; right: 0;
+}
+
+.hero-slide.active {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(0deg) scale(1);
+    pointer-events: auto;
+    position: relative; /* active slide takes up flow height */
+}
+
+/* Dot indicators */
+.hero-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 0 40px;
+}
+
+.hero-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    padding: 0;
+}
+
+.hero-dot.active {
+    background: var(--accent-pink);
+    width: 24px;
+    border-radius: 4px;
 }
 
 .hero-content {
