@@ -1136,6 +1136,127 @@ img {
     fill: currentColor;
 }
 
+/* Lyrics icon button */
+.btn-lyrics {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.btn-lyrics svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+}
+
+.btn-lyrics:hover {
+    background: rgba(180, 100, 255, 0.2);
+    color: #c084fc;
+    transform: scale(1.08);
+}
+
+.btn-lyrics.no-lyrics {
+    opacity: 0.2;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   Lyrics Modal
+   ========================================================================== */
+.lyrics-modal-content {
+    position: relative;
+    background: rgba(18, 10, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 520px;
+    max-height: 82vh;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 36px 36px;
+    animation: modalSlideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lyrics-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.lyrics-header-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    stroke: #c084fc;
+    opacity: 0.85;
+}
+
+.lyrics-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #c084fc;
+    margin-bottom: 4px;
+}
+
+.lyrics-song-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.lyrics-body {
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(192, 132, 252, 0.3) transparent;
+}
+
+.lyrics-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.lyrics-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lyrics-body::-webkit-scrollbar-thumb {
+    background: rgba(192, 132, 252, 0.3);
+    border-radius: 4px;
+}
+
+.lyrics-body p {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.lyrics-body .lyrics-spacer {
+    line-height: 1.4;
+}
+
+.lyrics-body .lyrics-loading,
+.lyrics-body .lyrics-empty {
+    color: rgba(255, 255, 255, 0.35);
+    font-style: italic;
+    text-align: center;
+    margin-top: 40px;
+}
+
 
 /* ==========================================================================
    Section 4: GALLERY

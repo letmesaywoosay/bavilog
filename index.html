@@ -258,6 +258,31 @@
             </div>
         </div>
 
+        <!-- Lyrics Modal -->
+        <div class="modal-backdrop" id="lyricsModal">
+            <div class="lyrics-modal-content glass">
+                <button class="modal-close" id="lyricsModalCloseBtn" aria-label="Close lyrics modal">
+                    <i data-lucide="x"></i>
+                </button>
+                <div class="lyrics-modal-header">
+                    <svg class="lyrics-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    <div>
+                        <span class="lyrics-label">LYRICS</span>
+                        <h3 class="lyrics-song-title" id="lyricsSongTitle"></h3>
+                    </div>
+                </div>
+                <div class="lyrics-body" id="lyricsBody">
+                    <!-- Dynamically populated via fetch -->
+                </div>
+            </div>
+        </div>
+
         <!-- SECTION 4: GALLERY -->
         <section id="gallery" class="gallery-section section-padding">
             <div class="section-header text-center">
@@ -453,6 +478,6 @@
     <!-- HTML5 Audio Source Element (Hidden) -->
     <audio id="audioElement" preload="auto"></audio>
 
-    <script src="app.js?v=31"></script>
+    <script src="app.js?v=32"></script>
 </body>
 </html>

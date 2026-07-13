@@ -18,12 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: '바비(BAVI)의 독보적인 예술성과 다채로운 음악 스펙트럼을 모은 스페셜 EP 앨범 "BAVIation"입니다. 몽환적이면서도 세련된 트랙들이 수록되어 아티스트의 고유한 감성을 깊이 있게 전합니다.',
             cover: 'assets/images/album_baviation.jpg',
             tracks: [
-                { id: 'track-3-1', title: 'Easter Egg', duration: '2:43', isTitle: false, url: 'assets/audio/EP_BAVIation part1/01.BAVI_Easter Egg.wav' },
-                { id: 'track-3-2', title: 'Secret Room', duration: '2:57', isTitle: false, url: 'assets/audio/EP_BAVIation part1/02.BAVI_Secret Room.wav' },
-                { id: 'track-3-3', title: 'Ocean Form', duration: '2:55', isTitle: false, url: 'assets/audio/EP_BAVIation part1/03.BAVI_Ocean Form.wav' },
-                { id: 'track-3-4', title: 'Branch', duration: '2:51', isTitle: false, url: 'assets/audio/EP_BAVIation part1/04.BAVI_Branch.wav' },
-                { id: 'track-3-5', title: 'Hello, World!', duration: '3:40', isTitle: false, url: 'assets/audio/EP_BAVIation part1/05.BAVI_Hello, World!.wav' },
-                { id: 'track-3-6', title: 'Perfect Glitch', duration: '3:03', isTitle: true, url: 'assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.wav' }
+                { id: 'track-3-1', title: 'Easter Egg', duration: '2:43', isTitle: false, url: 'assets/audio/EP_BAVIation part1/01.BAVI_Easter Egg.wav', lyricsUrl: null },
+                { id: 'track-3-2', title: 'Secret Room', duration: '2:57', isTitle: false, url: 'assets/audio/EP_BAVIation part1/02.BAVI_Secret Room.wav', lyricsUrl: null },
+                { id: 'track-3-3', title: 'Ocean Form', duration: '2:55', isTitle: false, url: 'assets/audio/EP_BAVIation part1/03.BAVI_Ocean Form.wav', lyricsUrl: null },
+                { id: 'track-3-4', title: 'Branch', duration: '2:51', isTitle: false, url: 'assets/audio/EP_BAVIation part1/04.BAVI_Branch.wav', lyricsUrl: null },
+                { id: 'track-3-5', title: 'Hello, World!', duration: '3:40', isTitle: false, url: 'assets/audio/EP_BAVIation part1/05.BAVI_Hello, World!.wav', lyricsUrl: null },
+                { id: 'track-3-6', title: 'Perfect Glitch', duration: '3:03', isTitle: true, url: 'assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.wav', lyricsUrl: 'assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.txt' }
             ]
         },
         'album-4': {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: '바비(BAVI)의 청량하면서도 위트 있는 음악적 시도를 담아낸 싱글 "Just One Minute"입니다. 중독성 있는 멜로디와 경쾌한 리듬이 어우러져 리스너들의 귓가를 매료시킵니다.',
             cover: 'assets/images/album_just_one_minute.png',
             tracks: [
-                { id: 'track-4-1', title: 'Just One Minute', duration: '2:59', isTitle: true, url: 'assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav' }
+                { id: 'track-4-1', title: 'Just One Minute', duration: '2:59', isTitle: true, url: 'assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav', lyricsUrl: null }
             ]
         }
     };
@@ -400,12 +400,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 album.tracks.forEach((track, index) => {
                     const item = document.createElement('div');
                     item.className = 'track-item';
+                    const hasLyrics = !!track.lyricsUrl;
                     item.innerHTML = `
                         <span class="track-number">${String(index + 1).padStart(2, '0')}</span>
                         <div class="track-info">
                             <span class="track-title ${track.isTitle ? 'is-title-song' : ''}">${track.title}</span>
                         </div>
                         <span class="track-duration">${track.duration}</span>
+                        <button class="btn-lyrics ${hasLyrics ? '' : 'no-lyrics'}" data-lyrics-url="${track.lyricsUrl || ''}" data-track-title="${track.title}" ${hasLyrics ? '' : 'disabled'} title="${hasLyrics ? '가사 보기' : '가사 없음'}">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10 9 9 9 8 9"/>
+                            </svg>
+                        </button>
                         <button class="btn-track-play" data-track-url="${track.url}">
                             <i data-lucide="play"></i>
                         </button>
@@ -422,6 +432,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             loadSong(trackIdx);
                             showToast(`Playing: ${playlist[trackIdx].title}`, 'music');
                         }
+                    });
+                });
+
+                // Attach lyrics button handlers
+                modalTracklist.querySelectorAll('.btn-lyrics:not([disabled])').forEach(lyricsBtn => {
+                    lyricsBtn.addEventListener('click', async () => {
+                        const lyricsUrl = lyricsBtn.getAttribute('data-lyrics-url');
+                        const trackTitle = lyricsBtn.getAttribute('data-track-title');
+                        openLyricsModal(trackTitle, lyricsUrl);
                     });
                 });
 
@@ -443,6 +462,46 @@ document.addEventListener('DOMContentLoaded', () => {
     modalCloseBtn.addEventListener('click', closeModal);
     albumModal.addEventListener('click', (e) => {
         if (e.target === albumModal) closeModal();
+    });
+
+    // ==========================================================================
+    // Lyrics Modal Logic
+    // ==========================================================================
+    const lyricsModal = document.getElementById('lyricsModal');
+    const lyricsModalCloseBtn = document.getElementById('lyricsModalCloseBtn');
+    const lyricsSongTitle = document.getElementById('lyricsSongTitle');
+    const lyricsBody = document.getElementById('lyricsBody');
+
+    const openLyricsModal = async (trackTitle, lyricsUrl) => {
+        // Set title
+        lyricsSongTitle.textContent = trackTitle;
+        // Loading state
+        lyricsBody.innerHTML = '<p class="lyrics-loading">가사를 불러오는 중...</p>';
+        lyricsModal.classList.add('active');
+
+        try {
+            const response = await fetch(lyricsUrl);
+            if (!response.ok) throw new Error('Not found');
+            const text = await response.text();
+            // Render each line as a <p>; blank lines become spacer <p class="lyrics-spacer">
+            const lines = text.split(/\r?\n/);
+            lyricsBody.innerHTML = lines.map(line =>
+                line.trim() === ''
+                    ? '<p class="lyrics-spacer">&nbsp;</p>'
+                    : `<p>${line}</p>`
+            ).join('');
+        } catch {
+            lyricsBody.innerHTML = '<p class="lyrics-empty">가사 정보가 없습니다.</p>';
+        }
+    };
+
+    const closeLyricsModal = () => {
+        lyricsModal.classList.remove('active');
+    };
+
+    lyricsModalCloseBtn.addEventListener('click', closeLyricsModal);
+    lyricsModal.addEventListener('click', (e) => {
+        if (e.target === lyricsModal) closeLyricsModal();
     });
 
 
