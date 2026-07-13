@@ -436,24 +436,47 @@ img {
     gap: 5%;
 }
 
-/* Elements that crossfade: title, desc, image */
+/* Elements that transition: title, desc, image */
 .hero-title,
 .hero-desc,
 .hero-img {
-    transition: opacity 0.55s ease, transform 0.55s ease;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Fade-out state — JS adds this before swapping content */
-.hero-title.hero-fading,
-.hero-desc.hero-fading,
-.hero-img.hero-fading {
-    opacity: 0;
-    transform: translateY(8px);
+/* Slide out to left */
+.hero-slide-out {
+    animation-name: slideOutLeft;
 }
 
-.hero-img.hero-fading {
-    transform: scale(0.97);
+/* Slide in from right */
+.hero-slide-in {
+    animation-name: slideInRight;
 }
+
+@keyframes slideOutLeft {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 
 /* Dots */
 .hero-dots {

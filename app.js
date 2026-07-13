@@ -373,17 +373,26 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentHeroIdx = 0;
     let heroTimer = null;
 
-    const FADE_DURATION = 550; // ms — must match CSS transition
-
     const swapHeroContent = (idx) => {
         const album = heroAlbums[idx];
-        // 1. Fade out changing elements
-        heroTitleEl.classList.add('hero-fading');
-        heroDescEl.classList.add('hero-fading');
-        heroImgEl.classList.add('hero-fading');
+        
+        // Remove any existing animation classes to reset state
+        heroTitleEl.classList.remove('hero-slide-in', 'hero-slide-out');
+        heroDescEl.classList.remove('hero-slide-in', 'hero-slide-out');
+        heroImgEl.classList.remove('hero-slide-in', 'hero-slide-out');
+        
+        // Force reflow to ensure reset takes effect
+        void heroTitleEl.offsetWidth;
+        void heroDescEl.offsetWidth;
+        void heroImgEl.offsetWidth;
+
+        // 1. Slide out to left
+        heroTitleEl.classList.add('hero-slide-out');
+        heroDescEl.classList.add('hero-slide-out');
+        heroImgEl.classList.add('hero-slide-out');
 
         setTimeout(() => {
-            // 2. Swap content while invisible
+            // 2. Swap values when completely exited
             heroTitleEl.textContent = album.title;
             heroDescEl.innerHTML = album.desc;
             heroImgEl.src = album.img;
@@ -392,11 +401,22 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update dots
             heroDots.forEach((d, i) => d.classList.toggle('active', i === idx));
 
-            // 3. Fade back in
-            heroTitleEl.classList.remove('hero-fading');
-            heroDescEl.classList.remove('hero-fading');
-            heroImgEl.classList.remove('hero-fading');
-        }, FADE_DURATION);
+            // Switch to slide in
+            heroTitleEl.classList.remove('hero-slide-out');
+            heroDescEl.classList.remove('hero-slide-out');
+            heroImgEl.classList.remove('hero-slide-out');
+
+            heroTitleEl.classList.add('hero-slide-in');
+            heroDescEl.classList.add('hero-slide-in');
+            heroImgEl.classList.add('hero-slide-in');
+            
+            // Clean up slide-in classes after animation completes to avoid styling lockups
+            setTimeout(() => {
+                heroTitleEl.classList.remove('hero-slide-in');
+                heroDescEl.classList.remove('hero-slide-in');
+                heroImgEl.classList.remove('hero-slide-in');
+            }, 400);
+        }, 400); // match animation duration (0.4s)
     };
 
     const goToHeroSlide = (idx) => {
