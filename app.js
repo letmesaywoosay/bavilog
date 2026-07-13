@@ -18,11 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: '바비(BAVI)의 독보적인 예술성과 다채로운 음악 스펙트럼을 모은 스페셜 EP 앨범 "BAVIation"입니다. 몽환적이면서도 세련된 트랙들이 수록되어 아티스트의 고유한 감성을 깊이 있게 전합니다.',
             cover: 'assets/images/album_baviation.jpg',
             tracks: [
-                { id: 'track-3-1', title: 'Easter Egg', duration: '2:43', isTitle: false, url: 'assets/audio/EP_BAVIation part1/01.BAVI_Easter Egg.wav', lyricsUrl: null },
-                { id: 'track-3-2', title: 'Secret Room', duration: '2:57', isTitle: false, url: 'assets/audio/EP_BAVIation part1/02.BAVI_Secret Room.wav', lyricsUrl: null },
-                { id: 'track-3-3', title: 'Ocean Form', duration: '2:55', isTitle: false, url: 'assets/audio/EP_BAVIation part1/03.BAVI_Ocean Form.wav', lyricsUrl: null },
-                { id: 'track-3-4', title: 'Branch', duration: '2:51', isTitle: false, url: 'assets/audio/EP_BAVIation part1/04.BAVI_Branch.wav', lyricsUrl: null },
-                { id: 'track-3-5', title: 'Hello, World!', duration: '3:40', isTitle: false, url: 'assets/audio/EP_BAVIation part1/05.BAVI_Hello, World!.wav', lyricsUrl: null },
+                { id: 'track-3-1', title: 'Easter Egg', duration: '2:43', isTitle: false, url: 'assets/audio/EP_BAVIation part1/01.BAVI_Easter Egg.wav', lyricsUrl: 'assets/audio/EP_BAVIation part1/01.BAVI_Easter Egg.txt' },
+                { id: 'track-3-2', title: 'Secret Room', duration: '2:57', isTitle: false, url: 'assets/audio/EP_BAVIation part1/02.BAVI_Secret Room.wav', lyricsUrl: 'assets/audio/EP_BAVIation part1/02.BAVI_Secret Room.txt' },
+                { id: 'track-3-3', title: 'Ocean Form', duration: '2:55', isTitle: false, url: 'assets/audio/EP_BAVIation part1/03.BAVI_Ocean Form.wav', lyricsUrl: 'assets/audio/EP_BAVIation part1/03.BAVI_Ocean Form.txt' },
+                { id: 'track-3-4', title: 'Branch', duration: '2:51', isTitle: false, url: 'assets/audio/EP_BAVIation part1/04.BAVI_Branch.wav', lyricsUrl: 'assets/audio/EP_BAVIation part1/04.BAVI_Branch.txt' },
+                { id: 'track-3-5', title: 'Hello, World!', duration: '3:40', isTitle: false, url: 'assets/audio/EP_BAVIation part1/05.BAVI_Hello, World!.wav', lyricsUrl: 'assets/audio/EP_BAVIation part1/05.BAVI_Hello, World!.txt' },
                 { id: 'track-3-6', title: 'Perfect Glitch', duration: '3:03', isTitle: true, url: 'assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.wav', lyricsUrl: 'assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.txt' }
             ]
         },
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: '바비(BAVI)의 청량하면서도 위트 있는 음악적 시도를 담아낸 싱글 "Just One Minute"입니다. 중독성 있는 멜로디와 경쾌한 리듬이 어우러져 리스너들의 귓가를 매료시킵니다.',
             cover: 'assets/images/album_just_one_minute.png',
             tracks: [
-                { id: 'track-4-1', title: 'Just One Minute', duration: '2:59', isTitle: true, url: 'assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav', lyricsUrl: null }
+                { id: 'track-4-1', title: 'Just One Minute', duration: '2:59', isTitle: true, url: 'assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav', lyricsUrl: 'assets/audio/Single_Just One Minute/BAVI_Just One Minute.txt' }
             ]
         }
     };
