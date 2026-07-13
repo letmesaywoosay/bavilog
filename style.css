@@ -531,6 +531,11 @@ img {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.2));
+    
+    /* Fixed 2-line height with flex bottom alignment to prevent shifts */
+    height: 11rem;
+    display: flex;
+    align-items: flex-end;
 }
 
 .hero-desc {
@@ -538,6 +543,11 @@ img {
     font-size: 1.2rem;
     font-weight: 300;
     margin-bottom: 40px;
+    
+    /* Fixed 2-line height area */
+    height: 4rem;
+    display: flex;
+    align-items: flex-start;
     max-width: 580px;
 }
 
@@ -2244,6 +2254,14 @@ img {
     
     .hero-title {
         font-size: 3.5rem;
+        height: auto;
+        display: block;
+    }
+    
+    .hero-desc {
+        height: auto;
+        display: block;
+        margin-bottom: 24px;
     }
     
     .nav-desktop {
@@ -2286,6 +2304,8 @@ img {
 @media (max-width: 480px) {
     .hero-title {
         font-size: 2.8rem;
+        height: auto;
+        display: block;
     }
     
     .hero-actions {
