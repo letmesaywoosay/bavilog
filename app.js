@@ -345,133 +345,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // Hero Crossfade — swap title/desc/img in-place every 5 s
+    // Hero — Static single banner (BAVIation only, no carousel)
     // ==========================================================================
-    const heroAlbums = [
-        {
-            title: 'BAVIation',
-            desc: 'BAVI의 스페셜 EP 앨범 \'BAVIation\' 발매.<br>몽환적이면서도 세련된 타이틀곡 \'Perfect Glitch\'를 지금 감상해보세요.',
-            img: 'assets/images/album_baviation.jpg',
-            imgAlt: 'BAVIation Album Cover',
-            trackTitle: 'Perfect Glitch',
-            toastMsg: 'Playing: Perfect Glitch (1st Special EP)'
-        }
-    ];
-
-    const heroTitleEl = document.getElementById('heroTitle');
-    const heroDescEl  = document.getElementById('heroDesc');
-    const heroImgEl   = document.getElementById('heroImg');
-    const heroDots    = document.querySelectorAll('.hero-dot');
-    let currentHeroIdx = 0;
-    let heroTimer = null;
-
-    const swapHeroContent = (idx) => {
-        const album = heroAlbums[idx];
-        
-        // Remove any existing animation classes to reset state
-        heroTitleEl.classList.remove('hero-slide-in', 'hero-slide-out');
-        heroDescEl.classList.remove('hero-slide-in', 'hero-slide-out');
-        heroImgEl.classList.remove('hero-slide-in', 'hero-slide-out');
-        
-        // Force reflow to ensure reset takes effect
-        void heroTitleEl.offsetWidth;
-        void heroDescEl.offsetWidth;
-        void heroImgEl.offsetWidth;
-
-        // 1. Slide out to left
-        heroTitleEl.classList.add('hero-slide-out');
-        heroDescEl.classList.add('hero-slide-out');
-        heroImgEl.classList.add('hero-slide-out');
-
-        setTimeout(() => {
-            // 2. Swap values when completely exited
-            heroTitleEl.textContent = album.title;
-            heroDescEl.innerHTML = album.desc;
-            heroImgEl.src = album.img;
-            heroImgEl.alt = album.imgAlt;
-
-            // Update dots
-            heroDots.forEach((d, i) => d.classList.toggle('active', i === idx));
-
-            // Switch to slide in
-            heroTitleEl.classList.remove('hero-slide-out');
-            heroDescEl.classList.remove('hero-slide-out');
-            heroImgEl.classList.remove('hero-slide-out');
-
-            heroTitleEl.classList.add('hero-slide-in');
-            heroDescEl.classList.add('hero-slide-in');
-            heroImgEl.classList.add('hero-slide-in');
-            
-            // Clean up slide-in classes after animation completes to avoid styling lockups
-            setTimeout(() => {
-                heroTitleEl.classList.remove('hero-slide-in');
-                heroDescEl.classList.remove('hero-slide-in');
-                heroImgEl.classList.remove('hero-slide-in');
-            }, 400);
-        }, 400); // match animation duration (0.4s)
+    const heroBanner = {
+        title: 'BAVIation',
+        desc: 'BAVI의 스페셜 EP 앨범 \'BAVIation\' 발매.<br>몽환적이면서도 세련된 타이틀곡 \'Perfect Glitch\'를 지금 감상해보세요.',
+        img: 'assets/images/album_baviation.jpg',
+        imgAlt: 'BAVIation Album Cover',
+        trackTitle: 'Perfect Glitch',
+        toastMsg: 'Playing: Perfect Glitch (1st Special EP)'
     };
 
-    const goToHeroSlide = (idx) => {
-        currentHeroIdx = (idx + heroAlbums.length) % heroAlbums.length;
-        swapHeroContent(currentHeroIdx);
-    };
-
-    const startHeroTimer = () => {
-        if (window.innerWidth <= 1024) {
-            if (!heroTimer) {
-                heroTimer = setInterval(() => goToHeroSlide(currentHeroIdx + 1), 5000);
-            }
-        } else {
-            stopHeroTimer();
-            if (currentHeroIdx !== 0) {
-                goToHeroSlide(0);
-            }
-        }
-    };
-
-    const stopHeroTimer = () => {
-        if (heroTimer) {
-            clearInterval(heroTimer);
-            heroTimer = null;
-        }
-    };
-
-    heroDots.forEach((dot, i) => {
-        dot.addEventListener('click', () => {
-            stopHeroTimer();
-            goToHeroSlide(i);
-            if (window.innerWidth <= 1024) {
-                startHeroTimer();
-            }
-        });
-    });
-
-    const initHeroCarouselResponsive = () => {
-        if (window.innerWidth <= 1024) {
-            startHeroTimer();
-        } else {
-            stopHeroTimer();
-            currentHeroIdx = 0;
-            const album = heroAlbums[0];
-            heroTitleEl.textContent = album.title;
-            heroDescEl.innerHTML = album.desc;
-            heroImgEl.src = album.img;
-            heroImgEl.alt = album.imgAlt;
-            heroDots.forEach((d, i) => d.classList.toggle('active', i === 0));
-        }
-    };
-
-    window.addEventListener('resize', initHeroCarouselResponsive);
-    initHeroCarouselResponsive();
-
-    // Hero LISTEN NOW — plays whichever album is currently shown
+    // Hero LISTEN NOW — plays BAVIation
     const heroPlayBtn = document.getElementById('heroPlayBtn');
     heroPlayBtn.addEventListener('click', () => {
-        const album = heroAlbums[currentHeroIdx];
-        const trackIdx = playlist.findIndex(t => t.title === album.trackTitle);
+        const trackIdx = playlist.findIndex(t => t.title === heroBanner.trackTitle);
         if (trackIdx !== -1) {
             loadSong(trackIdx);
-            showToast(album.toastMsg, 'music');
+            showToast(heroBanner.toastMsg, 'music');
         }
     });
 
