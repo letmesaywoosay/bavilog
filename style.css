@@ -2276,6 +2276,16 @@ img {
         margin-top: 20px;
     }
     
+    .hero-streaming,
+    .hero-socials {
+        align-items: center;
+    }
+    
+    .streaming-links,
+    .social-links {
+        justify-content: center;
+    }
+    
     .profile-container {
         grid-template-columns: 1fr;
     }
