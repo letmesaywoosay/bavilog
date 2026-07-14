@@ -355,14 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
             imgAlt: 'BAVIation Album Cover',
             trackTitle: 'Perfect Glitch',
             toastMsg: 'Playing: Perfect Glitch (1st Special EP)'
-        },
-        {
-            title: 'Just One Minute',
-            desc: 'BAVI의 신보 싱글 \'Just One Minute\' 발매.<br>중독성 있는 멜로디와 경쾌한 리듬이 귓가를 매료시킵니다.',
-            img: 'assets/images/album_just_one_minute.png',
-            imgAlt: 'Just One Minute Album Cover',
-            trackTitle: 'Just One Minute',
-            toastMsg: 'Playing: Just One Minute (Single)'
         }
     ];
 
@@ -425,18 +417,52 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const startHeroTimer = () => {
-        heroTimer = setInterval(() => goToHeroSlide(currentHeroIdx + 1), 5000);
+        if (window.innerWidth <= 1024) {
+            if (!heroTimer) {
+                heroTimer = setInterval(() => goToHeroSlide(currentHeroIdx + 1), 5000);
+            }
+        } else {
+            stopHeroTimer();
+            if (currentHeroIdx !== 0) {
+                goToHeroSlide(0);
+            }
+        }
+    };
+
+    const stopHeroTimer = () => {
+        if (heroTimer) {
+            clearInterval(heroTimer);
+            heroTimer = null;
+        }
     };
 
     heroDots.forEach((dot, i) => {
         dot.addEventListener('click', () => {
-            clearInterval(heroTimer);
+            stopHeroTimer();
             goToHeroSlide(i);
-            startHeroTimer();
+            if (window.innerWidth <= 1024) {
+                startHeroTimer();
+            }
         });
     });
 
-    startHeroTimer();
+    const initHeroCarouselResponsive = () => {
+        if (window.innerWidth <= 1024) {
+            startHeroTimer();
+        } else {
+            stopHeroTimer();
+            currentHeroIdx = 0;
+            const album = heroAlbums[0];
+            heroTitleEl.textContent = album.title;
+            heroDescEl.innerHTML = album.desc;
+            heroImgEl.src = album.img;
+            heroImgEl.alt = album.imgAlt;
+            heroDots.forEach((d, i) => d.classList.toggle('active', i === 0));
+        }
+    };
+
+    window.addEventListener('resize', initHeroCarouselResponsive);
+    initHeroCarouselResponsive();
 
     // Hero LISTEN NOW — plays whichever album is currently shown
     const heroPlayBtn = document.getElementById('heroPlayBtn');
