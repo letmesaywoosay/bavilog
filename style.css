@@ -780,6 +780,15 @@ img {
     margin-bottom: 0;
 }
 
+.bio-quote {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+}
+
 .profile-details-grid {
     display: grid;
     grid-template-rows: auto auto 1fr;
