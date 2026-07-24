@@ -35,6 +35,16 @@ document.addEventListener('DOMContentLoaded', () => {
             tracks: [
                 { id: 'track-4-1', title: 'Just One Minute', duration: '2:59', isTitle: true, url: 'assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav', lyricsUrl: 'assets/audio/Single_Just One Minute/BAVI_Just One Minute.txt' }
             ]
+        },
+        'album-5': {
+            name: '안녕, 세상아(Unpressed)',
+            type: 'Single',
+            release: '2026.07.25',
+            desc: '바비(BAVI)의 새로운 싱글 "안녕, 세상아(Unpressed)"입니다.',
+            cover: 'assets/images/album_annyeong_sesanga.jpg',
+            tracks: [
+                { id: 'track-5-1', title: '안녕, 세상아', duration: '', isTitle: true, url: 'assets/audio/Single_Annyeong Sesanga/BAVI_Annyeong Sesanga.wav', lyricsUrl: 'assets/audio/Single_Annyeong Sesanga/BAVI_Annyeong Sesanga.txt' }
+            ]
         }
     };
 
