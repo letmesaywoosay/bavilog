@@ -832,4 +832,172 @@ document.addEventListener('DOMContentLoaded', () => {
         audioElement.src = playlist[defaultTrackIdx].url;
     }
 
+    // ==========================================================================
+    // 12. Admin Override Loader — reads bavi_admin_data from localStorage
+    // ==========================================================================
+    (function applyAdminOverrides() {
+        let ad;
+        try { ad = JSON.parse(localStorage.getItem('bavi_admin_data') || 'null'); } catch(e) { return; }
+        if (!ad) return;
+
+        /* ── HERO ──────────────────────────────────── */
+        if (ad.hero) {
+            const h = ad.hero;
+            if (h.title)      { heroBanner.title = h.title;           const el = document.getElementById('heroTitle'); if(el) el.textContent = h.title; }
+            if (h.desc)       { heroBanner.desc  = h.desc;            const el = document.getElementById('heroDesc');  if(el) el.innerHTML  = h.desc;  }
+            if (h.trackTitle) { heroBanner.trackTitle = h.trackTitle; }
+            if (h.toastMsg)   { heroBanner.toastMsg   = h.toastMsg;   }
+            if (h.image)      { const el = document.getElementById('heroImg'); if(el) el.src = h.image; }
+        }
+
+        /* ── PROFILE ────────────────────────────────── */
+        if (ad.profile) {
+            const p = ad.profile;
+            // Avatar
+            if (p.avatar) { const av = document.querySelector('.bio-avatar'); if(av) av.src = p.avatar; }
+            // Name
+            if (p.name) { const h3 = document.querySelector('.bio-title h3'); if(h3) h3.innerHTML = `${p.name} <span class="korean-name">(${p.koreanName||''})</span>`; }
+            // Role
+            if (p.role) { const r = document.querySelector('.bio-tag'); if(r) r.textContent = p.role; }
+            // Quote + Bio
+            const bioBody = document.querySelector('.bio-body');
+            if (bioBody) {
+                if (p.quote || (p.bio && p.bio.length)) {
+                    bioBody.innerHTML = '';
+                    if (p.quote) { const q = document.createElement('p'); q.className = 'bio-quote'; q.textContent = p.quote; bioBody.appendChild(q); }
+                    (p.bio||[]).forEach(text => { const par = document.createElement('p'); par.className = 'bio-paragraph'; par.textContent = text; bioBody.appendChild(par); });
+                }
+            }
+            // Info
+            if (p.info) {
+                const il = document.querySelector('.info-list');
+                if (il) {
+                    const lis = il.querySelectorAll('li');
+                    const map = [['Name :', p.info.realName],['Debut :', p.info.debut],['Genre :', p.info.genre],['Label :', p.info.label]];
+                    map.forEach(([label, val], idx) => { if(lis[idx] && val) lis[idx].innerHTML = `<strong>${label}</strong> ${val}`; });
+                }
+            }
+            // Tags
+            if (p.tags && p.tags.length) {
+                const kw = document.querySelector('.keyword-tags');
+                if (kw) {
+                    const colors = ['tag-pink','tag-purple','tag-blue','tag-cyan'];
+                    kw.innerHTML = p.tags.map((t,i) => `<span class="tag ${colors[i%colors.length]}">${t}</span>`).join('');
+                }
+            }
+            // Timeline
+            if (p.timeline && p.timeline.length) {
+                const tl = document.querySelector('.timeline-card .timeline');
+                if (tl) {
+                    tl.innerHTML = p.timeline.map(item => `
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <span class="timeline-date">${item.date}</span>
+                            <p class="timeline-desc">${item.desc}</p>
+                        </div>`).join('');
+                }
+            }
+        }
+
+        /* ── DISCOGRAPHY ─────────────────────────────── */
+        const adminAlbums = ad.discography?.adminAlbums || [];
+        if (adminAlbums.length) {
+            const grid = document.querySelector('.album-grid');
+            adminAlbums.forEach(a => {
+                if (albumData[a.id]) return; // already exists
+                // Add to albumData for modal
+                albumData[a.id] = {
+                    name: a.name, type: a.type, release: a.release,
+                    desc: a.desc, cover: a.cover || '',
+                    tracks: (a.tracks||[]).map((t,idx) => ({
+                        id: `${a.id}-t${idx}`, title: t.title, duration: t.duration||'',
+                        isTitle: !!t.isTitle, url: t.url||'', lyricsUrl: t.lyricsUrl||''
+                    }))
+                };
+                // Add to playlist
+                (a.tracks||[]).forEach((t,idx) => {
+                    if (t.url) playlist.push({ id:`${a.id}-t${idx}`, title:t.title, duration:t.duration||'',
+                        isTitle:!!t.isTitle, url:t.url, lyricsUrl:t.lyricsUrl||'', albumName:a.name, albumImg:a.cover||'' });
+                });
+                // Inject card into DOM
+                if (grid) {
+                    const card = document.createElement('div');
+                    card.className = 'album-card glass fade-in-section';
+                    card.setAttribute('data-album-id', a.id);
+                    const titleTrack = (a.tracks||[]).find(t=>t.isTitle) || (a.tracks||[])[0] || {};
+                    card.innerHTML = `
+                        <div class="album-cover-wrapper">
+                            <img src="${a.cover||'assets/images/album_baviation.jpg'}" alt="${a.name}" class="album-cover">
+                            <div class="album-hover-overlay">
+                                <button class="btn-icon-play" data-track-url="${titleTrack.url||''}" data-track-name="${a.name}" data-album-name="${a.name}" data-album-img="${a.cover||''}">
+                                    <i data-lucide="play"></i>
+                                </button>
+                                <button class="btn btn-sm btn-glass btn-album-details">VIEW TRACKS</button>
+                            </div>
+                        </div>
+                        <div class="album-info">
+                            <span class="album-type">${a.type}</span>
+                            <h3 class="album-name">${a.name}</h3>
+                            <span class="album-release">${a.release}</span>
+                        </div>`;
+                    grid.appendChild(card);
+                    lucide.createIcons({ nodes: [card] });
+                    // Wire up events
+                    card.querySelector('.btn-album-details').addEventListener('click', e => {
+                        e.stopPropagation();
+                        const album = albumData[a.id];
+                        if (!album) return;
+                        document.getElementById('modalAlbumImg').src   = album.cover;
+                        document.getElementById('modalAlbumType').textContent = album.type;
+                        document.getElementById('modalAlbumName').textContent = album.name;
+                        document.getElementById('modalAlbumDesc').textContent = album.desc;
+                        const tl = document.getElementById('modalTracklist');
+                        tl.innerHTML = '';
+                        album.tracks.forEach((tr, idx) => {
+                            const div = document.createElement('div');
+                            div.className = 'track-item';
+                            div.innerHTML = `
+                                <span class="track-number">${String(idx+1).padStart(2,'0')}</span>
+                                <div class="track-info"><span class="track-title ${tr.isTitle?'is-title-song':''}">${tr.title}</span></div>
+                                <span class="track-duration">${tr.duration||''}</span>
+                                <button class="btn-track-play" data-track-url="${tr.url}"><i data-lucide="play"></i></button>`;
+                            tl.appendChild(div);
+                            lucide.createIcons({ nodes: [div] });
+                            div.querySelector('.btn-track-play').addEventListener('click', () => {
+                                const idx2 = playlist.findIndex(x=>x.url===tr.url);
+                                if (idx2!==-1) loadSong(idx2);
+                            });
+                        });
+                        document.getElementById('albumModal').classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    });
+                    card.querySelector('.btn-icon-play').addEventListener('click', e => {
+                        e.stopPropagation();
+                        const url = e.currentTarget.getAttribute('data-track-url');
+                        const idx2 = playlist.findIndex(x=>x.url===url);
+                        if (idx2!==-1) loadSong(idx2);
+                    });
+                }
+            });
+        }
+
+        /* ── GALLERY ─────────────────────────────────── */
+        const adminPhotos = ad.gallery?.adminPhotos || [];
+        if (adminPhotos.length) {
+            const galSection = document.getElementById('gallery');
+            if (galSection) {
+                let grid = galSection.querySelector('.gallery-grid, .gallery-content');
+                if (!grid) grid = galSection.querySelector('[class*="gallery"]') || galSection;
+                adminPhotos.forEach(ph => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item fade-in-section';
+                    item.innerHTML = `<img src="${ph.src}" alt="${ph.caption||ph.category}" loading="lazy">`;
+                    grid.appendChild(item);
+                });
+            }
+        }
+
+    })();
+
 });
+
