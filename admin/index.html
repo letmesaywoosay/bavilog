@@ -3,56 +3,267 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>BAVI Admin Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="admin.css">
+<title>BAVI Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & ROOT ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#09050f;--bg2:#120d20;--bg3:#1a1230;
+  --card:rgba(255,255,255,.05);--border:rgba(255,255,255,.09);
+  --accent:#8b5cf6;--cyan:#00e5ff;
+  --text:#f0eeff;--text2:rgba(240,238,255,.6);--text3:rgba(240,238,255,.35);
+  --danger:#f43f5e;--ok:#10b981;--warn:#f59e0b;
+  --sidebar:220px;--r:12px;--t:.18s;
+}
+html,body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.55;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:rgba(139,92,246,.4);border-radius:4px;}
+
+/* ── UTIL ── */
+.hidden{display:none!important;}
+.mt1{margin-top:8px;}.mt2{margin-top:16px;}
+.flex{display:flex;align-items:center;gap:10px;}
+.empty{text-align:center;padding:24px;color:var(--text3);font-size:.85rem;}
+hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0;}
+
+/* ── LOGIN ── */
+.login-wrap{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse 80% 60% at 50% 25%,rgba(139,92,246,.2) 0%,transparent 70%),
+             linear-gradient(160deg,#09050f,#12082a 50%,#050d1a);
+}
+.login-card{
+  width:100%;max-width:420px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:24px;padding:48px 40px;
+  backdrop-filter:blur(24px);
+  box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(139,92,246,.12);
+  animation:fadeUp .4s ease;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.logo-txt{
+  font-family:'Outfit',sans-serif;font-size:2.4rem;font-weight:800;letter-spacing:5px;
+  background:linear-gradient(135deg,#8b5cf6,#00e5ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+.login-title{font-size:1.4rem;font-weight:600;}
+.login-sub{color:var(--text3);font-size:.85rem;margin-bottom:32px;margin-top:3px;}
+.login-err{color:var(--danger);font-size:.82rem;text-align:center;margin-top:12px;}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:10;overflow-y:auto;
+}
+.sb-head{padding:26px 20px 18px;border-bottom:1px solid var(--border);}
+.sb-logo{
+  font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:4px;
+  background:linear-gradient(135deg,#8b5cf6,#00e5ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sb-sub{font-size:.65rem;color:var(--text3);letter-spacing:2.5px;text-transform:uppercase;margin-top:2px;}
+.sb-nav{flex:1;padding:14px 10px;display:flex;flex-direction:column;gap:3px;}
+.nav-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 14px;border-radius:10px;border:none;
+  background:transparent;color:var(--text2);
+  font-size:.875rem;font-weight:500;font-family:inherit;cursor:pointer;
+  transition:all var(--t);text-align:left;width:100%;
+}
+.nav-btn:hover{background:rgba(139,92,246,.1);color:var(--text);}
+.nav-btn.active{background:rgba(139,92,246,.18);color:var(--cyan);border-left:3px solid var(--accent);padding-left:11px;}
+.nav-ic{font-size:1rem;width:20px;text-align:center;}
+.sb-foot{padding:14px 10px 20px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px;}
+
+/* MAIN */
+.main{flex:1;margin-left:var(--sidebar);padding:36px 36px 60px;overflow-y:auto;}
+.sec-hd{margin-bottom:24px;}
+.sec-hd h2{
+  font-size:1.5rem;font-weight:700;
+  background:linear-gradient(135deg,#8b5cf6,#00e5ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sec-hd p{color:var(--text3);font-size:.85rem;margin-top:3px;}
+.section{display:none;}.section.active{display:block;}
+
+/* NOTICE */
+.notice{
+  background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);
+  border-radius:var(--r);padding:11px 16px;font-size:.82rem;color:var(--warn);
+  margin-bottom:18px;
+}
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:18px;overflow:hidden;}
+.card-hd{
+  padding:14px 22px;border-bottom:1px solid var(--border);
+  font-size:.75rem;font-weight:700;color:var(--text2);
+  text-transform:uppercase;letter-spacing:1.2px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-bd{padding:22px;}
+
+/* ── FORM ── */
+.frow{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;}
+.frow.c2{grid-template-columns:1fr 1fr;}.frow.c3{grid-template-columns:1fr 1fr 1fr;}
+.fg{margin-bottom:16px;}.fg:last-child{margin-bottom:0;}
+label.fl{display:block;font-size:.72rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;}
+input[type=text],input[type=password],textarea,select{
+  width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);
+  border-radius:9px;padding:10px 13px;color:var(--text);font-size:.875rem;
+  font-family:inherit;outline:none;transition:border .18s,box-shadow .18s;appearance:none;
+}
+input:focus,textarea:focus,select:focus{border-color:rgba(139,92,246,.6);box-shadow:0 0 0 3px rgba(139,92,246,.12);}
+textarea{resize:vertical;min-height:88px;line-height:1.65;}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='rgba(240,238,255,0.4)' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;padding-right:34px;cursor:pointer;
+}
+select option{background:var(--bg3);color:var(--text);}
+.form-actions{display:flex;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--border);}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:10px 18px;border-radius:9px;border:none;
+  font-size:.875rem;font-weight:600;font-family:inherit;
+  cursor:pointer;transition:all .18s;text-decoration:none;white-space:nowrap;
+}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;}
+.btn-primary{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;box-shadow:0 4px 14px rgba(139,92,246,.3);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(139,92,246,.45);}
+.btn-secondary{background:rgba(255,255,255,.07);color:var(--text2);border:1px solid var(--border);}
+.btn-secondary:hover{background:rgba(255,255,255,.12);color:var(--text);}
+.btn-danger{background:rgba(244,63,94,.1);color:var(--danger);border:1px solid rgba(244,63,94,.25);}
+.btn-danger:hover{background:rgba(244,63,94,.2);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border);}
+.btn-ghost:hover{background:rgba(255,255,255,.06);color:var(--text);}
+.btn-outline{background:transparent;color:var(--cyan);border:1px solid rgba(0,229,255,.3);}
+.btn-outline:hover{background:rgba(0,229,255,.06);}
+.btn-sm{padding:6px 13px;font-size:.78rem;border-radius:7px;}
+.btn-xs{padding:4px 9px;font-size:.72rem;border-radius:6px;}
+.btn-full{width:100%;}
+
+/* ── UPLOAD ZONES ── */
+.uzone{
+  border:2px dashed var(--border);border-radius:13px;padding:32px 18px;
+  text-align:center;cursor:pointer;transition:all .18s;position:relative;
+  min-height:120px;display:flex;align-items:center;justify-content:center;
+}
+.uzone:hover,.uzone.drag{border-color:var(--accent);background:rgba(139,92,246,.06);}
+.uzone.has{border-style:solid;border-color:rgba(139,92,246,.4);}
+.uzone.sm{padding:16px;min-height:80px;}
+.uzone .fi{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.uph{pointer-events:none;}
+.u-ic{font-size:1.8rem;margin-bottom:6px;}
+.u-txt{font-size:.875rem;color:var(--text2);margin-bottom:3px;}
+.u-hint{font-size:.72rem;color:var(--text3);}
+.prev-img{max-width:160px;max-height:160px;border-radius:9px;object-fit:cover;display:block;margin:0 auto;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+.prev-circle{border-radius:50%;width:80px;height:80px;}
+.prev-sq{border-radius:9px;width:140px;height:140px;object-fit:cover;}
+
+/* ── DYNAMIC LISTS ── */
+.bio-para{display:flex;gap:8px;margin-bottom:10px;}
+.bio-para textarea{flex:1;}
+.tag-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;min-height:32px;}
+.tpill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 11px;border-radius:20px;font-size:.78rem;
+  background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);color:var(--text);
+}
+.tpill button{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.65rem;padding:0;line-height:1;}
+.tpill button:hover{color:var(--danger);}
+.tl-row{display:grid;grid-template-columns:150px 1fr auto;gap:8px;margin-bottom:9px;align-items:center;}
+
+/* ── ALBUM LIST ── */
+.arow{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;border-radius:10px;border:1px solid var(--border);
+  background:rgba(255,255,255,.02);margin-bottom:8px;transition:background .18s;
+}
+.arow:hover{background:rgba(255,255,255,.05);}
+.athumb{width:44px;height:44px;border-radius:7px;object-fit:cover;flex-shrink:0;background:var(--bg3);}
+.athumb-ph{width:44px;height:44px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:var(--bg3);font-size:1.2rem;flex-shrink:0;}
+.ameta{flex:1;min-width:0;}
+.ameta .atype{font-size:.65rem;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+.ameta .aname{font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ameta .adate{font-size:.75rem;color:var(--text3);}
+.badge-builtin{font-size:.65rem;padding:3px 9px;border-radius:12px;background:rgba(255,255,255,.05);color:var(--text3);border:1px solid var(--border);}
+
+/* ── TRACKS ── */
+.track-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:9px;padding:11px 13px;margin-bottom:8px;}
+.track-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.tnum{font-size:.75rem;color:var(--text3);font-weight:700;min-width:18px;}
+.tdur{max-width:80px!important;}
+.tchk{display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--text2);white-space:nowrap;cursor:pointer;}
+.track-urls{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.track-urls input{font-size:.78rem;}
+
+/* ── GALLERY ── */
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px;}
+.gal-item{position:relative;border-radius:9px;overflow:hidden;aspect-ratio:1;}
+.gal-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.gal-ov{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:space-between;padding:7px;opacity:0;transition:opacity .18s;}
+.gal-item:hover .gal-ov{opacity:1;}
+.gal-cat{font-size:.6rem;color:var(--cyan);text-transform:uppercase;font-weight:700;background:rgba(0,0,0,.4);padding:2px 6px;border-radius:4px;}
+
+/* ── SCHEDULE ── */
+.sch-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--border);border-radius:9px;background:rgba(255,255,255,.02);margin-bottom:8px;}
+.sch-date{font-size:.82rem;color:var(--cyan);font-weight:700;min-width:90px;}
+.sch-desc{flex:1;font-size:.875rem;}
+.ss{font-size:.7rem;padding:3px 9px;border-radius:12px;font-weight:600;}
+.ss-upcoming{background:rgba(139,92,246,.12);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
+.ss-done{background:rgba(16,185,129,.1);color:var(--ok);border:1px solid rgba(16,185,129,.3);}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:26px;right:26px;z-index:9999;
+  padding:12px 20px;border-radius:11px;font-size:.875rem;font-weight:500;
+  backdrop-filter:blur(20px);max-width:300px;
+  box-shadow:0 8px 28px rgba(0,0,0,.5);animation:toastIn .28s ease;
+}
+.tok{background:rgba(16,185,129,.92);color:#fff;}
+.terr{background:rgba(244,63,94,.9);color:#fff;}
+.tinfo{background:rgba(139,92,246,.9);color:#fff;}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
 </head>
 <body>
 
-<!-- ============================================================
-     LOGIN SCREEN
-============================================================ -->
+<!-- ═══ LOGIN ═══ -->
 <div id="loginWrap" class="login-wrap">
   <div class="login-card">
-    <div class="login-logo">BAVI</div>
+    <div class="logo-txt">BAVI</div>
     <h1 class="login-title">Admin Panel</h1>
     <p class="login-sub">관리자 로그인이 필요합니다</p>
     <div class="fg">
       <label class="fl">비밀번호</label>
       <input type="password" id="pwInput" placeholder="Password" autocomplete="current-password">
     </div>
-    <button class="btn btn-primary btn-full" id="loginBtn">로그인</button>
+    <button class="btn btn-primary btn-full" id="loginBtn" style="margin-top:4px;">로그인</button>
     <p class="login-err hidden" id="loginErr">⚠️ 비밀번호가 올바르지 않습니다.</p>
   </div>
 </div>
 
-<!-- ============================================================
-     ADMIN LAYOUT
-============================================================ -->
-<div id="adminLayout" class="admin-layout hidden">
+<!-- ═══ DASHBOARD ═══ -->
+<div id="adminLayout" class="layout hidden">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sb-head">
       <div class="sb-logo">BAVI</div>
-      <div class="sb-subtitle">Admin Panel</div>
+      <div class="sb-sub">Admin Panel</div>
     </div>
     <nav class="sb-nav">
-      <button class="nav-btn active" data-sec="hero">
-        <span class="nav-ic">🏠</span> Hero Banner
-      </button>
-      <button class="nav-btn" data-sec="profile">
-        <span class="nav-ic">👤</span> Profile
-      </button>
-      <button class="nav-btn" data-sec="disco">
-        <span class="nav-ic">💿</span> Discography
-      </button>
-      <button class="nav-btn" data-sec="gallery">
-        <span class="nav-ic">🖼️</span> Gallery
-      </button>
-      <button class="nav-btn" data-sec="schedule">
-        <span class="nav-ic">📅</span> Schedule
-      </button>
+      <button class="nav-btn active" data-sec="hero"><span class="nav-ic">🏠</span> Hero Banner</button>
+      <button class="nav-btn" data-sec="profile"><span class="nav-ic">👤</span> Profile</button>
+      <button class="nav-btn" data-sec="disco"><span class="nav-ic">💿</span> Discography</button>
+      <button class="nav-btn" data-sec="gallery"><span class="nav-ic">🖼️</span> Gallery</button>
+      <button class="nav-btn" data-sec="schedule"><span class="nav-ic">📅</span> Schedule</button>
     </nav>
     <div class="sb-foot">
       <a href="../index.html" target="_blank" class="btn btn-ghost btn-sm">🌐 사이트 보기</a>
@@ -60,217 +271,132 @@
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <main class="main">
 
-    <!-- ======================== HERO ======================== -->
+    <!-- ═══ HERO ═══ -->
     <div id="sec-hero" class="section active">
-      <div class="sec-hd">
-        <h2>🏠 Hero Banner</h2>
-        <p>메인 히어로 배너의 제목·내용·이미지를 수정합니다</p>
-      </div>
-      <div class="notice">⚠️ 변경 사항은 이 브라우저에 저장됩니다. 저장 후 메인 사이트를 새로고침하면 반영됩니다.</div>
-
+      <div class="sec-hd"><h2>🏠 Hero Banner</h2><p>메인 히어로 배너의 제목·내용·이미지를 수정합니다</p></div>
+      <div class="notice">⚠️ 변경 사항은 이 브라우저의 localStorage에 저장됩니다. 저장 후 메인 사이트를 새로고침하면 반영됩니다.</div>
       <div class="card">
         <div class="card-hd">배너 텍스트</div>
         <div class="card-bd">
-          <div class="frow cols-2">
-            <div class="fg">
-              <label class="fl">배너 제목</label>
-              <input type="text" id="h-title" placeholder="예: BAVIation">
-            </div>
-            <div class="fg">
-              <label class="fl">재생 트랙 제목</label>
-              <input type="text" id="h-track" placeholder="예: Perfect Glitch">
-            </div>
+          <div class="frow c2">
+            <div class="fg"><label class="fl">배너 제목</label><input type="text" id="h-title" placeholder="예: BAVIation"></div>
+            <div class="fg"><label class="fl">재생 트랙 제목</label><input type="text" id="h-track" placeholder="예: Perfect Glitch"></div>
           </div>
-          <div class="fg">
-            <label class="fl">배너 설명 (HTML 가능, 줄바꿈: &lt;br&gt;)</label>
-            <textarea id="h-desc" rows="3" placeholder="배너 설명 텍스트"></textarea>
-          </div>
-          <div class="fg">
-            <label class="fl">재생 시 토스트 메시지</label>
-            <input type="text" id="h-toast" placeholder="예: Playing: Perfect Glitch (1st Special EP)">
-          </div>
+          <div class="fg"><label class="fl">배너 설명 (HTML 가능, 줄바꿈: &lt;br&gt;)</label><textarea id="h-desc" rows="3" placeholder="배너 설명 텍스트"></textarea></div>
+          <div class="fg"><label class="fl">재생 시 토스트 메시지</label><input type="text" id="h-toast" placeholder="예: Playing: Perfect Glitch (1st Special EP)"></div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-hd">배너 이미지 (원형으로 표시)</div>
         <div class="card-bd">
-          <div class="upload-zone" id="heroZone">
+          <div class="uzone" id="heroZone">
             <input type="file" class="fi" id="heroFile" accept="image/*">
-            <div class="upload-ph" id="heroPh">
-              <div class="upload-ic">🖼️</div>
-              <div class="upload-txt">클릭하거나 이미지를 드래그하세요</div>
-              <div class="upload-hint">권장: 정사각형 이미지</div>
-            </div>
-            <img id="heroPrev" class="preview-img hidden" alt="Hero Preview">
+            <div class="uph" id="heroPh"><div class="u-ic">🖼️</div><div class="u-txt">클릭하거나 이미지를 드래그하세요</div><div class="u-hint">권장: 정사각형 이미지</div></div>
+            <img id="heroPrev" class="prev-img hidden" alt="Hero Preview">
           </div>
-          <div class="mt-1">
-            <button class="btn btn-secondary btn-sm" id="heroClear">🗑️ 이미지 초기화</button>
-          </div>
+          <div class="mt1"><button class="btn btn-secondary btn-sm" id="heroClear">🗑️ 이미지 초기화</button></div>
         </div>
       </div>
-
       <div class="form-actions">
         <button class="btn btn-primary" id="saveHero">💾 저장하기</button>
         <button class="btn btn-ghost" id="resetHero">↺ 기본값으로 초기화</button>
       </div>
-    </div><!-- /hero -->
+    </div>
 
-    <!-- ======================== PROFILE ======================== -->
+    <!-- ═══ PROFILE ═══ -->
     <div id="sec-profile" class="section">
-      <div class="sec-hd">
-        <h2>👤 Profile</h2>
-        <p>아티스트 프로필의 모든 내용을 수정합니다</p>
-      </div>
-
-      <!-- 기본 정보 -->
+      <div class="sec-hd"><h2>👤 Profile</h2><p>아티스트 프로필의 모든 내용을 수정합니다</p></div>
       <div class="card">
         <div class="card-hd">기본 정보 & 아바타</div>
         <div class="card-bd">
-          <div class="frow cols-3">
-            <div class="fg">
-              <label class="fl">아티스트명</label>
-              <input type="text" id="p-name" placeholder="BAVI">
-            </div>
-            <div class="fg">
-              <label class="fl">한국어 이름</label>
-              <input type="text" id="p-kname" placeholder="바비">
-            </div>
-            <div class="fg">
-              <label class="fl">역할/포지션</label>
-              <input type="text" id="p-role" placeholder="Soloist / Singer-Songwriter">
-            </div>
+          <div class="frow c3">
+            <div class="fg"><label class="fl">아티스트명</label><input type="text" id="p-name" placeholder="BAVI"></div>
+            <div class="fg"><label class="fl">한국어 이름</label><input type="text" id="p-kname" placeholder="바비"></div>
+            <div class="fg"><label class="fl">역할/포지션</label><input type="text" id="p-role" placeholder="Soloist / Singer-Songwriter"></div>
           </div>
           <div class="fg">
             <label class="fl">프로필 아바타</label>
-            <div class="upload-zone sm" id="avatarZone">
+            <div class="uzone sm" id="avatarZone">
               <input type="file" class="fi" id="avatarFile" accept="image/*">
-              <div class="upload-ph" id="avatarPh">
-                <div class="upload-ic">📷</div>
-                <div class="upload-txt">아바타 이미지 업로드</div>
-              </div>
-              <img id="avatarPrev" class="preview-img preview-circle hidden" alt="Avatar">
+              <div class="uph" id="avatarPh"><div class="u-ic">📷</div><div class="u-txt">아바타 이미지 업로드</div></div>
+              <img id="avatarPrev" class="prev-img prev-circle hidden" alt="Avatar">
             </div>
-            <button class="btn btn-secondary btn-sm mt-1" id="avatarClear">🗑️ 이미지 초기화</button>
+            <button class="btn btn-secondary btn-sm mt1" id="avatarClear">🗑️ 이미지 초기화</button>
           </div>
         </div>
       </div>
-
-      <!-- 소개 글 -->
       <div class="card">
         <div class="card-hd">소개 글 (인용구 + 문단)</div>
         <div class="card-bd">
+          <div class="fg"><label class="fl">볼드 인용구 (상단 강조 문장)</label><input type="text" id="p-quote" placeholder='"우리는 일탈을 통해 성장하는거야."'></div>
           <div class="fg">
-            <label class="fl">볼드 인용구 (상단 강조 문장)</label>
-            <input type="text" id="p-quote" placeholder='"우리는 일탈을 통해 성장하는거야."'>
-          </div>
-          <div class="fg">
-            <label class="fl">소개 문단 (순서대로)</label>
+            <label class="fl">소개 문단</label>
             <div id="bioParagraphs"></div>
-            <button class="btn btn-outline btn-sm mt-1" id="addParaBtn">+ 문단 추가</button>
+            <button class="btn btn-outline btn-sm mt1" id="addParaBtn">+ 문단 추가</button>
           </div>
         </div>
       </div>
-
-      <!-- Information -->
       <div class="card">
         <div class="card-hd">Information 카드</div>
         <div class="card-bd">
-          <div class="frow cols-2">
-            <div class="fg">
-              <label class="fl">Name (실명)</label>
-              <input type="text" id="p-realname" placeholder="BAVI (박하은)">
-            </div>
-            <div class="fg">
-              <label class="fl">Debut</label>
-              <input type="text" id="p-debut" placeholder="2026.07.11 ('BAVIation')">
-            </div>
-            <div class="fg">
-              <label class="fl">Genre</label>
-              <input type="text" id="p-genre" placeholder="Glitch-pop, Hyper-pop">
-            </div>
-            <div class="fg">
-              <label class="fl">Label</label>
-              <input type="text" id="p-label" placeholder="VVS Producing">
-            </div>
+          <div class="frow c2">
+            <div class="fg"><label class="fl">Name (실명)</label><input type="text" id="p-realname" placeholder="BAVI (박하은)"></div>
+            <div class="fg"><label class="fl">Debut</label><input type="text" id="p-debut" placeholder="2026.07.11 ('BAVIation')"></div>
+            <div class="fg"><label class="fl">Genre</label><input type="text" id="p-genre" placeholder="Glitch-pop, Hyper-pop"></div>
+            <div class="fg"><label class="fl">Label</label><input type="text" id="p-label" placeholder="VVS Producing"></div>
           </div>
         </div>
       </div>
-
-      <!-- Identity Tags -->
       <div class="card">
         <div class="card-hd">Identity 태그</div>
         <div class="card-bd">
           <div class="tag-cloud" id="tagCloud"></div>
-          <div class="flex-gap">
+          <div class="flex">
             <input type="text" id="tagInput" placeholder="#Pink" style="max-width:180px;">
             <button class="btn btn-outline btn-sm" id="addTagBtn">+ 추가</button>
           </div>
         </div>
       </div>
-
-      <!-- Timeline -->
       <div class="card">
         <div class="card-hd">Timeline</div>
         <div class="card-bd">
           <div id="tlItems"></div>
           <hr class="sep">
           <div class="frow">
-            <div class="fg">
-              <label class="fl">날짜</label>
-              <input type="text" id="tlDate" placeholder="2026.07.25">
-            </div>
-            <div class="fg">
-              <label class="fl">내용</label>
-              <input type="text" id="tlDesc" placeholder="싱글 '...' 발매 예정">
-            </div>
-            <div class="fg" style="align-self:flex-end;">
-              <button class="btn btn-outline btn-sm" id="addTlBtn">+ 추가</button>
-            </div>
+            <div class="fg"><label class="fl">날짜</label><input type="text" id="tlDate" placeholder="2026.07.25"></div>
+            <div class="fg"><label class="fl">내용</label><input type="text" id="tlDesc" placeholder="싱글 '...' 발매 예정"></div>
+            <div class="fg" style="align-self:flex-end;"><button class="btn btn-outline btn-sm" id="addTlBtn">+ 추가</button></div>
           </div>
         </div>
       </div>
-
       <div class="form-actions">
         <button class="btn btn-primary" id="saveProfile">💾 프로필 저장</button>
         <button class="btn btn-ghost" id="resetProfile">↺ 기본값 복원</button>
       </div>
-    </div><!-- /profile -->
+    </div>
 
-    <!-- ======================== DISCOGRAPHY ======================== -->
+    <!-- ═══ DISCOGRAPHY ═══ -->
     <div id="sec-disco" class="section">
-      <div class="sec-hd">
-        <h2>💿 Discography</h2>
-        <p>음반을 등록·관리합니다</p>
-      </div>
-
-      <!-- 기존 앨범 -->
+      <div class="sec-hd"><h2>💿 Discography</h2><p>음반을 등록·관리합니다</p></div>
       <div class="card">
         <div class="card-hd">기존 등록 앨범 (코드 내장)</div>
-        <div class="card-bd">
-          <div id="existingAlbums"></div>
-        </div>
+        <div class="card-bd"><div id="existingAlbums"></div></div>
       </div>
-
-      <!-- 어드민 등록 앨범 -->
       <div class="card">
         <div class="card-hd">
           <span>어드민 추가 앨범</span>
           <button class="btn btn-primary btn-sm" id="toggleAddAlbum">+ 새 앨범 추가</button>
         </div>
-        <div class="card-bd">
-          <div id="adminAlbums"></div>
-        </div>
+        <div class="card-bd"><div id="adminAlbums"></div></div>
       </div>
-
-      <!-- 새 앨범 폼 -->
+      <!-- ADD ALBUM FORM -->
       <div class="card hidden" id="addAlbumCard">
         <div class="card-hd">새 앨범 등록</div>
         <div class="card-bd">
-          <div class="frow cols-3">
+          <div class="frow c3">
             <div class="fg">
               <label class="fl">앨범 유형</label>
               <select id="al-type">
@@ -282,35 +408,22 @@
                 <option value="Full Album">Full Album</option>
               </select>
             </div>
-            <div class="fg">
-              <label class="fl">앨범 제목</label>
-              <input type="text" id="al-name" placeholder="앨범 제목">
-            </div>
-            <div class="fg">
-              <label class="fl">발매일</label>
-              <input type="text" id="al-release" placeholder="YYYY.MM.DD">
-            </div>
+            <div class="fg"><label class="fl">앨범 제목</label><input type="text" id="al-name" placeholder="앨범 제목"></div>
+            <div class="fg"><label class="fl">발매일</label><input type="text" id="al-release" placeholder="YYYY.MM.DD"></div>
           </div>
-          <div class="fg">
-            <label class="fl">앨범 설명</label>
-            <textarea id="al-desc" rows="3" placeholder="앨범 소개 문구"></textarea>
-          </div>
+          <div class="fg"><label class="fl">앨범 설명</label><textarea id="al-desc" rows="3" placeholder="앨범 소개 문구"></textarea></div>
           <div class="fg">
             <label class="fl">앨범 커버 이미지</label>
-            <div class="upload-zone sm" id="coverZone">
+            <div class="uzone sm" id="coverZone">
               <input type="file" class="fi" id="coverFile" accept="image/*">
-              <div class="upload-ph" id="coverPh">
-                <div class="upload-ic">💿</div>
-                <div class="upload-txt">앨범 커버 업로드</div>
-                <div class="upload-hint">정사각형 이미지 권장</div>
-              </div>
-              <img id="coverPrev" class="preview-img preview-cover hidden" alt="Cover">
+              <div class="uph" id="coverPh"><div class="u-ic">💿</div><div class="u-txt">앨범 커버 업로드</div><div class="u-hint">정사각형 권장</div></div>
+              <img id="coverPrev" class="prev-img prev-sq hidden" alt="Cover">
             </div>
           </div>
           <div class="fg">
             <label class="fl">트랙 목록</label>
             <div id="trackList"></div>
-            <button class="btn btn-outline btn-sm mt-1" id="addTrackBtn">+ 트랙 추가</button>
+            <button class="btn btn-outline btn-sm mt1" id="addTrackBtn">+ 트랙 추가</button>
           </div>
           <div class="form-actions">
             <button class="btn btn-primary" id="saveAlbumBtn">💾 앨범 등록</button>
@@ -318,74 +431,45 @@
           </div>
         </div>
       </div>
-    </div><!-- /disco -->
+    </div>
 
-    <!-- ======================== GALLERY ======================== -->
+    <!-- ═══ GALLERY ═══ -->
     <div id="sec-gallery" class="section">
-      <div class="sec-hd">
-        <h2>🖼️ Gallery</h2>
-        <p>갤러리 사진을 등록·삭제합니다</p>
-      </div>
+      <div class="sec-hd"><h2>🖼️ Gallery</h2><p>갤러리 사진을 등록·삭제합니다</p></div>
       <div class="card">
         <div class="card-hd">사진 업로드</div>
         <div class="card-bd">
-          <div class="frow cols-2">
+          <div class="frow c2">
             <div class="fg">
               <label class="fl">카테고리</label>
-              <select id="g-cat">
-                <option value="STAGE">STAGE</option>
-                <option value="CONCEPT">CONCEPT</option>
-                <option value="BEHIND">BEHIND</option>
-              </select>
+              <select id="g-cat"><option value="STAGE">STAGE</option><option value="CONCEPT">CONCEPT</option><option value="BEHIND">BEHIND</option></select>
             </div>
-            <div class="fg">
-              <label class="fl">설명 (선택)</label>
-              <input type="text" id="g-caption" placeholder="사진 설명">
-            </div>
+            <div class="fg"><label class="fl">설명 (선택)</label><input type="text" id="g-caption" placeholder="사진 설명"></div>
           </div>
-          <div class="upload-zone" id="galleryZone">
+          <div class="uzone" id="galleryZone">
             <input type="file" class="fi" id="galleryFile" accept="image/*" multiple>
-            <div class="upload-ph">
-              <div class="upload-ic">📸</div>
-              <div class="upload-txt">클릭하거나 여러 장을 드래그하세요</div>
-              <div class="upload-hint">여러 장 동시 업로드 가능</div>
-            </div>
+            <div class="uph"><div class="u-ic">📸</div><div class="u-txt">클릭하거나 사진을 드래그하세요</div><div class="u-hint">여러 장 동시 업로드 가능</div></div>
           </div>
         </div>
       </div>
       <div class="card">
         <div class="card-hd">등록된 사진</div>
-        <div class="card-bd">
-          <div class="gal-grid" id="galGrid"></div>
-        </div>
+        <div class="card-bd"><div class="gal-grid" id="galGrid"></div></div>
       </div>
-    </div><!-- /gallery -->
+    </div>
 
-    <!-- ======================== SCHEDULE ======================== -->
+    <!-- ═══ SCHEDULE ═══ -->
     <div id="sec-schedule" class="section">
-      <div class="sec-hd">
-        <h2>📅 Schedule</h2>
-        <p>타임라인·스케줄 항목을 관리합니다 (프로필 타임라인과 연동)</p>
-      </div>
+      <div class="sec-hd"><h2>📅 Schedule</h2><p>타임라인·스케줄 항목을 관리합니다 (프로필 타임라인과 연동)</p></div>
       <div class="card">
         <div class="card-hd">새 일정 추가</div>
         <div class="card-bd">
-          <div class="frow cols-3">
-            <div class="fg">
-              <label class="fl">날짜</label>
-              <input type="text" id="sch-date" placeholder="2026.07.25">
-            </div>
-            <div class="fg">
-              <label class="fl">내용</label>
-              <input type="text" id="sch-desc" placeholder="일정 설명">
-            </div>
+          <div class="frow c3">
+            <div class="fg"><label class="fl">날짜</label><input type="text" id="sch-date" placeholder="2026.07.25"></div>
+            <div class="fg"><label class="fl">내용</label><input type="text" id="sch-desc" placeholder="일정 설명"></div>
             <div class="fg">
               <label class="fl">상태</label>
-              <select id="sch-status">
-                <option value="">일반</option>
-                <option value="upcoming">예정</option>
-                <option value="done">완료</option>
-              </select>
+              <select id="sch-status"><option value="">일반</option><option value="upcoming">예정</option><option value="done">완료</option></select>
             </div>
           </div>
           <button class="btn btn-primary" id="addSchBtn">+ 일정 추가</button>
@@ -395,13 +479,13 @@
         <div class="card-hd">등록된 일정</div>
         <div class="card-bd" id="schList"></div>
       </div>
-    </div><!-- /schedule -->
+    </div>
 
   </main>
 </div>
 
 <!-- TOAST -->
-<div id="toast" class="toast hidden"></div>
+<div id="toast" class="hidden"></div>
 
 <script src="admin.js"></script>
 </body>

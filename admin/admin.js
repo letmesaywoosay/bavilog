@@ -6,7 +6,7 @@
 'use strict';
 
 // ─── CONFIG ────────────────────────────────────────────────
-const PW           = 'bavi2026!';
+const PW           = 'dntpdl9881!!';
 const STORE_KEY    = 'bavi_admin_data';
 const SESSION_KEY  = 'bavi_admin_auth';
 
