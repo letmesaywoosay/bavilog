@@ -6,7 +6,6 @@
 <title>BAVI Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
 <style>
-/* ── RESET & ROOT ── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --bg:#09050f;--bg2:#120d20;--bg3:#1a1230;
@@ -18,15 +17,13 @@
 }
 html,body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.55;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:rgba(139,92,246,.4);border-radius:4px;}
-
-/* ── UTIL ── */
 .hidden{display:none!important;}
 .mt1{margin-top:8px;}.mt2{margin-top:16px;}
 .flex{display:flex;align-items:center;gap:10px;}
 .empty{text-align:center;padding:24px;color:var(--text3);font-size:.85rem;}
 hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0;}
 
-/* ── LOGIN ── */
+/* LOGIN */
 .login-wrap{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
   background:radial-gradient(ellipse 80% 60% at 50% 25%,rgba(139,92,246,.2) 0%,transparent 70%),
@@ -51,10 +48,8 @@ hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0;}
 .login-sub{color:var(--text3);font-size:.85rem;margin-bottom:32px;margin-top:3px;}
 .login-err{color:var(--danger);font-size:.82rem;text-align:center;margin-top:12px;}
 
-/* ── LAYOUT ── */
+/* LAYOUT */
 .layout{display:flex;min-height:100vh;}
-
-/* SIDEBAR */
 .sidebar{
   width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);
   display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:10;overflow-y:auto;
@@ -78,8 +73,6 @@ hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0;}
 .nav-btn.active{background:rgba(139,92,246,.18);color:var(--cyan);border-left:3px solid var(--accent);padding-left:11px;}
 .nav-ic{font-size:1rem;width:20px;text-align:center;}
 .sb-foot{padding:14px 10px 20px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px;}
-
-/* MAIN */
 .main{flex:1;margin-left:var(--sidebar);padding:36px 36px 60px;overflow-y:auto;}
 .sec-hd{margin-bottom:24px;}
 .sec-hd h2{
@@ -89,15 +82,13 @@ hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0;}
 }
 .sec-hd p{color:var(--text3);font-size:.85rem;margin-top:3px;}
 .section{display:none;}.section.active{display:block;}
-
-/* NOTICE */
 .notice{
   background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);
   border-radius:var(--r);padding:11px 16px;font-size:.82rem;color:var(--warn);
   margin-bottom:18px;
 }
 
-/* ── CARDS ── */
+/* CARDS */
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:18px;overflow:hidden;}
 .card-hd{
   padding:14px 22px;border-bottom:1px solid var(--border);
@@ -107,7 +98,7 @@ hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0;}
 }
 .card-bd{padding:22px;}
 
-/* ── FORM ── */
+/* FORMS */
 .frow{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;}
 .frow.c2{grid-template-columns:1fr 1fr;}.frow.c3{grid-template-columns:1fr 1fr 1fr;}
 .fg{margin-bottom:16px;}.fg:last-child{margin-bottom:0;}
@@ -126,14 +117,14 @@ select{
 select option{background:var(--bg3);color:var(--text);}
 .form-actions{display:flex;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--border);}
 
-/* ── BUTTONS ── */
+/* BUTTONS */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
   padding:10px 18px;border-radius:9px;border:none;
   font-size:.875rem;font-weight:600;font-family:inherit;
   cursor:pointer;transition:all .18s;text-decoration:none;white-space:nowrap;
 }
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
 .btn-primary{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;box-shadow:0 4px 14px rgba(139,92,246,.3);}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(139,92,246,.45);}
 .btn-secondary{background:rgba(255,255,255,.07);color:var(--text2);border:1px solid var(--border);}
@@ -148,7 +139,7 @@ select option{background:var(--bg3);color:var(--text);}
 .btn-xs{padding:4px 9px;font-size:.72rem;border-radius:6px;}
 .btn-full{width:100%;}
 
-/* ── UPLOAD ZONES ── */
+/* UPLOAD ZONES */
 .uzone{
   border:2px dashed var(--border);border-radius:13px;padding:32px 18px;
   text-align:center;cursor:pointer;transition:all .18s;position:relative;
@@ -166,7 +157,7 @@ select option{background:var(--bg3);color:var(--text);}
 .prev-circle{border-radius:50%;width:80px;height:80px;}
 .prev-sq{border-radius:9px;width:140px;height:140px;object-fit:cover;}
 
-/* ── DYNAMIC LISTS ── */
+/* DYNAMIC LISTS */
 .bio-para{display:flex;gap:8px;margin-bottom:10px;}
 .bio-para textarea{flex:1;}
 .tag-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;min-height:32px;}
@@ -179,7 +170,7 @@ select option{background:var(--bg3);color:var(--text);}
 .tpill button:hover{color:var(--danger);}
 .tl-row{display:grid;grid-template-columns:150px 1fr auto;gap:8px;margin-bottom:9px;align-items:center;}
 
-/* ── ALBUM LIST ── */
+/* ALBUM LIST */
 .arow{
   display:flex;align-items:center;gap:12px;
   padding:11px 14px;border-radius:10px;border:1px solid var(--border);
@@ -194,7 +185,7 @@ select option{background:var(--bg3);color:var(--text);}
 .ameta .adate{font-size:.75rem;color:var(--text3);}
 .badge-builtin{font-size:.65rem;padding:3px 9px;border-radius:12px;background:rgba(255,255,255,.05);color:var(--text3);border:1px solid var(--border);}
 
-/* ── TRACKS ── */
+/* TRACKS */
 .track-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:9px;padding:11px 13px;margin-bottom:8px;}
 .track-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
 .tnum{font-size:.75rem;color:var(--text3);font-weight:700;min-width:18px;}
@@ -203,7 +194,7 @@ select option{background:var(--bg3);color:var(--text);}
 .track-urls{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .track-urls input{font-size:.78rem;}
 
-/* ── GALLERY ── */
+/* GALLERY */
 .gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px;}
 .gal-item{position:relative;border-radius:9px;overflow:hidden;aspect-ratio:1;}
 .gal-item img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -211,7 +202,7 @@ select option{background:var(--bg3);color:var(--text);}
 .gal-item:hover .gal-ov{opacity:1;}
 .gal-cat{font-size:.6rem;color:var(--cyan);text-transform:uppercase;font-weight:700;background:rgba(0,0,0,.4);padding:2px 6px;border-radius:4px;}
 
-/* ── SCHEDULE ── */
+/* SCHEDULE */
 .sch-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--border);border-radius:9px;background:rgba(255,255,255,.02);margin-bottom:8px;}
 .sch-date{font-size:.82rem;color:var(--cyan);font-weight:700;min-width:90px;}
 .sch-desc{flex:1;font-size:.875rem;}
@@ -219,16 +210,15 @@ select option{background:var(--bg3);color:var(--text);}
 .ss-upcoming{background:rgba(139,92,246,.12);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
 .ss-done{background:rgba(16,185,129,.1);color:var(--ok);border:1px solid rgba(16,185,129,.3);}
 
-/* ── TOAST ── */
+/* TOAST */
 #toast{
   position:fixed;bottom:26px;right:26px;z-index:9999;
   padding:12px 20px;border-radius:11px;font-size:.875rem;font-weight:500;
-  backdrop-filter:blur(20px);max-width:300px;
-  box-shadow:0 8px 28px rgba(0,0,0,.5);animation:toastIn .28s ease;
+  max-width:300px;box-shadow:0 8px 28px rgba(0,0,0,.5);animation:toastIn .28s ease;
 }
-.tok{background:rgba(16,185,129,.92);color:#fff;}
-.terr{background:rgba(244,63,94,.9);color:#fff;}
-.tinfo{background:rgba(139,92,246,.9);color:#fff;}
+.tok{background:rgba(16,185,129,.95);color:#fff;}
+.terr{background:rgba(244,63,94,.95);color:#fff;}
+.tinfo{background:rgba(139,92,246,.95);color:#fff;}
 @keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 </style>
 </head>
@@ -244,15 +234,13 @@ select option{background:var(--bg3);color:var(--text);}
       <label class="fl">비밀번호</label>
       <input type="password" id="pwInput" placeholder="Password" autocomplete="current-password">
     </div>
-    <button class="btn btn-primary btn-full" id="loginBtn" style="margin-top:4px;">로그인</button>
+    <button class="btn btn-primary btn-full" id="loginBtn" style="margin-top:8px;">로그인</button>
     <p class="login-err hidden" id="loginErr">⚠️ 비밀번호가 올바르지 않습니다.</p>
   </div>
 </div>
 
 <!-- ═══ DASHBOARD ═══ -->
 <div id="adminLayout" class="layout hidden">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sb-head">
       <div class="sb-logo">BAVI</div>
@@ -271,22 +259,20 @@ select option{background:var(--bg3);color:var(--text);}
     </div>
   </aside>
 
-  <!-- MAIN -->
   <main class="main">
-
-    <!-- ═══ HERO ═══ -->
+    <!-- HERO -->
     <div id="sec-hero" class="section active">
       <div class="sec-hd"><h2>🏠 Hero Banner</h2><p>메인 히어로 배너의 제목·내용·이미지를 수정합니다</p></div>
-      <div class="notice">⚠️ 변경 사항은 이 브라우저의 localStorage에 저장됩니다. 저장 후 메인 사이트를 새로고침하면 반영됩니다.</div>
+      <div class="notice">⚠️ 저장 후 메인 사이트를 새로고침(Ctrl+Shift+R)하면 반영됩니다.</div>
       <div class="card">
         <div class="card-hd">배너 텍스트</div>
         <div class="card-bd">
           <div class="frow c2">
-            <div class="fg"><label class="fl">배너 제목</label><input type="text" id="h-title" placeholder="예: BAVIation"></div>
-            <div class="fg"><label class="fl">재생 트랙 제목</label><input type="text" id="h-track" placeholder="예: Perfect Glitch"></div>
+            <div class="fg"><label class="fl">배너 제목</label><input type="text" id="h-title" placeholder="BAVIation"></div>
+            <div class="fg"><label class="fl">재생 트랙 제목</label><input type="text" id="h-track" placeholder="Perfect Glitch"></div>
           </div>
-          <div class="fg"><label class="fl">배너 설명 (HTML 가능, 줄바꿈: &lt;br&gt;)</label><textarea id="h-desc" rows="3" placeholder="배너 설명 텍스트"></textarea></div>
-          <div class="fg"><label class="fl">재생 시 토스트 메시지</label><input type="text" id="h-toast" placeholder="예: Playing: Perfect Glitch (1st Special EP)"></div>
+          <div class="fg"><label class="fl">배너 설명 (HTML 가능)</label><textarea id="h-desc" rows="3"></textarea></div>
+          <div class="fg"><label class="fl">재생 시 토스트 메시지</label><input type="text" id="h-toast"></div>
         </div>
       </div>
       <div class="card">
@@ -294,7 +280,7 @@ select option{background:var(--bg3);color:var(--text);}
         <div class="card-bd">
           <div class="uzone" id="heroZone">
             <input type="file" class="fi" id="heroFile" accept="image/*">
-            <div class="uph" id="heroPh"><div class="u-ic">🖼️</div><div class="u-txt">클릭하거나 이미지를 드래그하세요</div><div class="u-hint">권장: 정사각형 이미지</div></div>
+            <div class="uph" id="heroPh"><div class="u-ic">🖼️</div><div class="u-txt">클릭하거나 드래그하세요</div><div class="u-hint">권장: 정사각형 이미지</div></div>
             <img id="heroPrev" class="prev-img hidden" alt="Hero Preview">
           </div>
           <div class="mt1"><button class="btn btn-secondary btn-sm" id="heroClear">🗑️ 이미지 초기화</button></div>
@@ -302,11 +288,11 @@ select option{background:var(--bg3);color:var(--text);}
       </div>
       <div class="form-actions">
         <button class="btn btn-primary" id="saveHero">💾 저장하기</button>
-        <button class="btn btn-ghost" id="resetHero">↺ 기본값으로 초기화</button>
+        <button class="btn btn-ghost" id="resetHero">↺ 기본값 초기화</button>
       </div>
     </div>
 
-    <!-- ═══ PROFILE ═══ -->
+    <!-- PROFILE -->
     <div id="sec-profile" class="section">
       <div class="sec-hd"><h2>👤 Profile</h2><p>아티스트 프로필의 모든 내용을 수정합니다</p></div>
       <div class="card">
@@ -329,9 +315,9 @@ select option{background:var(--bg3);color:var(--text);}
         </div>
       </div>
       <div class="card">
-        <div class="card-hd">소개 글 (인용구 + 문단)</div>
+        <div class="card-hd">소개 글</div>
         <div class="card-bd">
-          <div class="fg"><label class="fl">볼드 인용구 (상단 강조 문장)</label><input type="text" id="p-quote" placeholder='"우리는 일탈을 통해 성장하는거야."'></div>
+          <div class="fg"><label class="fl">볼드 인용구</label><input type="text" id="p-quote" placeholder='"우리는 일탈을 통해 성장하는거야."'></div>
           <div class="fg">
             <label class="fl">소개 문단</label>
             <div id="bioParagraphs"></div>
@@ -343,7 +329,7 @@ select option{background:var(--bg3);color:var(--text);}
         <div class="card-hd">Information 카드</div>
         <div class="card-bd">
           <div class="frow c2">
-            <div class="fg"><label class="fl">Name (실명)</label><input type="text" id="p-realname" placeholder="BAVI (박하은)"></div>
+            <div class="fg"><label class="fl">Name</label><input type="text" id="p-realname" placeholder="BAVI (박하은)"></div>
             <div class="fg"><label class="fl">Debut</label><input type="text" id="p-debut" placeholder="2026.07.11 ('BAVIation')"></div>
             <div class="fg"><label class="fl">Genre</label><input type="text" id="p-genre" placeholder="Glitch-pop, Hyper-pop"></div>
             <div class="fg"><label class="fl">Label</label><input type="text" id="p-label" placeholder="VVS Producing"></div>
@@ -354,10 +340,7 @@ select option{background:var(--bg3);color:var(--text);}
         <div class="card-hd">Identity 태그</div>
         <div class="card-bd">
           <div class="tag-cloud" id="tagCloud"></div>
-          <div class="flex">
-            <input type="text" id="tagInput" placeholder="#Pink" style="max-width:180px;">
-            <button class="btn btn-outline btn-sm" id="addTagBtn">+ 추가</button>
-          </div>
+          <div class="flex"><input type="text" id="tagInput" placeholder="#Pink" style="max-width:180px;"><button class="btn btn-outline btn-sm" id="addTagBtn">+ 추가</button></div>
         </div>
       </div>
       <div class="card">
@@ -367,7 +350,7 @@ select option{background:var(--bg3);color:var(--text);}
           <hr class="sep">
           <div class="frow">
             <div class="fg"><label class="fl">날짜</label><input type="text" id="tlDate" placeholder="2026.07.25"></div>
-            <div class="fg"><label class="fl">내용</label><input type="text" id="tlDesc" placeholder="싱글 '...' 발매 예정"></div>
+            <div class="fg"><label class="fl">내용</label><input type="text" id="tlDesc" placeholder="일정 내용"></div>
             <div class="fg" style="align-self:flex-end;"><button class="btn btn-outline btn-sm" id="addTlBtn">+ 추가</button></div>
           </div>
         </div>
@@ -378,40 +361,32 @@ select option{background:var(--bg3);color:var(--text);}
       </div>
     </div>
 
-    <!-- ═══ DISCOGRAPHY ═══ -->
+    <!-- DISCOGRAPHY -->
     <div id="sec-disco" class="section">
       <div class="sec-hd"><h2>💿 Discography</h2><p>음반을 등록·관리합니다</p></div>
       <div class="card">
-        <div class="card-hd">기존 등록 앨범 (코드 내장)</div>
+        <div class="card-hd">기존 등록 앨범 (기본 내장)</div>
         <div class="card-bd"><div id="existingAlbums"></div></div>
       </div>
       <div class="card">
-        <div class="card-hd">
-          <span>어드민 추가 앨범</span>
-          <button class="btn btn-primary btn-sm" id="toggleAddAlbum">+ 새 앨범 추가</button>
-        </div>
+        <div class="card-hd"><span>어드민 추가 앨범</span><button class="btn btn-primary btn-sm" id="toggleAddAlbum">+ 새 앨범 추가</button></div>
         <div class="card-bd"><div id="adminAlbums"></div></div>
       </div>
-      <!-- ADD ALBUM FORM -->
       <div class="card hidden" id="addAlbumCard">
         <div class="card-hd">새 앨범 등록</div>
         <div class="card-bd">
           <div class="frow c3">
-            <div class="fg">
-              <label class="fl">앨범 유형</label>
+            <div class="fg"><label class="fl">앨범 유형</label>
               <select id="al-type">
-                <option value="Single">Single</option>
-                <option value="EP">EP</option>
-                <option value="1st Special EP">1st Special EP</option>
-                <option value="2nd Special EP">2nd Special EP</option>
-                <option value="Mini Album">Mini Album</option>
-                <option value="Full Album">Full Album</option>
+                <option value="Single">Single</option><option value="EP">EP</option>
+                <option value="1st Special EP">1st Special EP</option><option value="2nd Special EP">2nd Special EP</option>
+                <option value="Mini Album">Mini Album</option><option value="Full Album">Full Album</option>
               </select>
             </div>
             <div class="fg"><label class="fl">앨범 제목</label><input type="text" id="al-name" placeholder="앨범 제목"></div>
             <div class="fg"><label class="fl">발매일</label><input type="text" id="al-release" placeholder="YYYY.MM.DD"></div>
           </div>
-          <div class="fg"><label class="fl">앨범 설명</label><textarea id="al-desc" rows="3" placeholder="앨범 소개 문구"></textarea></div>
+          <div class="fg"><label class="fl">앨범 설명</label><textarea id="al-desc" rows="3"></textarea></div>
           <div class="fg">
             <label class="fl">앨범 커버 이미지</label>
             <div class="uzone sm" id="coverZone">
@@ -433,15 +408,14 @@ select option{background:var(--bg3);color:var(--text);}
       </div>
     </div>
 
-    <!-- ═══ GALLERY ═══ -->
+    <!-- GALLERY -->
     <div id="sec-gallery" class="section">
       <div class="sec-hd"><h2>🖼️ Gallery</h2><p>갤러리 사진을 등록·삭제합니다</p></div>
       <div class="card">
         <div class="card-hd">사진 업로드</div>
         <div class="card-bd">
           <div class="frow c2">
-            <div class="fg">
-              <label class="fl">카테고리</label>
+            <div class="fg"><label class="fl">카테고리</label>
               <select id="g-cat"><option value="STAGE">STAGE</option><option value="CONCEPT">CONCEPT</option><option value="BEHIND">BEHIND</option></select>
             </div>
             <div class="fg"><label class="fl">설명 (선택)</label><input type="text" id="g-caption" placeholder="사진 설명"></div>
@@ -458,17 +432,16 @@ select option{background:var(--bg3);color:var(--text);}
       </div>
     </div>
 
-    <!-- ═══ SCHEDULE ═══ -->
+    <!-- SCHEDULE -->
     <div id="sec-schedule" class="section">
-      <div class="sec-hd"><h2>📅 Schedule</h2><p>타임라인·스케줄 항목을 관리합니다 (프로필 타임라인과 연동)</p></div>
+      <div class="sec-hd"><h2>📅 Schedule</h2><p>타임라인·스케줄을 관리합니다</p></div>
       <div class="card">
         <div class="card-hd">새 일정 추가</div>
         <div class="card-bd">
           <div class="frow c3">
             <div class="fg"><label class="fl">날짜</label><input type="text" id="sch-date" placeholder="2026.07.25"></div>
             <div class="fg"><label class="fl">내용</label><input type="text" id="sch-desc" placeholder="일정 설명"></div>
-            <div class="fg">
-              <label class="fl">상태</label>
+            <div class="fg"><label class="fl">상태</label>
               <select id="sch-status"><option value="">일반</option><option value="upcoming">예정</option><option value="done">완료</option></select>
             </div>
           </div>
@@ -480,13 +453,250 @@ select option{background:var(--bg3);color:var(--text);}
         <div class="card-bd" id="schList"></div>
       </div>
     </div>
-
   </main>
 </div>
 
-<!-- TOAST -->
 <div id="toast" class="hidden"></div>
 
-<script src="admin.js"></script>
+<script>
+/* ============================================================
+   BAVI Admin — All JS inlined (no external dependency)
+   Password: dntpdl9881!!
+   ============================================================ */
+(function(){
+'use strict';
+
+const PW         = 'dntpdl9881!!';
+const STORE      = 'bavi_admin_data';
+const SESSION    = 'bavi_admin_auth';
+
+/* ── DEFAULTS ── */
+const DEFAULTS = {
+  hero:{title:'BAVIation',desc:"BAVI의 스페셜 EP 앨범 'BAVIation' 발매.<br>몽환적이면서도 세련된 타이틀곡 'Perfect Glitch'를 지금 감상해보세요.",trackTitle:'Perfect Glitch',toastMsg:'Playing: Perfect Glitch (1st Special EP)',image:null},
+  profile:{name:'BAVI',koreanName:'바비',role:'Soloist / Singer-Songwriter',quote:'"우리는 일탈을 통해 성장하는거야."',avatar:null,
+    bio:['BAVI(바비)는 정형화된 팝의 틀을 깨는 감각적인 글리치 팝(Glitch Pop)과 위트 있는 얼터너티브 팝을 결합하여 자신만의 독보적인 주파수를 개척해 나가는 싱어송라이터입니다.',
+         '허스키함을 완전히 걷어낸, 극도로 맑고 투명하면서도 비몽사몽한 나른함이 묻어나는 20대 초반의 에어리(Airy) 보컬 톤은 청자들에게 마치 디지털 미로 속이나 아늑한 나만의 비밀방(Secret Room)에 누워있는 듯한 묘하고 중독적인 공간감을 선사합니다.',
+         '컴퓨터 시스템의 반전이나 오류를 뜻하는 HELLO WORLD, PERFECT GLITCH, EASTER EGG와 같은 키워드를 직접 작사·작곡으로 풀어내며, 차가운 디지털 코드 속에 숨겨진 낭만적인 일탈의 서사를 노래합니다.'],
+    info:{realName:'BAVI (박하은)',debut:"2026.07.11 ('BAVIation')",genre:'Glitch-pop, Hyper-pop',label:'VVS Producing'},
+    tags:['#Pink','#Ponytail','#DreamyVoice','#MyOwnSpace','#Tech','#SmallDeviations'],
+    timeline:[{date:'2026.07.11',desc:"1st Special EP 'BAVIation' 발매 & 데뷔"},{date:'2026.07.17',desc:"싱글 'Just One Minute' 발매 예정"},{date:'2026.07.25',desc:"싱글 '안녕, 세상아(Unpressed)' 발매 예정"}]
+  },
+  discography:{adminAlbums:[]},
+  gallery:{adminPhotos:[]},
+  schedule:{items:[]}
+};
+
+const BUILTIN=[
+  {id:'album-3',type:'1st Special EP',name:'BAVIation',release:'2026.07.11',cover:'../assets/images/album_baviation.jpg'},
+  {id:'album-4',type:'Single',name:'Just One Minute',release:'2026.07.17',cover:'../assets/images/album_just_one_minute.png'},
+  {id:'album-5',type:'Single',name:'안녕, 세상아(Unpressed)',release:'2026.07.25',cover:'../assets/images/album_annyeong_sesanga.jpg'}
+];
+
+let data=clone(DEFAULTS), newTracks=[], newCoverB64=null;
+
+/* ── UTILS ── */
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function merge(t,s){if(!s)return t;for(const k of Object.keys(s)){if(s[k]&&typeof s[k]==='object'&&!Array.isArray(s[k])){if(!t[k]||typeof t[k]!=='object')t[k]={};merge(t[k],s[k]);}else t[k]=s[k];}return t;}
+function g(id){return document.getElementById(id);}
+function load(){const r=localStorage.getItem(STORE);if(r)try{data=merge(clone(DEFAULTS),JSON.parse(r));}catch(e){}}
+function save(){localStorage.setItem(STORE,JSON.stringify(data));}
+
+let toastTmr;
+function toast(msg,type='ok'){const el=g('toast');el.textContent=msg;el.className=`t${type}`;el.classList.remove('hidden');clearTimeout(toastTmr);toastTmr=setTimeout(()=>el.classList.add('hidden'),3000);}
+
+function b64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=rej;r.readAsDataURL(file);});}
+async function compress(file,maxPx=800,q=0.82){return new Promise(res=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(url);let{width:w,height:h}=img;if(w>maxPx||h>maxPx){const r=Math.min(maxPx/w,maxPx/h);w=Math.round(w*r);h=Math.round(h*r);}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);res(c.toDataURL('image/jpeg',q));};img.src=url;});}
+
+function upzone(zoneId,fileId,onFile,multi=false){
+  const z=g(zoneId),fi=g(fileId);if(!z||!fi)return;
+  z.addEventListener('click',e=>{if(e.target!==fi)fi.click();});
+  z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag');});
+  z.addEventListener('dragleave',()=>z.classList.remove('drag'));
+  z.addEventListener('drop',async e=>{e.preventDefault();z.classList.remove('drag');const fs=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));if(multi)for(const f of fs)await onFile(f);else if(fs[0])await onFile(fs[0]);});
+  fi.addEventListener('change',async e=>{const fs=[...e.target.files];if(multi)for(const f of fs)await onFile(f);else if(fs[0])await onFile(fs[0]);fi.value='';});
+}
+
+/* ── AUTH ── */
+function loggedIn(){return sessionStorage.getItem(SESSION)==='1';}
+function tryLogin(){
+  const pw=g('pwInput').value;
+  if(pw===PW){
+    sessionStorage.setItem(SESSION,'1');
+    g('loginWrap').classList.add('hidden');
+    g('adminLayout').classList.remove('hidden');
+    initDash();
+  }else{
+    g('loginErr').classList.remove('hidden');
+    g('pwInput').value='';
+    g('pwInput').focus();
+  }
+}
+function doLogout(){sessionStorage.removeItem(SESSION);g('loginWrap').classList.remove('hidden');g('adminLayout').classList.add('hidden');g('pwInput').value='';g('loginErr').classList.add('hidden');}
+
+/* ── NAV ── */
+function switchSec(name){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelector(`.nav-btn[data-sec="${name}"]`).classList.add('active');
+  g(`sec-${name}`).classList.add('active');
+  if(name==='hero')renderHero();
+  if(name==='profile')renderProfile();
+  if(name==='disco')renderDisco();
+  if(name==='gallery')renderGallery();
+  if(name==='schedule')renderSchedule();
+}
+
+/* ── HERO ── */
+function renderHero(){
+  g('h-title').value=data.hero.title||'';
+  g('h-desc').value=data.hero.desc||'';
+  g('h-track').value=data.hero.trackTitle||'';
+  g('h-toast').value=data.hero.toastMsg||'';
+  if(data.hero.image){g('heroPrev').src=data.hero.image;g('heroPrev').classList.remove('hidden');g('heroPh').classList.add('hidden');g('heroZone').classList.add('has');}
+  else{g('heroPrev').classList.add('hidden');g('heroPh').classList.remove('hidden');g('heroZone').classList.remove('has');}
+}
+function setupHero(){
+  upzone('heroZone','heroFile',async f=>{const b=await compress(f);data.hero.image=b;g('heroPrev').src=b;g('heroPrev').classList.remove('hidden');g('heroPh').classList.add('hidden');g('heroZone').classList.add('has');});
+  g('heroClear').onclick=()=>{data.hero.image=null;g('heroPrev').classList.add('hidden');g('heroPh').classList.remove('hidden');g('heroZone').classList.remove('has');save();toast('이미지 초기화됨','info');};
+  g('saveHero').onclick=()=>{data.hero.title=g('h-title').value.trim();data.hero.desc=g('h-desc').value;data.hero.trackTitle=g('h-track').value.trim();data.hero.toastMsg=g('h-toast').value.trim();save();toast('✅ Hero 배너 저장됨!');};
+  g('resetHero').onclick=()=>{if(!confirm('초기화?'))return;data.hero=clone(DEFAULTS.hero);save();renderHero();toast('초기화됨','info');};
+}
+
+/* ── PROFILE ── */
+function renderProfile(){
+  g('p-name').value=data.profile.name||''; g('p-kname').value=data.profile.koreanName||'';
+  g('p-role').value=data.profile.role||''; g('p-quote').value=data.profile.quote||'';
+  g('p-realname').value=data.profile.info?.realName||''; g('p-debut').value=data.profile.info?.debut||'';
+  g('p-genre').value=data.profile.info?.genre||''; g('p-label').value=data.profile.info?.label||'';
+  if(data.profile.avatar){g('avatarPrev').src=data.profile.avatar;g('avatarPrev').classList.remove('hidden');g('avatarPh').classList.add('hidden');}
+  else{g('avatarPrev').classList.add('hidden');g('avatarPh').classList.remove('hidden');}
+  renderBio(); renderTags(); renderTl();
+}
+function renderBio(){
+  const c=g('bioParagraphs');c.innerHTML='';
+  (data.profile.bio||[]).forEach((p,i)=>{
+    const d=document.createElement('div');d.className='bio-para';
+    d.innerHTML=`<textarea rows="3" data-i="${i}">${p}</textarea><button class="btn btn-danger btn-sm" data-del="${i}">✕</button>`;
+    c.appendChild(d);
+  });
+  c.querySelectorAll('textarea[data-i]').forEach(ta=>ta.oninput=e=>data.profile.bio[+e.target.dataset.i]=e.target.value);
+  c.querySelectorAll('[data-del]').forEach(b=>b.onclick=e=>{data.profile.bio.splice(+e.target.dataset.del,1);renderBio();});
+}
+function renderTags(){
+  const c=g('tagCloud');c.innerHTML='';
+  (data.profile.tags||[]).forEach((t,i)=>{const s=document.createElement('span');s.className='tpill';s.innerHTML=`${t} <button data-ti="${i}">✕</button>`;c.appendChild(s);});
+  c.querySelectorAll('[data-ti]').forEach(b=>b.onclick=e=>{data.profile.tags.splice(+e.target.dataset.ti,1);renderTags();});
+}
+function renderTl(){
+  const c=g('tlItems');c.innerHTML='';
+  (data.profile.timeline||[]).forEach((item,i)=>{
+    const d=document.createElement('div');d.className='tl-row';
+    d.innerHTML=`<input type="text" value="${item.date}" data-ti="${i}" data-f="date" placeholder="날짜"><input type="text" value="${item.desc}" data-ti="${i}" data-f="desc" placeholder="내용"><button class="btn btn-danger btn-xs" data-tdel="${i}">✕</button>`;
+    c.appendChild(d);
+  });
+  c.querySelectorAll('input[data-ti]').forEach(inp=>inp.oninput=e=>{data.profile.timeline[+e.target.dataset.ti][e.target.dataset.f]=e.target.value;});
+  c.querySelectorAll('[data-tdel]').forEach(b=>b.onclick=e=>{data.profile.timeline.splice(+e.target.dataset.tdel,1);renderTl();});
+}
+function setupProfile(){
+  upzone('avatarZone','avatarFile',async f=>{const b=await compress(f,400);data.profile.avatar=b;g('avatarPrev').src=b;g('avatarPrev').classList.remove('hidden');g('avatarPh').classList.add('hidden');});
+  g('avatarClear').onclick=()=>{data.profile.avatar=null;g('avatarPrev').classList.add('hidden');g('avatarPh').classList.remove('hidden');save();toast('아바타 초기화됨','info');};
+  g('addParaBtn').onclick=()=>{data.profile.bio.push('');renderBio();const ts=g('bioParagraphs').querySelectorAll('textarea');if(ts.length)ts[ts.length-1].focus();};
+  g('addTagBtn').onclick=addTag; g('tagInput').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addTag();}};
+  g('addTlBtn').onclick=addTl; g('tlDate').onkeydown=e=>{if(e.key==='Enter')addTl();}; g('tlDesc').onkeydown=e=>{if(e.key==='Enter')addTl();};
+  g('saveProfile').onclick=()=>{
+    data.profile.name=g('p-name').value.trim(); data.profile.koreanName=g('p-kname').value.trim();
+    data.profile.role=g('p-role').value.trim(); data.profile.quote=g('p-quote').value.trim();
+    data.profile.info={realName:g('p-realname').value.trim(),debut:g('p-debut').value.trim(),genre:g('p-genre').value.trim(),label:g('p-label').value.trim()};
+    save();toast('✅ 프로필 저장됨!');
+  };
+  g('resetProfile').onclick=()=>{if(!confirm('기본값으로 복원?'))return;data.profile=clone(DEFAULTS.profile);save();renderProfile();toast('복원됨','info');};
+}
+function addTag(){const inp=g('tagInput');let t=inp.value.trim();if(!t)return;if(!t.startsWith('#'))t='#'+t;data.profile.tags.push(t);inp.value='';renderTags();}
+function addTl(){const d=g('tlDate').value.trim(),t=g('tlDesc').value.trim();if(!d||!t){toast('날짜와 내용 입력 필요','err');return;}data.profile.timeline.push({date:d,desc:t});g('tlDate').value='';g('tlDesc').value='';renderTl();}
+
+/* ── DISCOGRAPHY ── */
+function renderDisco(){
+  g('existingAlbums').innerHTML=BUILTIN.map(a=>`<div class="arow"><img class="athumb" src="${a.cover}" onerror="this.style.display='none'" alt="${a.name}"><div class="ameta"><div class="atype">${a.type}</div><div class="aname">${a.name}</div><div class="adate">${a.release}</div></div><span class="badge-builtin">내장</span></div>`).join('');
+  renderAdminAlbums();
+}
+function renderAdminAlbums(){
+  const c=g('adminAlbums'),al=data.discography.adminAlbums||[];
+  if(!al.length){c.innerHTML='<div class="empty">등록된 앨범이 없습니다.</div>';return;}
+  c.innerHTML=al.map((a,i)=>`<div class="arow">${a.cover?`<img class="athumb" src="${a.cover}" alt="${a.name}">`:'<div class="athumb-ph">💿</div>'}<div class="ameta"><div class="atype">${a.type}</div><div class="aname">${a.name}</div><div class="adate">${a.release} · ${(a.tracks||[]).length}트랙</div></div><button class="btn btn-danger btn-sm" data-adel="${i}">🗑️</button></div>`).join('');
+  c.querySelectorAll('[data-adel]').forEach(b=>b.onclick=e=>{if(!confirm('삭제?'))return;data.discography.adminAlbums.splice(+e.target.dataset.adel,1);save();renderAdminAlbums();toast('삭제됨','info');});
+}
+function renderTracks(){
+  const c=g('trackList');c.innerHTML='';
+  newTracks.forEach((t,i)=>{
+    const d=document.createElement('div');d.className='track-item';
+    d.innerHTML=`<div class="track-top"><span class="tnum">${i+1}</span><input type="text" placeholder="트랙 제목" value="${t.title}" data-ti="${i}" data-f="title" style="flex:1;"><input type="text" class="tdur" placeholder="3:04" value="${t.duration}" data-ti="${i}" data-f="duration"><label class="tchk"><input type="checkbox" ${t.isTitle?'checked':''} data-tci="${i}"> 타이틀</label><button class="btn btn-danger btn-xs" data-trdel="${i}">✕</button></div><div class="track-urls"><input type="text" placeholder="음원 경로 (assets/audio/...wav)" value="${t.url}" data-ti="${i}" data-f="url"><input type="text" placeholder="가사 경로 (선택, ...txt)" value="${t.lyricsUrl}" data-ti="${i}" data-f="lyricsUrl"></div>`;
+    c.appendChild(d);
+  });
+  c.querySelectorAll('input[data-f]').forEach(inp=>inp.oninput=e=>newTracks[+e.target.dataset.ti][e.target.dataset.f]=e.target.value);
+  c.querySelectorAll('input[data-tci]').forEach(cb=>cb.onchange=e=>newTracks[+e.target.dataset.tci].isTitle=e.target.checked);
+  c.querySelectorAll('[data-trdel]').forEach(b=>b.onclick=e=>{newTracks.splice(+e.target.dataset.trdel,1);renderTracks();});
+}
+function setupDisco(){
+  g('toggleAddAlbum').onclick=()=>{
+    const card=g('addAlbumCard'),show=card.classList.contains('hidden');
+    card.classList.toggle('hidden');
+    if(show){g('al-name').value='';g('al-release').value='';g('al-desc').value='';g('coverPrev').classList.add('hidden');g('coverPh').classList.remove('hidden');g('coverZone').classList.remove('has');newTracks=[{title:'',duration:'',url:'',lyricsUrl:'',isTitle:true}];newCoverB64=null;renderTracks();}
+  };
+  upzone('coverZone','coverFile',async f=>{newCoverB64=await compress(f);g('coverPrev').src=newCoverB64;g('coverPrev').classList.remove('hidden');g('coverPh').classList.add('hidden');g('coverZone').classList.add('has');});
+  g('addTrackBtn').onclick=()=>{newTracks.push({title:'',duration:'',url:'',lyricsUrl:'',isTitle:false});renderTracks();};
+  g('saveAlbumBtn').onclick=()=>{
+    const name=g('al-name').value.trim();if(!name){toast('앨범 제목 필요','err');return;}
+    data.discography.adminAlbums.push({id:`a-${Date.now()}`,type:g('al-type').value,name,release:g('al-release').value.trim(),desc:g('al-desc').value.trim(),cover:newCoverB64||null,tracks:newTracks.filter(t=>t.title.trim())});
+    save();g('addAlbumCard').classList.add('hidden');renderAdminAlbums();toast('✅ 앨범 등록됨!');
+  };
+  g('cancelAlbumBtn').onclick=()=>g('addAlbumCard').classList.add('hidden');
+}
+
+/* ── GALLERY ── */
+function renderGallery(){
+  const c=g('galGrid'),ph=data.gallery.adminPhotos||[];
+  if(!ph.length){c.innerHTML='<div class="empty">등록된 사진이 없습니다.</div>';return;}
+  c.innerHTML=ph.map((p,i)=>`<div class="gal-item"><img src="${p.src}" alt="${p.caption||''}"><div class="gal-ov"><span class="gal-cat">${p.category}</span><button class="btn btn-danger btn-xs" data-gdel="${i}">✕</button></div></div>`).join('');
+  c.querySelectorAll('[data-gdel]').forEach(b=>b.onclick=e=>{data.gallery.adminPhotos.splice(+e.target.dataset.gdel,1);save();renderGallery();toast('삭제됨','info');});
+}
+function setupGallery(){
+  upzone('galleryZone','galleryFile',async f=>{const b=await compress(f,1200,0.85);data.gallery.adminPhotos.push({id:`g-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,src:b,category:g('g-cat').value,caption:g('g-caption').value.trim(),filename:f.name});save();renderGallery();},true);
+}
+
+/* ── SCHEDULE ── */
+function renderSchedule(){
+  const c=g('schList'),items=data.schedule.items||[];
+  if(!items.length){c.innerHTML='<div class="empty">등록된 일정이 없습니다.</div>';return;}
+  c.innerHTML=items.map((s,i)=>`<div class="sch-item"><span class="sch-date">${s.date}</span><span class="sch-desc">${s.desc}</span>${s.status?`<span class="ss ss-${s.status}">${s.status==='upcoming'?'예정':'완료'}</span>`:''}<button class="btn btn-danger btn-xs" data-sdel="${i}">✕</button></div>`).join('');
+  c.querySelectorAll('[data-sdel]').forEach(b=>b.onclick=e=>{data.schedule.items.splice(+e.target.dataset.sdel,1);save();renderSchedule();toast('삭제됨','info');});
+}
+function setupSchedule(){
+  g('addSchBtn').onclick=()=>{
+    const d=g('sch-date').value.trim(),t=g('sch-desc').value.trim();
+    if(!d||!t){toast('날짜와 내용 필요','err');return;}
+    data.schedule.items.push({date:d,desc:t,status:g('sch-status').value});
+    save();g('sch-date').value='';g('sch-desc').value='';g('sch-status').value='';
+    renderSchedule();toast('✅ 일정 추가됨!');
+  };
+}
+
+/* ── DASHBOARD INIT ── */
+function initDash(){
+  load();
+  document.querySelectorAll('.nav-btn').forEach(b=>b.onclick=()=>switchSec(b.dataset.sec));
+  g('logoutBtn').onclick=doLogout;
+  setupHero(); setupProfile(); setupDisco(); setupGallery(); setupSchedule();
+  switchSec('hero');
+}
+
+/* ── ENTRY ── */
+document.addEventListener('DOMContentLoaded',()=>{
+  if(loggedIn()){g('loginWrap').classList.add('hidden');g('adminLayout').classList.remove('hidden');initDash();}
+  g('loginBtn').onclick=tryLogin;
+  g('pwInput').onkeydown=e=>{if(e.key==='Enter')tryLogin();};
+});
+
+})(); // end IIFE
+</script>
 </body>
 </html>
