@@ -1,21 +1,82 @@
 /* ==========================================================================
-   BAVI Official Portfolio - Javascript Logic
+   BAVI Official Website - Taste Labs Inspired Application Logic
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize Lucide Icons
-    lucide.createIcons();
+    if (window.lucide) {
+        lucide.createIcons();
+    }
 
     // ==========================================================================
-    // 1. Core State & Data
+    // 1. Lenis Smooth Scrolling Engine
     // ==========================================================================
+    let lenis;
+    if (window.Lenis) {
+        lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            touchMultiplier: 2,
+            infinite: false
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+    }
+
+    // ==========================================================================
+    // 2. Taste Labs Scramble Text Engine
+    // ==========================================================================
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_#@$&';
+    
+    function scrambleElement(element) {
+        const originalText = element.getAttribute('data-scramble') || element.textContent.trim();
+        let iteration = 0;
+        clearInterval(element._scrambleInterval);
+        
+        element._scrambleInterval = setInterval(() => {
+            element.textContent = originalText
+                .split('')
+                .map((char, index) => {
+                    if (index < iteration || char === ' ') {
+                        return originalText[index];
+                    }
+                    return CHARS[Math.floor(Math.random() * CHARS.length)];
+                })
+                .join('');
+            
+            if (iteration >= originalText.length) {
+                clearInterval(element._scrambleInterval);
+            }
+            iteration += 1 / 2;
+        }, 30);
+    }
+
+    document.querySelectorAll('[data-scramble]').forEach(el => {
+        el.addEventListener('mouseenter', () => scrambleElement(el));
+    });
+
+    // ==========================================================================
+    // 3. Core State & Data
+    // ==========================================================================
+    const heroBanner = {
+        title: 'BAVIation PART 2',
+        desc: "정형화된 팝의 틀을 깨는 글리치 팝과 극도로 맑은 에어리 보컬.<br>몽환적이면서도 세련된 타이틀곡 'Perfect Glitch'의 새로운 주파수를 경험해보세요.",
+        trackTitle: 'Perfect Glitch',
+        toastMsg: 'Playing Title: Perfect Glitch (1st Special EP)',
+        image: null
+    };
+
     const albumData = {
         'album-3': {
             name: 'BAVIation',
             type: '1st Special EP',
             release: '2026.07.11',
-            desc: '바비(BAVI)의 독보적인 예술성과 다채로운 음악 스펙트럼을 모은 스페셜 EP 앨범 "BAVIation"입니다. 몽환적이면서도 세련된 트랙들이 수록되어 아티스트의 고유한 감성을 깊이 있게 전합니다.',
+            desc: '바비(BAVI)의 독보적인 예술성과 다채로운 음악 스펙트럼을 모은 스페셜 EP 앨범 "BAVIation"입니다.',
             cover: 'assets/images/album_baviation.jpg',
             tracks: [
                 { id: 'track-3-1', title: 'Easter Egg', duration: '2:43', isTitle: false, url: 'assets/audio/EP_BAVIation part1/01.BAVI_Easter Egg.wav', lyricsUrl: 'assets/audio/EP_BAVIation part1/01.BAVI_Easter Egg.txt' },
@@ -30,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Just One Minute',
             type: 'Single',
             release: '2026.07.17',
-            desc: '바비(BAVI)의 청량하면서도 위트 있는 음악적 시도를 담아낸 싱글 "Just One Minute"입니다. 중독성 있는 멜로디와 경쾌한 리듬이 어우러져 리스너들의 귓가를 매료시킵니다.',
+            desc: '바비(BAVI)의 청량하면서도 위트 있는 음악적 시도를 담아낸 싱글 "Just One Minute"입니다.',
             cover: 'assets/images/album_just_one_minute.png',
             tracks: [
                 { id: 'track-4-1', title: 'Just One Minute', duration: '2:59', isTitle: true, url: 'assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav', lyricsUrl: 'assets/audio/Single_Just One Minute/BAVI_Just One Minute.txt' }
@@ -48,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Flatten track list for next/prev player navigation
+    // Flatten playlist
     let playlist = [];
     Object.keys(albumData).forEach(albumId => {
         const album = albumData[albumId];
@@ -63,8 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentTrackIndex = 0;
     let isPlaying = false;
-    let currentVolume = 0.8;
-    let isMuted = false;
 
     // Elements
     const audioElement = document.getElementById('audioElement');
@@ -75,929 +134,282 @@ document.addEventListener('DOMContentLoaded', () => {
     const playerBtnPlay = document.getElementById('playerBtnPlay');
     const playerBtnPrev = document.getElementById('playerBtnPrev');
     const playerBtnNext = document.getElementById('playerBtnNext');
-    const playerBtnMute = document.getElementById('playerBtnMute');
     const playIcon = document.getElementById('playIcon');
-    const muteIcon = document.getElementById('muteIcon');
-    const miniVisualizer = document.getElementById('miniVisualizer');
-    
     const progressBar = document.getElementById('progressBar');
     const progressBarWrapper = document.getElementById('progressBarWrapper');
     const currentTimeLabel = document.getElementById('currentTimeLabel');
     const durationLabel = document.getElementById('durationLabel');
-    const volumeSliderWrapper = document.getElementById('volumeSliderWrapper');
-    const volumeSliderBar = document.getElementById('volumeSliderBar');
 
-    // Set initial volume
-    audioElement.volume = currentVolume;
-
-    // ==========================================================================
-    // 2. Interactive Background & Custom Cursor
-    // ==========================================================================
+    // Custom Cursor & Glow
     const bgGlow = document.getElementById('bgGlow');
     const customCursor = document.getElementById('customCursor');
 
     window.addEventListener('mousemove', (e) => {
-        // Move Background glow smoothly
-        bgGlow.style.left = e.clientX + 'px';
-        bgGlow.style.top = e.clientY + 'px';
-
-        // Move Custom Cursor
-        customCursor.style.left = e.clientX + 'px';
-        customCursor.style.top = e.clientY + 'px';
-    });
-
-    // Hover effect for cursor
-    const hoverableElements = document.querySelectorAll('a, button, .album-card, .gallery-item, .btn-icon-play, .btn-filter, .social-link');
-    hoverableElements.forEach(elem => {
-        elem.addEventListener('mouseenter', () => {
-            customCursor.classList.add('hovered');
-        });
-        elem.addEventListener('mouseleave', () => {
-            customCursor.classList.remove('hovered');
-        });
-    });
-
-
-    // ==========================================================================
-    // 3. Navigation Header & Scroll Sync
-    // ==========================================================================
-    const header = document.querySelector('.header');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('section');
-
-    // Header background transparency transition on scroll
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.style.background = 'rgba(9, 5, 20, 0.9)';
-            header.style.padding = '10px 0';
-        } else {
-            header.style.background = 'rgba(9, 5, 20, 0.7)';
-            header.style.padding = '0';
+        if (bgGlow) {
+            bgGlow.style.left = e.clientX + 'px';
+            bgGlow.style.top = e.clientY + 'px';
+        }
+        if (customCursor) {
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top = e.clientY + 'px';
         }
     });
 
-    // Update active GNB nav link on scroll
-    const scrollObserverOptions = {
-        root: null,
-        threshold: 0.3,
-        rootMargin: "-80px 0px 0px 0px"
-    };
-
-    const scrollObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${id}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    }, scrollObserverOptions);
-
-    sections.forEach(section => scrollObserver.observe(section));
-
-
-    // ==========================================================================
-    // 4. Mobile Navigation Hamburger Menu
-    // ==========================================================================
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const navMobile = document.getElementById('navMobile');
-    const navMobileLinks = document.querySelectorAll('.nav-mobile-link');
-
-    hamburgerBtn.addEventListener('click', () => {
-        hamburgerBtn.classList.toggle('active');
-        navMobile.classList.toggle('active');
+    document.querySelectorAll('a, button, .album-card, .gallery-item, .btn-filter, .carousel-card-item').forEach(elem => {
+        elem.addEventListener('mouseenter', () => customCursor?.classList.add('hovered'));
+        elem.addEventListener('mouseleave', () => customCursor?.classList.remove('hovered'));
     });
 
-    navMobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            hamburgerBtn.classList.remove('active');
-            navMobile.classList.remove('active');
+    // ==========================================================================
+    // 4. Taste Labs 3D Carousel Matrix Tilt & Scroll
+    // ==========================================================================
+    const carouselWrapper = document.getElementById('carouselWrapper');
+    const carouselMatrix = document.getElementById('carouselMatrix');
+
+    if (carouselWrapper && carouselMatrix) {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        carouselWrapper.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - carouselWrapper.offsetLeft;
+            scrollLeft = carouselWrapper.scrollLeft;
         });
-    });
 
+        carouselWrapper.addEventListener('mouseleave', () => isDown = false);
+        carouselWrapper.addEventListener('mouseup', () => isDown = false);
 
-    // ==========================================================================
-    // 5. Toast Notifications
-    // ==========================================================================
-    const toastContainer = document.getElementById('toastContainer');
-
-    function showToast(message, iconName = 'info') {
-        const toast = document.createElement('div');
-        toast.className = 'toast glass';
-        toast.innerHTML = `
-            <i data-lucide="${iconName}" class="toast-icon"></i>
-            <span>${message}</span>
-        `;
-        toastContainer.appendChild(toast);
-        lucide.createIcons();
-
-        // Trigger transition
-        setTimeout(() => toast.classList.add('show'), 50);
-
-        // Hide and remove toast
-        setTimeout(() => {
-            toast.classList.remove('show');
-            toast.addEventListener('transitionend', () => toast.remove());
-        }, 3000);
-    }
-
-
-    // ==========================================================================
-    // 6. Custom Audio Player Engine
-    // ==========================================================================
-    
-    // Load song and initialize player UI
-    function loadSong(trackIndex, playImmediately = true) {
-        currentTrackIndex = trackIndex;
-        const track = playlist[trackIndex];
-
-        audioElement.src = track.url;
-        playerSongTitle.textContent = track.title;
-        playerSongArtist.textContent = 'BAVI';
-        playerAlbumImg.src = track.albumImg;
-
-        // Open bottom bar player if it's hidden
-        playerBar.classList.add('active');
-
-        if (playImmediately) {
-            playSong();
-        } else {
-            pauseSong();
-        }
-    }
-
-    function playSong() {
-        isPlaying = true;
-        audioElement.play().then(() => {
-            playerBtnPlay.innerHTML = '<i data-lucide="pause"></i>';
-            miniVisualizer.classList.add('playing');
-            lucide.createIcons();
-        }).catch(err => {
-            console.error("Audio playback error:", err);
-            isPlaying = false;
+        carouselWrapper.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - carouselWrapper.offsetLeft;
+            const walk = (x - startX) * 2;
+            carouselWrapper.scrollLeft = scrollLeft - walk;
         });
     }
 
-    function pauseSong() {
-        isPlaying = false;
-        audioElement.pause();
-        playerBtnPlay.innerHTML = '<i data-lucide="play"></i>';
-        miniVisualizer.classList.remove('playing');
-        lucide.createIcons();
-    }
-
-    // Toggle Play/Pause
-    playerBtnPlay.addEventListener('click', () => {
-        if (isPlaying) {
-            pauseSong();
-        } else {
-            playSong();
-        }
-    });
-
-    // Next Track
-    playerBtnNext.addEventListener('click', () => {
-        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-        loadSong(currentTrackIndex);
-        showToast(`Next track: ${playlist[currentTrackIndex].title}`, 'music');
-    });
-
-    // Previous Track
-    playerBtnPrev.addEventListener('click', () => {
-        currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-        loadSong(currentTrackIndex);
-        showToast(`Previous track: ${playlist[currentTrackIndex].title}`, 'music');
-    });
-
-    // Handle audio metadata loaded (set duration)
-    audioElement.addEventListener('durationchange', () => {
-        durationLabel.textContent = formatTime(audioElement.duration);
-    });
-
-    // Timeupdate progress tracking
-    audioElement.addEventListener('timeupdate', () => {
-        const currentTime = audioElement.currentTime;
-        const duration = audioElement.duration || 0;
-        
-        // Update Labels
-        currentTimeLabel.textContent = formatTime(currentTime);
-        
-        // Update progress bar width
-        if (duration > 0) {
-            const progressPercent = (currentTime / duration) * 100;
-            progressBar.style.width = `${progressPercent}%`;
-        }
-    });
-
-    // End of song -> Next song auto play
-    audioElement.addEventListener('ended', () => {
-        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-        loadSong(currentTrackIndex);
-    });
-
-    // Progress bar seeking interaction
-    progressBarWrapper.addEventListener('click', (e) => {
-        const width = progressBarWrapper.clientWidth;
-        const clickX = e.offsetX;
-        const duration = audioElement.duration;
-
-        if (duration) {
-            audioElement.currentTime = (clickX / width) * duration;
-        }
-    });
-
-    // Volume Slider Seek
-    volumeSliderWrapper.addEventListener('click', (e) => {
-        const width = volumeSliderWrapper.clientWidth;
-        const clickX = e.offsetX;
-        let volume = clickX / width;
-        
-        // Clamp volume
-        if (volume < 0) volume = 0;
-        if (volume > 1) volume = 1;
-
-        currentVolume = volume;
-        audioElement.volume = volume;
-        volumeSliderBar.style.width = `${volume * 100}%`;
-        isMuted = false;
-        
-        updateMuteIcon();
-    });
-
-    // Mute/Unmute toggle
-    playerBtnMute.addEventListener('click', () => {
-        isMuted = !isMuted;
-        audioElement.muted = isMuted;
-        updateMuteIcon();
-    });
-
-    function updateMuteIcon() {
-        if (isMuted || currentVolume === 0) {
-            playerBtnMute.innerHTML = '<i data-lucide="volume-x"></i>';
-        } else if (currentVolume < 0.4) {
-            playerBtnMute.innerHTML = '<i data-lucide="volume-1"></i>';
-        } else {
-            playerBtnMute.innerHTML = '<i data-lucide="volume-2"></i>';
-        }
-        lucide.createIcons();
-    }
-
-    // Format helper function
+    // ==========================================================================
+    // 5. Audio Player Functions
+    // ==========================================================================
     function formatTime(seconds) {
-        if (isNaN(seconds)) return '0:00';
+        if (isNaN(seconds) || seconds === 0) return "0:00";
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // ==========================================================================
-    // Hero — Static single banner (BAVIation only, no carousel)
-    // ==========================================================================
-    const heroBanner = {
-        title: 'BAVIation',
-        desc: 'BAVI의 스페셜 EP 앨범 \'BAVIation\' 발매.<br>몽환적이면서도 세련된 타이틀곡 \'Perfect Glitch\'를 지금 감상해보세요.',
-        img: 'assets/images/album_baviation.jpg',
-        imgAlt: 'BAVIation Album Cover',
-        trackTitle: 'Perfect Glitch',
-        toastMsg: 'Playing: Perfect Glitch (1st Special EP)'
-    };
+    function loadSong(index) {
+        if (index < 0 || index >= playlist.length) return;
+        currentTrackIndex = index;
+        const track = playlist[currentTrackIndex];
 
-    // Hero LISTEN NOW — plays BAVIation
-    const heroPlayBtn = document.getElementById('heroPlayBtn');
-    heroPlayBtn.addEventListener('click', () => {
-        const trackIdx = playlist.findIndex(t => t.title === heroBanner.trackTitle);
-        if (trackIdx !== -1) {
-            loadSong(trackIdx);
-            showToast(heroBanner.toastMsg, 'music');
-        }
+        audioElement.src = track.url;
+        playerSongTitle.textContent = track.title;
+        playerSongArtist.textContent = `${track.albumName} · BAVI`;
+        playerAlbumImg.src = track.albumImg || 'assets/images/album_baviation.jpg';
+
+        playerBar.classList.add('active');
+        playAudio();
+    }
+
+    function playAudio() {
+        audioElement.play().then(() => {
+            isPlaying = true;
+            playIcon.setAttribute('data-lucide', 'pause');
+            lucide.createIcons();
+        }).catch(err => console.warn('Audio play error:', err));
+    }
+
+    function pauseAudio() {
+        audioElement.pause();
+        isPlaying = false;
+        playIcon.setAttribute('data-lucide', 'play');
+        lucide.createIcons();
+    }
+
+    playerBtnPlay?.addEventListener('click', () => {
+        if (isPlaying) pauseAudio();
+        else playAudio();
     });
 
-    // Album hover play buttons (GNB & Page list triggers)
+    playerBtnPrev?.addEventListener('click', () => {
+        currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+        loadSong(currentTrackIndex);
+    });
+
+    playerBtnNext?.addEventListener('click', () => {
+        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+        loadSong(currentTrackIndex);
+    });
+
+    audioElement.addEventListener('timeupdate', () => {
+        if (!audioElement.duration) return;
+        const pct = (audioElement.currentTime / audioElement.duration) * 100;
+        progressBar.style.width = `${pct}%`;
+        currentTimeLabel.textContent = formatTime(audioElement.currentTime);
+        durationLabel.textContent = formatTime(audioElement.duration);
+    });
+
+    progressBarWrapper?.addEventListener('click', (e) => {
+        const rect = progressBarWrapper.getBoundingClientRect();
+        const pct = (e.clientX - rect.left) / rect.width;
+        audioElement.currentTime = pct * audioElement.duration;
+    });
+
+    // Hero Play Button
+    const heroPlayBtn = document.getElementById('heroPlayBtn');
+    heroPlayBtn?.addEventListener('click', () => {
+        const trackIdx = playlist.findIndex(t => t.title === heroBanner.trackTitle);
+        if (trackIdx !== -1) loadSong(trackIdx);
+        else loadSong(0);
+    });
+
+    // Hover Play Buttons on album cards
     document.querySelectorAll('.btn-icon-play').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
             const trackUrl = btn.getAttribute('data-track-url');
             const trackIdx = playlist.findIndex(t => t.url === trackUrl);
-            if (trackIdx !== -1) {
-                loadSong(trackIdx);
-                showToast(`Playing Album Title: ${playlist[trackIdx].albumName}`, 'music');
-            }
+            if (trackIdx !== -1) loadSong(trackIdx);
+            else loadSong(0);
         });
     });
 
-
-    // ==========================================================================
-    // 7. Album Detail Modal Popup
-    // ==========================================================================
+    // Modal popup
     const albumModal = document.getElementById('albumModal');
     const modalCloseBtn = document.getElementById('modalCloseBtn');
-    const modalAlbumImg = document.getElementById('modalAlbumImg');
-    const modalAlbumType = document.getElementById('modalAlbumType');
-    const modalAlbumName = document.getElementById('modalAlbumName');
-    const modalAlbumDesc = document.getElementById('modalAlbumDesc');
-    const modalTracklist = document.getElementById('modalTracklist');
 
-    document.querySelectorAll('.btn-album-details').forEach((btn) => {
+    document.querySelectorAll('.btn-album-details').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
             const card = btn.closest('.album-card');
             const albumId = card.getAttribute('data-album-id');
             const album = albumData[albumId];
+            if (!album) return;
 
-            if (album) {
-                // Populate Modal Data
-                modalAlbumImg.src = album.cover;
-                modalAlbumImg.alt = album.name;
-                modalAlbumType.textContent = album.type;
-                modalAlbumName.textContent = album.name;
-                modalAlbumDesc.textContent = album.desc;
+            document.getElementById('modalAlbumImg').src = album.cover;
+            document.getElementById('modalAlbumType').textContent = album.type;
+            document.getElementById('modalAlbumName').textContent = album.name;
+            document.getElementById('modalAlbumDesc').textContent = album.desc;
 
-                // Populate Tracklist
-                modalTracklist.innerHTML = '';
-                album.tracks.forEach((track, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'track-item';
-                    const hasLyrics = !!track.lyricsUrl;
-                    item.innerHTML = `
-                        <span class="track-number">${String(index + 1).padStart(2, '0')}</span>
-                        <div class="track-info">
-                            <span class="track-title ${track.isTitle ? 'is-title-song' : ''}">${track.title}</span>
-                        </div>
-                        <span class="track-duration">${track.duration}</span>
-                        <button class="btn-lyrics ${hasLyrics ? '' : 'no-lyrics'}" data-lyrics-url="${track.lyricsUrl || ''}" data-track-title="${track.title}" ${hasLyrics ? '' : 'disabled'} title="${hasLyrics ? '가사 보기' : '가사 없음'}">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                <polyline points="14 2 14 8 20 8"/>
-                                <line x1="16" y1="13" x2="8" y2="13"/>
-                                <line x1="16" y1="17" x2="8" y2="17"/>
-                                <polyline points="10 9 9 9 8 9"/>
-                            </svg>
-                        </button>
-                        <button class="btn-track-play" data-track-url="${track.url}">
-                            <i data-lucide="play"></i>
-                        </button>
-                    `;
-                    modalTracklist.appendChild(item);
-                });
+            const modalTracklist = document.getElementById('modalTracklist');
+            modalTracklist.innerHTML = '';
 
-                // Attach track item play handlers
-                modalTracklist.querySelectorAll('.btn-track-play').forEach(playBtn => {
-                    playBtn.addEventListener('click', () => {
-                        const trackUrl = playBtn.getAttribute('data-track-url');
-                        const trackIdx = playlist.findIndex(t => t.url === trackUrl);
-                        if (trackIdx !== -1) {
-                            loadSong(trackIdx);
-                            showToast(`Playing: ${playlist[trackIdx].title}`, 'music');
-                        }
-                    });
-                });
-
-                // Attach lyrics button handlers
-                modalTracklist.querySelectorAll('.btn-lyrics:not([disabled])').forEach(lyricsBtn => {
-                    lyricsBtn.addEventListener('click', async () => {
-                        const lyricsUrl = lyricsBtn.getAttribute('data-lyrics-url');
-                        const trackTitle = lyricsBtn.getAttribute('data-track-title');
-                        openLyricsModal(trackTitle, lyricsUrl);
-                    });
-                });
-
-                lucide.createIcons();
-
-                // Open modal
-                albumModal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // prevent back scroll
-            }
-        });
-    });
-
-    // Close modal
-    const closeModal = () => {
-        albumModal.classList.remove('active');
-        document.body.style.overflow = '';
-    };
-
-    modalCloseBtn.addEventListener('click', closeModal);
-    albumModal.addEventListener('click', (e) => {
-        if (e.target === albumModal) closeModal();
-    });
-
-    // ==========================================================================
-    // Lyrics Modal Logic
-    // ==========================================================================
-    const lyricsModal = document.getElementById('lyricsModal');
-    const lyricsModalCloseBtn = document.getElementById('lyricsModalCloseBtn');
-    const lyricsSongTitle = document.getElementById('lyricsSongTitle');
-    const lyricsBody = document.getElementById('lyricsBody');
-
-    const openLyricsModal = async (trackTitle, lyricsUrl) => {
-        // Set title
-        lyricsSongTitle.textContent = trackTitle;
-        // Loading state
-        lyricsBody.innerHTML = '<p class="lyrics-loading">가사를 불러오는 중...</p>';
-        lyricsModal.classList.add('active');
-
-        try {
-            const response = await fetch(lyricsUrl);
-            if (!response.ok) throw new Error('Not found');
-            const text = await response.text();
-            // Render each line as a <p>; blank lines become spacer <p class="lyrics-spacer">
-            const lines = text.split(/\r?\n/);
-            lyricsBody.innerHTML = lines.map(line =>
-                line.trim() === ''
-                    ? '<p class="lyrics-spacer">&nbsp;</p>'
-                    : `<p>${line}</p>`
-            ).join('');
-        } catch {
-            lyricsBody.innerHTML = '<p class="lyrics-empty">가사 정보가 없습니다.</p>';
-        }
-    };
-
-    const closeLyricsModal = () => {
-        lyricsModal.classList.remove('active');
-    };
-
-    lyricsModalCloseBtn.addEventListener('click', closeLyricsModal);
-    lyricsModal.addEventListener('click', (e) => {
-        if (e.target === lyricsModal) closeLyricsModal();
-    });
-
-
-    // ==========================================================================
-    // 8. Gallery Filters & Lightbox Slider (Dynamic Loader with Pagination)
-    // ==========================================================================
-    const filterButtons = document.querySelectorAll('.btn-filter');
-    const galleryGrid = document.getElementById('galleryGrid');
-    const galleryPagination = document.getElementById('galleryPagination');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const lightboxCaption = document.getElementById('lightboxCaption');
-    const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
-    const lightboxPrevBtn = document.getElementById('lightboxPrevBtn');
-    const lightboxNextBtn = document.getElementById('lightboxNextBtn');
-
-    let activeGalleryItems = [];
-    let currentLightboxIndex = 0;
-
-    let allGalleryData = [];
-    let currentFilter = 'all';
-    let currentPage = 1;
-    const itemsPerPage = 9;
-
-    // Load dynamic gallery data from JSON
-    function loadGallery() {
-        if (!galleryGrid) return;
-
-        fetch('assets/images/gallery-data.json?t=' + new Date().getTime()) // Prevent browser caching
-            .then(res => {
-                if (!res.ok) throw new Error("Metadata file not found");
-                return res.json();
-            })
-            .then(data => {
-                allGalleryData = data || [];
-                renderGallery();
-            })
-            .catch(err => {
-                console.error("[Gallery] Failed to load gallery data:", err);
-                galleryGrid.innerHTML = '<div class="gallery-error" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--accent-pink);">Failed to load gallery. Make sure dev server/watcher is running.</div>';
-                if (galleryPagination) galleryPagination.innerHTML = '';
+            album.tracks.forEach((track, index) => {
+                const item = document.createElement('div');
+                item.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:rgba(255,255,255,0.04); border-radius:12px; border:1px solid rgba(255,255,255,0.08);';
+                item.innerHTML = `
+                    <span style="font-weight:700; color:var(--accent-cyan);">${String(index + 1).padStart(2, '0')}</span>
+                    <span style="flex:1; margin:0 16px; font-weight:600;">${track.title} ${track.isTitle ? '<span style="font-size:0.7rem; color:var(--accent-pink); margin-left:6px;">[TITLE]</span>' : ''}</span>
+                    <span style="color:var(--text-grey); font-size:0.85rem; margin-right:16px;">${track.duration}</span>
+                    <button class="btn-play-track" data-url="${track.url}" style="background:var(--accent-violet); width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+                        <i data-lucide="play" style="width:14px; height:14px; fill:#fff;"></i>
+                    </button>
+                `;
+                modalTracklist.appendChild(item);
             });
-    }
 
-    // Render gallery and pagination
-    function renderGallery() {
-        if (!galleryGrid) return;
-        galleryGrid.innerHTML = '';
+            lucide.createIcons();
 
-        // 1. Filter data based on active category
-        const filteredData = allGalleryData.filter(item => {
-            return currentFilter === 'all' || item.category.toLowerCase() === currentFilter;
+            modalTracklist.querySelectorAll('.btn-play-track').forEach(pBtn => {
+                pBtn.addEventListener('click', () => {
+                    const url = pBtn.getAttribute('data-url');
+                    const idx = playlist.findIndex(t => t.url === url);
+                    if (idx !== -1) loadSong(idx);
+                });
+            });
+
+            albumModal.classList.add('active');
         });
+    });
 
-        const totalItems = filteredData.length;
-        const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+    modalCloseBtn?.addEventListener('click', () => albumModal.classList.remove('active'));
+    albumModal?.addEventListener('click', (e) => {
+        if (e.target === albumModal) albumModal.classList.remove('active');
+    });
 
-        // 2. Adjust current page bounds
-        if (currentPage > totalPages) currentPage = totalPages;
-        if (currentPage < 1) currentPage = 1;
+    // ==========================================================================
+    // 6. Gallery Filtering
+    // ==========================================================================
+    const filterBtns = document.querySelectorAll('.btn-filter');
+    const galleryItems = document.querySelectorAll('.gallery-item');
 
-        // 3. Check for empty gallery
-        if (totalItems === 0) {
-            galleryGrid.innerHTML = '<div class="gallery-empty" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">No images found in CONCEPT, STAGE, or BEHIND folders.</div>';
-            if (galleryPagination) galleryPagination.innerHTML = '';
-            activeGalleryItems = [];
-            return;
-        }
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.getAttribute('data-filter');
 
-        // 4. Slice data for the current page
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const slicedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
-
-        // 5. Render items into grid
-        slicedData.forEach(item => {
-            const el = document.createElement('div');
-            el.className = `gallery-item ${item.category.toLowerCase()}`;
-            el.setAttribute('data-src', item.src);
-            el.innerHTML = `
-                <div class="gallery-img-wrapper">
-                    <img src="${item.src}" alt="${item.title}" class="gallery-img" loading="lazy">
-                    <div class="gallery-hover-overlay">
-                        <span class="gallery-category">${item.category}</span>
-                        <span class="gallery-title">${item.title}</span>
-                        <i data-lucide="zoom-in" class="gallery-zoom-icon"></i>
-                    </div>
-                </div>
-            `;
-            
-            // Bind click directly to open lightbox
-            el.addEventListener('click', () => {
-                currentLightboxIndex = activeGalleryItems.indexOf(el);
-                if (currentLightboxIndex !== -1) {
-                    openLightbox();
+            galleryItems.forEach(item => {
+                if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
                 }
             });
-
-            galleryGrid.appendChild(el);
-        });
-
-        // 6. Set active gallery items for lightbox (sliced page items)
-        const galleryItems = galleryGrid.querySelectorAll('.gallery-item');
-        activeGalleryItems = Array.from(galleryItems);
-
-        // 7. Render pagination controls
-        renderPagination(totalPages);
-
-        // 8. Run Lucide update to render dynamic zoom icon SVGs
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    }
-
-    // Render pagination buttons dynamically
-    function renderPagination(totalPages) {
-        if (!galleryPagination) return;
-        galleryPagination.innerHTML = '';
-
-        if (totalPages <= 1) return;
-
-        // Prev Button
-        const prevBtn = document.createElement('button');
-        prevBtn.className = 'page-btn arrow-btn';
-        prevBtn.innerHTML = '&laquo;';
-        prevBtn.title = 'Previous Page';
-        prevBtn.disabled = currentPage === 1;
-        prevBtn.addEventListener('click', () => {
-            currentPage--;
-            renderGallery();
-            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
-        });
-        galleryPagination.appendChild(prevBtn);
-
-        // Number Buttons
-        for (let i = 1; i <= totalPages; i++) {
-            const pageBtn = document.createElement('button');
-            pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
-            pageBtn.innerText = i;
-            pageBtn.addEventListener('click', () => {
-                currentPage = i;
-                renderGallery();
-                document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
-            });
-            galleryPagination.appendChild(pageBtn);
-        }
-
-        // Next Button
-        const nextBtn = document.createElement('button');
-        nextBtn.className = 'page-btn arrow-btn';
-        nextBtn.innerHTML = '&raquo;';
-        nextBtn.title = 'Next Page';
-        nextBtn.disabled = currentPage === totalPages;
-        nextBtn.addEventListener('click', () => {
-            currentPage++;
-            renderGallery();
-            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
-        });
-        galleryPagination.appendChild(nextBtn);
-    }
-
-    // Filter Logic
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            currentFilter = btn.getAttribute('data-filter').toLowerCase();
-            currentPage = 1;
-            renderGallery();
         });
     });
 
-    function openLightbox() {
-        if (activeGalleryItems.length === 0) return;
-        const item = activeGalleryItems[currentLightboxIndex];
-        const src = item.getAttribute('data-src');
-        const captionTitle = item.querySelector('.gallery-title').textContent;
-        const captionCategory = item.querySelector('.gallery-category').textContent;
-
-        lightboxImg.src = src;
-        lightboxCaption.innerHTML = `<span style="color:var(--accent-pink)">${captionCategory}</span> &mdash; ${captionTitle}`;
-
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    // Lightbox navigation
-    if (lightboxCloseBtn) lightboxCloseBtn.addEventListener('click', closeLightbox);
-    
-    if (lightboxPrevBtn) {
-        lightboxPrevBtn.addEventListener('click', () => {
-            if (activeGalleryItems.length === 0) return;
-            currentLightboxIndex = (currentLightboxIndex - 1 + activeGalleryItems.length) % activeGalleryItems.length;
-            openLightbox();
-        });
-    }
-
-    if (lightboxNextBtn) {
-        lightboxNextBtn.addEventListener('click', () => {
-            if (activeGalleryItems.length === 0) return;
-            currentLightboxIndex = (currentLightboxIndex + 1) % activeGalleryItems.length;
-            openLightbox();
-        });
-    }
-
-    if (lightbox) {
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
-    }
-
-    function closeLightbox() {
-        if (lightbox) lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    // Run initial gallery load
-    loadGallery();
-
-    // Keyboard navigation for lightbox & modal
-    window.addEventListener('keydown', (e) => {
-        if (lightbox.classList.contains('active')) {
-            if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowRight') lightboxNextBtn.click();
-            if (e.key === 'ArrowLeft') lightboxPrevBtn.click();
-        }
-        if (albumModal.classList.contains('active')) {
-            if (e.key === 'Escape') closeModal();
-        }
-    });
-
-
     // ==========================================================================
-    // 9. Launch Date Count-Up Timer
+    // 7. Taste Labs Copy Email to Clipboard
     // ==========================================================================
-    const countdownTimer = document.getElementById('countdownTimer');
-    // Set launch date (July 11, 2026 00:00:00 KST)
-    const launchDate = new Date("2026-07-11T00:00:00+09:00").getTime();
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    const copyEmailTxt = document.getElementById('copyEmailTxt');
 
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const difference = now - launchDate; // count up since launch date
-
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-        countdownTimer.textContent = `${days}D ${String(hours).padStart(2, '0')}H ${String(minutes).padStart(2, '0')}M ${String(seconds).padStart(2, '0')}S`;
-    }
-
-    updateCountdown(); // Run once initially
-    const timerInterval = setInterval(updateCountdown, 1000);
-
-
-    // ==========================================================================
-    // 10. Contact Form Animations
-    // ==========================================================================
-    const contactForm = document.getElementById('contactForm');
-
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalHtml = submitBtn.innerHTML;
-
-        // Visual loading state
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `<i data-lucide="loader" class="btn-icon animate-spin"></i> SENDING...`;
-        lucide.createIcons();
-
-        // Simulate network delay
-        setTimeout(() => {
-            showToast('Your message has been sent successfully!', 'check-circle-2');
-            contactForm.reset();
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalHtml;
-            lucide.createIcons();
-        }, 1500);
-    });
-
-
-    // ==========================================================================
-    // 11. Intersection Observer for Scroll Fade-In Effect
-    // ==========================================================================
-    const animObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
+    copyEmailBtn?.addEventListener('click', () => {
+        navigator.clipboard.writeText('hello@bavilog.com').then(() => {
+            if (copyEmailTxt) {
+                const original = copyEmailTxt.textContent;
+                copyEmailTxt.textContent = 'COPIED TO CLIPBOARD!';
+                setTimeout(() => copyEmailTxt.textContent = original, 2500);
             }
         });
-    }, {
-        threshold: 0.1
     });
 
-    // Make sections and primary cards fade in
-    const sectionsToAnimate = document.querySelectorAll('section, .profile-card, .album-card, .gallery-item, .schedule-item, .contact-card');
-    sectionsToAnimate.forEach(section => {
-        section.classList.add('fade-in-section');
-        animObserver.observe(section);
+    // Mobile Hamburger Toggle
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navMobile = document.getElementById('navMobile');
+
+    hamburgerBtn?.addEventListener('click', () => {
+        navMobile?.classList.toggle('active');
     });
 
-    // Initialize player with the default Title song (Perfect Glitch) but do not show player bar or play automatically
-    const defaultTrackIdx = playlist.findIndex(t => t.title === 'Perfect Glitch');
-    if (defaultTrackIdx !== -1) {
-        currentTrackIndex = defaultTrackIdx;
-        audioElement.src = playlist[defaultTrackIdx].url;
-    }
+    document.querySelectorAll('.nav-mobile-link').forEach(link => {
+        link.addEventListener('click', () => navMobile?.classList.remove('active'));
+    });
 
     // ==========================================================================
-    // 12. Admin Override Loader — reads bavi_admin_data from localStorage
+    // 8. Admin Overrides Sync (from localStorage)
     // ==========================================================================
     (function applyAdminOverrides() {
         let ad;
         try { ad = JSON.parse(localStorage.getItem('bavi_admin_data') || 'null'); } catch(e) { return; }
         if (!ad) return;
 
-        /* ── HERO ──────────────────────────────────── */
+        // HERO
         if (ad.hero) {
             const h = ad.hero;
-            if (h.title)      { heroBanner.title = h.title;           const el = document.getElementById('heroTitle'); if(el) el.textContent = h.title; }
-            if (h.desc)       { heroBanner.desc  = h.desc;            const el = document.getElementById('heroDesc');  if(el) el.innerHTML  = h.desc;  }
-            if (h.trackTitle) { heroBanner.trackTitle = h.trackTitle; }
-            if (h.toastMsg)   { heroBanner.toastMsg   = h.toastMsg;   }
-            if (h.image)      { const el = document.getElementById('heroImg'); if(el) el.src = h.image; }
+            if (h.title) { const el = document.getElementById('heroTitle'); if (el) el.innerHTML = `<span class="is-grey">DECODING THE SOUNDSCAPE</span><br>${h.title}`; }
+            if (h.desc) { const el = document.getElementById('heroDesc'); if (el) el.innerHTML = h.desc; }
+            if (h.trackTitle) heroBanner.trackTitle = h.trackTitle;
+            if (h.image) { const el = document.getElementById('heroImg'); if (el) el.src = h.image; }
         }
 
-        /* ── PROFILE ────────────────────────────────── */
+        // PROFILE
         if (ad.profile) {
             const p = ad.profile;
-            // Avatar
-            if (p.avatar) { const av = document.querySelector('.bio-avatar'); if(av) av.src = p.avatar; }
-            // Name
-            if (p.name) { const h3 = document.querySelector('.bio-title h3'); if(h3) h3.innerHTML = `${p.name} <span class="korean-name">(${p.koreanName||''})</span>`; }
-            // Role
-            if (p.role) { const r = document.querySelector('.bio-tag'); if(r) r.textContent = p.role; }
-            // Quote + Bio
+            if (p.avatar) { const av = document.querySelector('.bio-avatar'); if (av) av.src = p.avatar; }
+            if (p.name) { const h3 = document.querySelector('.bio-title h3'); if (h3) h3.innerHTML = `${p.name} <span class="korean-name">(${p.koreanName||''})</span>`; }
+            if (p.role) { const r = document.querySelector('.bio-tag'); if (r) r.textContent = p.role; }
+            
             const bioBody = document.querySelector('.bio-body');
-            if (bioBody) {
-                if (p.quote || (p.bio && p.bio.length)) {
-                    bioBody.innerHTML = '';
-                    if (p.quote) { const q = document.createElement('p'); q.className = 'bio-quote'; q.textContent = p.quote; bioBody.appendChild(q); }
-                    (p.bio||[]).forEach(text => { const par = document.createElement('p'); par.className = 'bio-paragraph'; par.textContent = text; bioBody.appendChild(par); });
-                }
-            }
-            // Info
-            if (p.info) {
-                const il = document.querySelector('.info-list');
-                if (il) {
-                    const lis = il.querySelectorAll('li');
-                    const map = [['Name :', p.info.realName],['Debut :', p.info.debut],['Genre :', p.info.genre],['Label :', p.info.label]];
-                    map.forEach(([label, val], idx) => { if(lis[idx] && val) lis[idx].innerHTML = `<strong>${label}</strong> ${val}`; });
-                }
-            }
-            // Tags
-            if (p.tags && p.tags.length) {
-                const kw = document.querySelector('.keyword-tags');
-                if (kw) {
-                    const colors = ['tag-pink','tag-purple','tag-blue','tag-cyan'];
-                    kw.innerHTML = p.tags.map((t,i) => `<span class="tag ${colors[i%colors.length]}">${t}</span>`).join('');
-                }
-            }
-            // Timeline
-            if (p.timeline && p.timeline.length) {
-                const tl = document.querySelector('.timeline-card .timeline');
-                if (tl) {
-                    tl.innerHTML = p.timeline.map(item => `
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <span class="timeline-date">${item.date}</span>
-                            <p class="timeline-desc">${item.desc}</p>
-                        </div>`).join('');
-                }
+            if (bioBody && (p.quote || (p.bio && p.bio.length))) {
+                bioBody.innerHTML = '';
+                if (p.quote) { const q = document.createElement('p'); q.className = 'bio-quote'; q.textContent = p.quote; bioBody.appendChild(q); }
+                (p.bio||[]).forEach(text => { const par = document.createElement('p'); par.className = 'bio-paragraph'; par.textContent = text; bioBody.appendChild(par); });
             }
         }
-
-        /* ── DISCOGRAPHY ─────────────────────────────── */
-        const adminAlbums = ad.discography?.adminAlbums || [];
-        if (adminAlbums.length) {
-            const grid = document.querySelector('.album-grid');
-            adminAlbums.forEach(a => {
-                if (albumData[a.id]) return; // already exists
-                // Add to albumData for modal
-                albumData[a.id] = {
-                    name: a.name, type: a.type, release: a.release,
-                    desc: a.desc, cover: a.cover || '',
-                    tracks: (a.tracks||[]).map((t,idx) => ({
-                        id: `${a.id}-t${idx}`, title: t.title, duration: t.duration||'',
-                        isTitle: !!t.isTitle, url: t.url||'', lyricsUrl: t.lyricsUrl||''
-                    }))
-                };
-                // Add to playlist
-                (a.tracks||[]).forEach((t,idx) => {
-                    if (t.url) playlist.push({ id:`${a.id}-t${idx}`, title:t.title, duration:t.duration||'',
-                        isTitle:!!t.isTitle, url:t.url, lyricsUrl:t.lyricsUrl||'', albumName:a.name, albumImg:a.cover||'' });
-                });
-                // Inject card into DOM
-                if (grid) {
-                    const card = document.createElement('div');
-                    card.className = 'album-card glass fade-in-section';
-                    card.setAttribute('data-album-id', a.id);
-                    const titleTrack = (a.tracks||[]).find(t=>t.isTitle) || (a.tracks||[])[0] || {};
-                    card.innerHTML = `
-                        <div class="album-cover-wrapper">
-                            <img src="${a.cover||'assets/images/album_baviation.jpg'}" alt="${a.name}" class="album-cover">
-                            <div class="album-hover-overlay">
-                                <button class="btn-icon-play" data-track-url="${titleTrack.url||''}" data-track-name="${a.name}" data-album-name="${a.name}" data-album-img="${a.cover||''}">
-                                    <i data-lucide="play"></i>
-                                </button>
-                                <button class="btn btn-sm btn-glass btn-album-details">VIEW TRACKS</button>
-                            </div>
-                        </div>
-                        <div class="album-info">
-                            <span class="album-type">${a.type}</span>
-                            <h3 class="album-name">${a.name}</h3>
-                            <span class="album-release">${a.release}</span>
-                        </div>`;
-                    grid.appendChild(card);
-                    lucide.createIcons({ nodes: [card] });
-                    // Wire up events
-                    card.querySelector('.btn-album-details').addEventListener('click', e => {
-                        e.stopPropagation();
-                        const album = albumData[a.id];
-                        if (!album) return;
-                        document.getElementById('modalAlbumImg').src   = album.cover;
-                        document.getElementById('modalAlbumType').textContent = album.type;
-                        document.getElementById('modalAlbumName').textContent = album.name;
-                        document.getElementById('modalAlbumDesc').textContent = album.desc;
-                        const tl = document.getElementById('modalTracklist');
-                        tl.innerHTML = '';
-                        album.tracks.forEach((tr, idx) => {
-                            const div = document.createElement('div');
-                            div.className = 'track-item';
-                            div.innerHTML = `
-                                <span class="track-number">${String(idx+1).padStart(2,'0')}</span>
-                                <div class="track-info"><span class="track-title ${tr.isTitle?'is-title-song':''}">${tr.title}</span></div>
-                                <span class="track-duration">${tr.duration||''}</span>
-                                <button class="btn-track-play" data-track-url="${tr.url}"><i data-lucide="play"></i></button>`;
-                            tl.appendChild(div);
-                            lucide.createIcons({ nodes: [div] });
-                            div.querySelector('.btn-track-play').addEventListener('click', () => {
-                                const idx2 = playlist.findIndex(x=>x.url===tr.url);
-                                if (idx2!==-1) loadSong(idx2);
-                            });
-                        });
-                        document.getElementById('albumModal').classList.add('active');
-                        document.body.style.overflow = 'hidden';
-                    });
-                    card.querySelector('.btn-icon-play').addEventListener('click', e => {
-                        e.stopPropagation();
-                        const url = e.currentTarget.getAttribute('data-track-url');
-                        const idx2 = playlist.findIndex(x=>x.url===url);
-                        if (idx2!==-1) loadSong(idx2);
-                    });
-                }
-            });
-        }
-
-        /* ── GALLERY ─────────────────────────────────── */
-        const adminPhotos = ad.gallery?.adminPhotos || [];
-        if (adminPhotos.length) {
-            const galSection = document.getElementById('gallery');
-            if (galSection) {
-                let grid = galSection.querySelector('.gallery-grid, .gallery-content');
-                if (!grid) grid = galSection.querySelector('[class*="gallery"]') || galSection;
-                adminPhotos.forEach(ph => {
-                    const item = document.createElement('div');
-                    item.className = 'gallery-item fade-in-section';
-                    item.innerHTML = `<img src="${ph.src}" alt="${ph.caption||ph.category}" loading="lazy">`;
-                    grid.appendChild(item);
-                });
-            }
-        }
-
     })();
 
 });
-

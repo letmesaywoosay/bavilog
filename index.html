@@ -3,48 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="솔로 아티스트 BAVI(바비)의 공식 포트폴리오 웹사이트. 몽환적인 신스팝의 세계로 여러분을 초대합니다.">
-    <title>BAVI | Official Portfolio</title>
+    <meta name="description" content="솔로 아티스트 BAVI(바비)의 공식 포트폴리오 웹사이트. 몽환적인 글리치 팝과 독보적인 주파수의 세계.">
+    <title>BAVI | Official Soundscape</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
     <link rel="apple-touch-icon" href="assets/images/favicon.png">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=14">
+    <!-- GSAP & Lenis Smooth Scroll CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.9/dist/lenis.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 
-    <!-- Mouse Interactive Background Glow -->
+    <!-- Mouse Interactive Background Glow & Noise Overlay -->
     <div class="bg-glow" id="bgGlow"></div>
     <div class="bg-noise"></div>
 
-    <!-- Custom Cursor -->
+    <!-- Custom Interactive Cursor -->
     <div class="custom-cursor" id="customCursor"></div>
 
-    <!-- Toast Notification -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Header / Global Navigation Bar -->
+    <!-- Header / Taste Labs Inspired Navigation -->
     <header class="header">
         <div class="header-container">
-            <a href="#home" class="logo" id="headerLogo"><img src="assets/images/logo.png" alt="BAVI logo"></a>
+            <a href="#home" class="logo" id="headerLogo">
+                <span class="logo-txt">BAVI</span>
+            </a>
+            
             <nav class="nav-desktop">
-                <a href="#home" class="nav-link active">HOME</a>
-                <a href="#profile" class="nav-link">PROFILE</a>
-                <a href="#discography" class="nav-link">DISCOGRAPHY</a>
-                <a href="#gallery" class="nav-link">GALLERY</a>
-                <a href="#schedule" class="nav-link">SCHEDULE</a>
-                <a href="#contact" class="nav-link">CONTACT</a>
+                <a href="#home" class="nav-link active" data-scramble="HOME">HOME</a>
+                <a href="#profile" class="nav-link" data-scramble="PROFILE">PROFILE</a>
+                <a href="#discography" class="nav-link" data-scramble="DISCOGRAPHY">DISCOGRAPHY</a>
+                <a href="#gallery" class="nav-link" data-scramble="GALLERY">GALLERY</a>
+                <a href="#schedule" class="nav-link" data-scramble="SCHEDULE">SCHEDULE</a>
+                <a href="#contact" class="nav-link" data-scramble="CONTACT">CONTACT</a>
             </nav>
-            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
+
+            <div class="header-action">
+                <a href="#discography" class="btn-pill-scramble" data-scramble="LISTEN NOW">
+                    <i data-lucide="disc" style="width: 14px; height: 14px; color: var(--accent-cyan);"></i> LISTEN NOW
+                </a>
+                <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -61,74 +70,130 @@
     <!-- Main Content -->
     <main>
         
-        <!-- SECTION 1: HOME -->
+        <!-- SECTION 1: HERO -->
         <section id="home" class="hero-section">
             <div class="hero-inner">
                 <div class="hero-content">
-                    <span class="hero-subtitle" id="heroSubtitle">NEW ALBUM JUST DROPPED!</span>
-                    <h1 class="hero-title animate-text" id="heroTitle">BAVIation</h1>
-                    <p class="hero-desc" id="heroDesc">
-                        BAVI의 스페셜 EP 앨범 'BAVIation' 발매.<br>
-                        몽환적이면서도 세련된 타이틀곡 'Perfect Glitch'를 지금 감상해보세요.
-                    </p>
-                    <div class="hero-actions">
-                        <button class="btn btn-primary" id="heroPlayBtn">
-                            <i data-lucide="play" class="btn-icon"></i> LISTEN NOW
-                        </button>
-                        <a href="#profile" class="btn btn-secondary">DISCOVER BAVI</a>
+                    <div class="hero-badge-wrap">
+                        <span class="pill-badge">
+                            <span class="dot"></span>
+                            <span id="heroSubtitle">SOLOIST / SINGER-SONGWRITER BAVI</span>
+                        </span>
                     </div>
+
+                    <h1 class="global-headline-xl hero-title" id="heroTitle">
+                        <span class="is-grey">DECODING THE SOUNDSCAPE</span><br>
+                        BAVIation PART 2
+                    </h1>
+
+                    <p class="hero-desc" id="heroDesc">
+                        정형화된 팝의 틀을 깨는 글리치 팝과 극도로 맑은 에어리 보컬.<br>
+                        몽환적이면서도 세련된 타이틀곡 'Perfect Glitch'의 새로운 주파수를 경험해보세요.
+                    </p>
+
+                    <div class="hero-actions">
+                        <button class="btn-primary" id="heroPlayBtn">
+                            <i data-lucide="play" style="width: 18px; height: 18px; fill: currentColor;"></i> PLAY TITLE TRACK
+                        </button>
+                        <a href="#profile" class="btn-secondary">DISCOVER BAVI</a>
+                    </div>
+
                     <div class="hero-streaming">
-                        <span class="streaming-label">LISTEN ON</span>
+                        <span class="streaming-label">STREAMING ON</span>
                         <div class="streaming-links">
-                            <a href="https://open.spotify.com/artist/3LAVKyNfSUhK5RZzJ25a20?si=6yH9qs2xTBiSL2i1KqR9sw" target="_blank" rel="noopener noreferrer" class="streaming-item spotify" title="Spotify">
+                            <a href="https://open.spotify.com/artist/3LAVKyNfSUhK5RZzJ25a20" target="_blank" rel="noopener" class="streaming-item">
                                 <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.565.387-.86.207-2.377-1.454-5.37-1.783-8.893-1.026-.33.078-.667-.125-.74-.463-.078-.33.125-.667.463-.74 3.854-.88 7.15-.506 9.822 1.13.295.18.387.563.208.862zm1.224-2.724c-.226.367-.707.487-1.074.26-2.72-1.672-6.87-2.157-10.082-1.182-.413.125-.85-.107-.978-.52-.125-.413.107-.85.52-.978 3.673-1.114 8.243-.574 11.35 1.337.368.227.487.707.264 1.083zm.107-2.834C14.862 8.942 9.78 8.775 6.84 9.667c-.46.14-.943-.12-.108-.58-.14-.46.12-.943.58-1.08 3.39-1.03 9-1.025 12.56 1.09.414.246.55.776.304 1.19-.247.414-.777.55-1.19.304z"/>
                                 </svg> Spotify
                             </a>
-                            <a href="https://music.youtube.com/channel/UCmr8Wt03FOxg6LyorEFgOtg?si=sdgEFXI0FgnP_H_0" target="_blank" rel="noopener noreferrer" class="streaming-item youtube-music" title="YouTube Music">
+                            <a href="https://music.youtube.com/channel/UCmr8Wt03FOxg6LyorEFgOtg" target="_blank" rel="noopener" class="streaming-item">
                                 <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                                 </svg> YouTube Music
                             </a>
-                            <a href="https://music.apple.com/kr/artist/bavi/6779288188" target="_blank" rel="noopener noreferrer" class="streaming-item apple-music" title="Apple Music">
+                            <a href="https://music.apple.com/kr/artist/bavi/6779288188" target="_blank" rel="noopener" class="streaming-item">
                                 <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-.96.04-2.13.64-2.82 1.45-.6.7-1.13 1.84-.99 2.94.99.08 2.16-.52 2.82-1.33"/>
                                 </svg> Apple Music
                             </a>
                         </div>
                     </div>
-                    <div class="hero-socials">
-                        <span class="streaming-label">CONNECT ON</span>
-                        <div class="social-links">
-                            <a href="https://www.instagram.com/bavibabygirl" target="_blank" rel="noopener noreferrer" class="social-item instagram" title="Instagram">
-                                <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                                </svg> Instagram
-                            </a>
-                        </div>
-                    </div>
-
                 </div>
+
                 <div class="hero-visual">
-                    <div class="hero-image-wrapper">
+                    <div class="hero-image-wrapper glass">
                         <img src="assets/images/album_baviation.jpg" alt="Album Cover" class="hero-img" id="heroImg">
                         <div class="hero-image-glow"></div>
+                        
+                        <div class="hero-floating-tag">
+                            <div class="audio-bars">
+                                <div class="audio-bar"></div>
+                                <div class="audio-bar"></div>
+                                <div class="audio-bar"></div>
+                                <div class="audio-bar"></div>
+                            </div>
+                            <div class="tag-info">
+                                <span class="tag-title">Perfect Glitch</span>
+                                <span class="tag-sub">1st Special EP BAVIation</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- SECTION 2: TASTE LABS STYLE 3D VISUAL CAROUSEL WALL -->
+        <section class="carousel-section">
+            <div class="carousel-title-container">
+                <h2 class="global-headline-s">
+                    <span class="is-grey">VISUAL ARCHIVE — </span>CONCEPT MATRIX
+                </h2>
+            </div>
+            <div class="carousel-perspective-wrapper" id="carouselWrapper">
+                <div class="carousel-3d-matrix" id="carouselMatrix">
+                    <div class="carousel-card-item">
+                        <img src="assets/images/album_baviation.jpg" class="carousel-card-img" alt="BAVIation">
+                        <div class="carousel-card-overlay">
+                            <span class="carousel-card-tag">1ST EP</span>
+                            <h3 class="carousel-card-heading">BAVIation</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-card-item">
+                        <img src="assets/images/album_just_one_minute.png" class="carousel-card-img" alt="Just One Minute">
+                        <div class="carousel-card-overlay">
+                            <span class="carousel-card-tag">SINGLE</span>
+                            <h3 class="carousel-card-heading">Just One Minute</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-card-item">
+                        <img src="assets/images/album_annyeong_sesanga.jpg" class="carousel-card-img" alt="안녕, 세상아">
+                        <div class="carousel-card-overlay">
+                            <span class="carousel-card-tag">NEW SINGLE</span>
+                            <h3 class="carousel-card-heading">안녕, 세상아</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-card-item">
+                        <img src="assets/images/profile_avatar.jpg" class="carousel-card-img" alt="Profile Visual">
+                        <div class="carousel-card-overlay">
+                            <span class="carousel-card-tag">IDENTITY</span>
+                            <h3 class="carousel-card-heading">Airy Voice</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <!-- SECTION 2: PROFILE -->
-        <!-- SECTION 2: PROFILE -->
-        <section id="profile" class="profile-section section-padding">
-            <div class="section-header text-center">
-                <h2 class="section-title gradient-text">PROFILE</h2>
-                <p class="section-subtitle">아티스트 바비(BAVI)의 스토리와 핵심 소개</p>
+        <!-- SECTION 3: PROFILE -->
+        <section id="profile" class="profile-section">
+            <div class="section-header">
+                <h2 class="global-headline-l section-title">
+                    <span class="is-grey">ARTIST PROFILE — </span>IDENTITY & BIO
+                </h2>
+                <p class="section-subtitle">아티스트 바비(BAVI)의 독보적인 예술성과 주파수</p>
             </div>
             
             <div class="profile-container">
-                <div class="profile-card profile-bio glass">
+                <div class="profile-card glass">
                     <div class="bio-header">
                         <div class="bio-avatar-wrapper">
                             <img src="assets/images/profile_avatar.jpg" alt="BAVI profile avatar" class="bio-avatar">
@@ -147,14 +212,14 @@
                             허스키함을 완전히 걷어낸, 극도로 맑고 투명하면서도 비몽사몽한 나른함이 묻어나는 20대 초반의 에어리(Airy) 보컬 톤은 청자들에게 마치 디지털 미로 속이나 아늑한 나만의 비밀방(Secret Room)에 누워있는 듯한 묘하고 중독적인 공간감을 선사합니다.
                         </p>
                         <p class="bio-paragraph">
-                            컴퓨터 시스템의 반전이나 오류를 뜻하는 HELLO WORLD, PERFECT GLITCH, EASTER EGG와 같은 키워드를 직접 작사·작곡으로 풀어내며, 차가운 디지털 코드 속에 숨겨진 낭만적인 일탈의 서사를 노래합니다. 톡톡 튀는 소스들과 투명한 음색의 세련된 편차(Deviation)를 통해 메인스트림 K-pop 신에 혁신적인 패러다임을 던지는 가장 아이코닉한 아티스트입니다.
+                            컴퓨터 시스템의 반전이나 오류를 뜻하는 HELLO WORLD, PERFECT GLITCH, EASTER EGG와 같은 키워드를 직접 작사·작곡으로 풀어내며, 차가운 디지털 코드 속에 숨겨진 낭만적인 일탈의 서사를 노래합니다.
                         </p>
                     </div>
                 </div>
 
                 <div class="profile-details-grid">
                     <!-- Info Card -->
-                    <div class="profile-card glass info-card">
+                    <div class="profile-card glass">
                         <h4 class="card-title"><i data-lucide="user"></i> Information</h4>
                         <ul class="info-list">
                             <li><strong>Name :</strong> BAVI (박하은)</li>
@@ -165,15 +230,15 @@
                     </div>
 
                     <!-- Skills/Keywords Card -->
-                    <div class="profile-card glass keywords-card">
-                        <h4 class="card-title"><i data-lucide="sparkles"></i> Identity</h4>
+                    <div class="profile-card glass">
+                        <h4 class="card-title"><i data-lucide="sparkles"></i> Identity Keywords</h4>
                         <div class="keyword-tags">
                             <span class="tag tag-pink">#Pink</span>
                             <span class="tag tag-purple">#Ponytail</span>
-                            <span class="tag tag-blue">#DreamyVoice</span>
-                            <span class="tag tag-cyan">#MyOwnSpace</span>
-                            <span class="tag tag-pink">#Tech</span>
-                            <span class="tag tag-cyan">#SmallDeviations</span>
+                            <span class="tag tag-cyan">#DreamyVoice</span>
+                            <span class="tag tag-pink">#MyOwnSpace</span>
+                            <span class="tag tag-cyan">#Tech</span>
+                            <span class="tag tag-purple">#SmallDeviations</span>
                         </div>
                     </div>
 
@@ -189,12 +254,12 @@
                             <div class="timeline-item">
                                 <div class="timeline-dot"></div>
                                 <span class="timeline-date">2026.07.17</span>
-                                <p class="timeline-desc">싱글 'Just One Minute' 발매 예정</p>
+                                <p class="timeline-desc">싱글 'Just One Minute' 발매</p>
                             </div>
                             <div class="timeline-item">
                                 <div class="timeline-dot"></div>
                                 <span class="timeline-date">2026.07.25</span>
-                                <p class="timeline-desc">싱글 '안녕, 세상아(Unpressed)' 발매 예정</p>
+                                <p class="timeline-desc">싱글 '안녕, 세상아(Unpressed)' 발매</p>
                             </div>
                         </div>
                     </div>
@@ -202,23 +267,25 @@
             </div>
         </section>
 
-        <!-- SECTION 3: DISCOGRAPHY -->
-        <section id="discography" class="discography-section section-padding">
-            <div class="section-header text-center">
-                <h2 class="section-title gradient-text">DISCOGRAPHY</h2>
-                <p class="section-subtitle">BAVI Baby Girl, 작은 일탈을 담은 음반 목록</p>
+        <!-- SECTION 4: DISCOGRAPHY -->
+        <section id="discography" class="discography-section">
+            <div class="section-header">
+                <h2 class="global-headline-l section-title">
+                    <span class="is-grey">SOUND ENGINE — </span>DISCOGRAPHY
+                </h2>
+                <p class="section-subtitle">바비(BAVI)의 공식 앨범 & 음원 트랙</p>
             </div>
 
             <div class="album-grid">
-                <!-- Album (BAVIation) -->
+                <!-- Album 1: BAVIation -->
                 <div class="album-card glass" data-album-id="album-3">
                     <div class="album-cover-wrapper">
-                        <img src="assets/images/album_baviation.jpg" alt="BAVIation Album Cover" class="album-cover">
+                        <img src="assets/images/album_baviation.jpg" alt="BAVIation" class="album-cover">
                         <div class="album-hover-overlay">
-                            <button class="btn-icon-play" data-track-url="assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.wav" data-track-name="Perfect Glitch" data-album-name="BAVIation" data-album-img="assets/images/album_baviation.jpg">
-                                <i data-lucide="play"></i>
+                            <button class="btn-icon-play" data-track-url="assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.wav">
+                                <i data-lucide="play" style="width: 28px; height: 28px; fill: currentColor;"></i>
                             </button>
-                            <button class="btn btn-sm btn-glass btn-album-details">VIEW TRACKS</button>
+                            <button class="btn-glass btn-album-details">VIEW TRACKS</button>
                         </div>
                     </div>
                     <div class="album-info">
@@ -228,15 +295,15 @@
                     </div>
                 </div>
 
-                <!-- Album (Just One Minute) -->
+                <!-- Album 2: Just One Minute -->
                 <div class="album-card glass" data-album-id="album-4">
                     <div class="album-cover-wrapper">
-                        <img src="assets/images/album_just_one_minute.png" alt="Just One Minute Album Cover" class="album-cover">
+                        <img src="assets/images/album_just_one_minute.png" alt="Just One Minute" class="album-cover">
                         <div class="album-hover-overlay">
-                            <button class="btn-icon-play" data-track-url="assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav" data-track-name="Just One Minute" data-album-name="Just One Minute" data-album-img="assets/images/album_just_one_minute.png">
-                                <i data-lucide="play"></i>
+                            <button class="btn-icon-play" data-track-url="assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav">
+                                <i data-lucide="play" style="width: 28px; height: 28px; fill: currentColor;"></i>
                             </button>
-                            <button class="btn btn-sm btn-glass btn-album-details">VIEW TRACKS</button>
+                            <button class="btn-glass btn-album-details">VIEW TRACKS</button>
                         </div>
                     </div>
                     <div class="album-info">
@@ -246,15 +313,15 @@
                     </div>
                 </div>
 
-                <!-- Album (안녕, 세상아) -->
+                <!-- Album 3: 안녕, 세상아 -->
                 <div class="album-card glass" data-album-id="album-5">
                     <div class="album-cover-wrapper">
-                        <img src="assets/images/album_annyeong_sesanga.jpg" alt="안녕, 세상아(Unpressed) Album Cover" class="album-cover">
+                        <img src="assets/images/album_annyeong_sesanga.jpg" alt="안녕, 세상아" class="album-cover">
                         <div class="album-hover-overlay">
-                            <button class="btn-icon-play" data-track-url="assets/audio/Single_Annyeong Sesanga/BAVI_Annyeong Sesanga.wav" data-track-name="안녕, 세상아" data-album-name="안녕, 세상아(Unpressed)" data-album-img="assets/images/album_annyeong_sesanga.jpg">
-                                <i data-lucide="play"></i>
+                            <button class="btn-icon-play" data-track-url="assets/audio/Single_Annyeong Sesanga/BAVI_Annyeong Sesanga.wav">
+                                <i data-lucide="play" style="width: 28px; height: 28px; fill: currentColor;"></i>
                             </button>
-                            <button class="btn btn-sm btn-glass btn-album-details">VIEW TRACKS</button>
+                            <button class="btn-glass btn-album-details">VIEW TRACKS</button>
                         </div>
                     </div>
                     <div class="album-info">
@@ -266,251 +333,161 @@
             </div>
         </section>
 
-        <!-- Album Details Modal (Hidden by default) -->
-        <div class="modal-backdrop" id="albumModal">
-            <div class="modal-content glass">
-                <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">
-                    <i data-lucide="x"></i>
-                </button>
-                <div class="modal-body-grid">
-                    <div class="modal-album-visual">
-                        <img src="" alt="Album Cover Large" class="modal-album-img" id="modalAlbumImg">
-                    </div>
-                    <div class="modal-album-details">
-                        <span class="album-type" id="modalAlbumType">Album Type</span>
-                        <h3 class="modal-album-name" id="modalAlbumName">Album Name</h3>
-                        <p class="modal-album-desc" id="modalAlbumDesc">앨범에 대한 소개 문구가 여기에 노출됩니다.</p>
-                        
-                        <h4 class="tracklist-title">TRACK LIST</h4>
-                        <div class="tracklist" id="modalTracklist">
-                            <!-- Dynamically populated -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Lyrics Modal -->
-        <div class="modal-backdrop" id="lyricsModal">
-            <div class="lyrics-modal-content glass">
-                <button class="modal-close" id="lyricsModalCloseBtn" aria-label="Close lyrics modal">
-                    <i data-lucide="x"></i>
-                </button>
-                <div class="lyrics-modal-header">
-                    <svg class="lyrics-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                        <polyline points="10 9 9 9 8 9"/>
-                    </svg>
-                    <div>
-                        <span class="lyrics-label">LYRICS</span>
-                        <h3 class="lyrics-song-title" id="lyricsSongTitle"></h3>
-                    </div>
-                </div>
-                <div class="lyrics-body" id="lyricsBody">
-                    <!-- Dynamically populated via fetch -->
-                </div>
-            </div>
-        </div>
-
-        <!-- SECTION 4: GALLERY -->
-        <section id="gallery" class="gallery-section section-padding">
+        <!-- SECTION 5: GALLERY -->
+        <section id="gallery" class="gallery-section">
             <div class="section-header text-center">
-                <h2 class="section-title gradient-text">GALLERY</h2>
-                <p class="section-subtitle">바비(BAVI)의 매혹적인 비주얼 모먼트</p>
+                <h2 class="global-headline-l section-title">
+                    <span class="is-grey">VISUAL WORLD — </span>GALLERY
+                </h2>
+                <p class="section-subtitle">무대와 비하인드 순간들의 시각적 기록</p>
             </div>
 
-            <!-- Gallery Filter Tabs -->
             <div class="gallery-filters">
                 <button class="btn-filter active" data-filter="all">ALL</button>
-                <button class="btn-filter" data-filter="concept">CONCEPT</button>
                 <button class="btn-filter" data-filter="stage">STAGE</button>
+                <button class="btn-filter" data-filter="concept">CONCEPT</button>
                 <button class="btn-filter" data-filter="behind">BEHIND</button>
             </div>
 
-            <!-- Gallery Grid -->
-            <div class="gallery-grid" id="galleryGrid">
-                <!-- Dynamically populated from assets/images/gallery-data.json -->
-                <div class="gallery-loading">Loading gallery...</div>
-            </div>
-
-            <!-- Gallery Pagination -->
-            <div class="gallery-pagination" id="galleryPagination"></div>
-        </section>
-
-        <!-- Lightbox Modal (Hidden by default) -->
-        <div class="lightbox-backdrop" id="lightbox">
-            <button class="lightbox-close" id="lightboxCloseBtn" aria-label="Close gallery lightbox">
-                <i data-lucide="x"></i>
-            </button>
-            <button class="lightbox-prev" id="lightboxPrevBtn" aria-label="Previous image">
-                <i data-lucide="chevron-left"></i>
-            </button>
-            <div class="lightbox-content">
-                <img src="" alt="Enlarged gallery visual" class="lightbox-img" id="lightboxImg">
-                <div class="lightbox-caption" id="lightboxCaption">Caption Text</div>
-            </div>
-            <button class="lightbox-next" id="lightboxNextBtn" aria-label="Next image">
-                <i data-lucide="chevron-right"></i>
-            </button>
-        </div>
-
-        <!-- SECTION 5: SCHEDULE -->
-        <section id="schedule" class="schedule-section section-padding">
-            <div class="section-header text-center">
-                <h2 class="section-title gradient-text">SCHEDULE</h2>
-                <p class="section-subtitle">BAVI의 향후 활동 및 일정 안내</p>
-            </div>
-
-            <div class="schedule-container glass">
-                <div class="schedule-header-summary">
-                    <div class="countdown-card">
-                        <span class="countdown-label">DAYS SINCE LAUNCH</span>
-                        <div class="countdown-time" id="countdownTimer">00D 00H 00M 00S</div>
-                    </div>
+            <div class="gallery-grid">
+                <div class="gallery-item glass" data-category="stage">
+                    <img src="assets/images/album_baviation.jpg" alt="Stage shot">
                 </div>
-                
-                <div class="schedule-list">
-                    <!-- Schedule Item 1 -->
-                    <div class="schedule-item">
-                        <div class="schedule-date-badge">
-                            <span class="day">11</span>
-                            <span class="month">JUL</span>
-                        </div>
-                        <div class="schedule-details">
-                            <span class="schedule-time">18:00 KST</span>
-                            <h3 class="schedule-title">1st Special EP 'BAVIation' 발매</h3>
-                            <p class="schedule-desc">각종 음원 사이트 및 공식 유튜브 채널 공개</p>
-                        </div>
-                        <div class="schedule-status-badge live">LIVE</div>
-                    </div>
-
-                    <!-- Schedule Item 2 -->
-                    <div class="schedule-item">
-                        <div class="schedule-date-badge">
-                            <span class="day">17</span>
-                            <span class="month">JUL</span>
-                        </div>
-                        <div class="schedule-details">
-                            <span class="schedule-time">12:00 KST</span>
-                            <h3 class="schedule-title">Single 'Just One Minute' 발매</h3>
-                            <p class="schedule-desc">위트 있는 얼터너티브 팝 싱글 'Just One Minute' 전 세계 음원 사이트 공개</p>
-                        </div>
-                        <div class="schedule-status-badge future">D-06</div>
-                    </div>
+                <div class="gallery-item glass" data-category="concept">
+                    <img src="assets/images/album_just_one_minute.png" alt="Concept shot">
+                </div>
+                <div class="gallery-item glass" data-category="behind">
+                    <img src="assets/images/album_annyeong_sesanga.jpg" alt="Behind shot">
+                </div>
+                <div class="gallery-item glass" data-category="concept">
+                    <img src="assets/images/profile_avatar.jpg" alt="Portrait">
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 6: CONTACT -->
-        <section id="contact" class="contact-section section-padding">
-            <div class="section-header text-center">
-                <h2 class="section-title gradient-text">CONTACT</h2>
-                <p class="section-subtitle">비즈니스 협업 및 제안 문의</p>
+        <!-- SECTION 6: SCHEDULE -->
+        <section id="schedule" class="schedule-section">
+            <div class="section-header">
+                <h2 class="global-headline-l section-title">
+                    <span class="is-grey">CALENDAR — </span>SCHEDULE
+                </h2>
+                <p class="section-subtitle">공식 스케줄 및 주요 이벤트 일정</p>
             </div>
 
-            <div class="contact-grid">
-                <!-- Inquiry Form -->
-                <div class="contact-card glass form-card">
-                    <h3 class="contact-card-title"><i data-lucide="mail"></i> BUSINESS INQUIRY</h3>
-                    <form id="contactForm" class="contact-form">
-                        <div class="form-row-2">
-                            <div class="form-group">
-                                <label for="formName">NAME / COMPANY</label>
-                                <input type="text" id="formName" required placeholder="성함 또는 기업명">
-                            </div>
-                            <div class="form-group">
-                                <label for="formEmail">EMAIL ADDRESS</label>
-                                <input type="email" id="formEmail" required placeholder="이메일 주소">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="formSubject">SUBJECT</label>
-                            <input type="text" id="formSubject" required placeholder="문의 제목">
-                        </div>
-                        <div class="form-group">
-                            <label for="formMessage">MESSAGE</label>
-                            <textarea id="formMessage" rows="5" required placeholder="문의하실 세부 내용을 입력해주세요..."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-secondary btn-block">
-                            <i data-lucide="send" class="btn-icon"></i> SEND MESSAGE
-                        </button>
-                    </form>
+            <div class="schedule-container">
+                <div class="schedule-item glass">
+                    <div class="schedule-left">
+                        <span class="schedule-date">2026.07.11</span>
+                        <span class="schedule-title">1st Special EP 'BAVIation' 발매 & 공식 데뷔</span>
+                    </div>
+                    <span class="schedule-badge done">RELEASED</span>
+                </div>
+                <div class="schedule-item glass">
+                    <div class="schedule-left">
+                        <span class="schedule-date">2026.07.17</span>
+                        <span class="schedule-title">싱글 'Just One Minute' 음원 공개</span>
+                    </div>
+                    <span class="schedule-badge done">RELEASED</span>
+                </div>
+                <div class="schedule-item glass">
+                    <div class="schedule-left">
+                        <span class="schedule-date">2026.07.25</span>
+                        <span class="schedule-title">싱글 '안녕, 세상아(Unpressed)' 음원 공개</span>
+                    </div>
+                    <span class="schedule-badge done">RELEASED</span>
                 </div>
             </div>
         </section>
+
+        <!-- SECTION 7: TASTE LABS STYLE FOOTER -->
+        <footer id="contact" class="footer-section">
+            <div class="footer-container">
+                <div>
+                    <h4 class="footer-col-title">CONNECT ON</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="https://www.instagram.com/bavibabygirl" target="_blank" rel="noopener" class="footer-link-item">Instagram</a></li>
+                        <li><a href="https://open.spotify.com/artist/3LAVKyNfSUhK5RZzJ25a20" target="_blank" rel="noopener" class="footer-link-item">Spotify</a></li>
+                        <li><a href="https://music.youtube.com/channel/UCmr8Wt03FOxg6LyorEFgOtg" target="_blank" rel="noopener" class="footer-link-item">YouTube Music</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-col-title">GET IN TOUCH</h4>
+                    <button class="copy-email-btn" id="copyEmailBtn">
+                        <i data-lucide="copy" style="width: 14px; height: 14px;"></i>
+                        <span id="copyEmailTxt">hello@bavilog.com</span>
+                    </button>
+                </div>
+
+                <div>
+                    <h4 class="footer-col-title">LOCATION</h4>
+                    <p class="footer-link-item">SEOUL, SOUTH KOREA</p>
+                    <p class="footer-link-item" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">VVS PRODUCING LAB</p>
+                </div>
+
+                <div>
+                    <h4 class="footer-col-title">ADMIN PANEL</h4>
+                    <a href="/admin/" target="_blank" class="footer-link-item" style="color: var(--accent-cyan);">
+                        <i data-lucide="lock" style="width: 12px; height: 12px; display: inline-block;"></i> Admin Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>&copy; 2026 BAVI & VVS PRODUCING. ALL RIGHTS RESERVED.</span>
+                <span>BAVI LOG / SOUND INFRASTRUCTURE</span>
+            </div>
+        </footer>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-left">
-                <span class="footer-logo"><img src="assets/images/logo.png" alt="BAVI logo"></span>
-                <p class="footer-copyright">&copy; 2026 VVS Producing. All rights reserved.</p>
-            </div>
-            <div class="footer-socials">
-                <a href="https://music.youtube.com/channel/UCmr8Wt03FOxg6LyorEFgOtg?si=sdgEFXI0FgnP_H_0" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Youtube"><i data-lucide="youtube"></i></a>
-                <a href="https://www.instagram.com/bavibabygirl" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i data-lucide="instagram"></i></a>
-                <a href="#" class="social-link" aria-label="Twitter"><i data-lucide="twitter"></i></a>
-                <a href="https://open.spotify.com/artist/3LAVKyNfSUhK5RZzJ25a20?si=6yH9qs2xTBiSL2i1KqR9sw" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Spotify"><i data-lucide="music-4"></i></a>
+    <!-- Persistent Audio Player Bar -->
+    <div class="player-bar" id="playerBar">
+        <div class="player-track-info">
+            <img src="assets/images/album_baviation.jpg" alt="Now Playing" class="player-album-img" id="playerAlbumImg">
+            <div class="player-text">
+                <span class="player-title" id="playerSongTitle">Perfect Glitch</span>
+                <span class="player-artist" id="playerSongArtist">BAVI</span>
             </div>
         </div>
-    </footer>
 
-    <!-- Persistent Bottom Audio Player -->
-    <div class="persistent-player-bar glass" id="playerBar">
-        <div class="player-container">
-            <!-- Left: Song details -->
-            <div class="player-song-details">
-                <div class="player-album-art-wrapper">
-                    <img src="assets/images/album_baviation.jpg" alt="Album Cover Playing" class="player-album-art" id="playerAlbumImg">
-                </div>
-                <div class="player-song-meta">
-                    <span class="player-song-title" id="playerSongTitle">Perfect Glitch</span>
-                    <span class="player-song-artist" id="playerSongArtist">BAVI</span>
-                </div>
-                <!-- Mini Visualizer Bars -->
-                <div class="player-mini-visualizer" id="miniVisualizer">
-                    <span class="vis-bar"></span>
-                    <span class="vis-bar"></span>
-                    <span class="vis-bar"></span>
-                    <span class="vis-bar"></span>
-                </div>
-            </div>
+        <div class="player-controls">
+            <button class="player-btn" id="playerBtnPrev"><i data-lucide="skip-back"></i></button>
+            <button class="player-btn player-btn-main" id="playerBtnPlay"><i data-lucide="play" id="playIcon"></i></button>
+            <button class="player-btn" id="playerBtnNext"><i data-lucide="skip-forward"></i></button>
+        </div>
 
-            <!-- Center: Audio Controls & Progress -->
-            <div class="player-controls-group">
-                <div class="player-buttons">
-                    <button class="player-btn" id="playerBtnPrev" aria-label="Previous track"><i data-lucide="skip-back"></i></button>
-                    <button class="player-btn btn-play-main" id="playerBtnPlay" aria-label="Play or Pause"><i data-lucide="play" id="playIcon"></i></button>
-                    <button class="player-btn" id="playerBtnNext" aria-label="Next track"><i data-lucide="skip-forward"></i></button>
-                </div>
-                <div class="player-progress-container">
-                    <span class="time-label" id="currentTimeLabel">0:00</span>
-                    <div class="player-progress-bar-wrapper" id="progressBarWrapper">
-                        <div class="player-progress-bar" id="progressBar"></div>
-                    </div>
-                    <span class="time-label" id="durationLabel">0:00</span>
-                </div>
+        <div class="player-progress-container">
+            <span class="progress-time" id="currentTimeLabel">0:00</span>
+            <div class="progress-bar-wrapper" id="progressBarWrapper">
+                <div class="progress-bar" id="progressBar"></div>
             </div>
-
-            <!-- Right: Secondary Controls (Volume, etc.) -->
-            <div class="player-options-group">
-                <button class="player-btn" id="playerBtnMute" aria-label="Mute or Unmute"><i data-lucide="volume-2" id="muteIcon"></i></button>
-                <div class="volume-slider-wrapper" id="volumeSliderWrapper">
-                    <div class="volume-slider-bar" id="volumeSliderBar" style="width: 80%;"></div>
-                </div>
-            </div>
+            <span class="progress-time" id="durationLabel">0:00</span>
         </div>
     </div>
 
-    <!-- HTML5 Audio Source Element (Hidden) -->
+    <!-- Album Detail Modal -->
+    <div class="modal-overlay" id="albumModal">
+        <div class="modal-container glass">
+            <button class="modal-close" id="modalCloseBtn"><i data-lucide="x"></i></button>
+            
+            <div style="display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 32px;">
+                <img src="" id="modalAlbumImg" style="width: 200px; height: 200px; border-radius: 20px; object-fit: cover;">
+                <div style="flex: 1; min-width: 240px;">
+                    <span id="modalAlbumType" class="album-type"></span>
+                    <h2 id="modalAlbumName" style="font-size: 2rem; margin: 8px 0 12px;"></h2>
+                    <p id="modalAlbumDesc" style="color: var(--text-grey); font-size: 0.95rem; line-height: 1.6;"></p>
+                </div>
+            </div>
+
+            <h4 style="font-size: 1.1rem; margin-bottom: 16px;">TRACKLIST</h4>
+            <div id="modalTracklist" style="display: flex; flex-direction: column; gap: 12px;"></div>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
     <audio id="audioElement" preload="auto"></audio>
 
-    <script src="app.js?v=53"></script>
+    <script src="app.js?v=54"></script>
 </body>
 </html>
-
