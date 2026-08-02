@@ -161,33 +161,121 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================================================
-    // 4. Taste Labs 3D Carousel Matrix Tilt & Scroll
+    // 4. 3D Coverflow Album Deck Engine (Matching Reference Image)
     // ==========================================================================
-    const carouselWrapper = document.getElementById('carouselWrapper');
-    const carouselMatrix = document.getElementById('carouselMatrix');
+    const coverflowCards = document.querySelectorAll('.coverflow-card');
+    const coverflowViewport = document.getElementById('coverflowViewport');
+    const coverflowPrev = document.getElementById('coverflowPrev');
+    const coverflowNext = document.getElementById('coverflowNext');
+    const coverflowInfoTitle = document.getElementById('coverflowInfoTitle');
+    const coverflowInfoType = document.getElementById('coverflowInfoType');
+    const coverflowInfoDate = document.getElementById('coverflowInfoDate');
 
-    if (carouselWrapper && carouselMatrix) {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
+    let activeIndex = 0;
+    const totalCards = coverflowCards.length;
 
-        carouselWrapper.addEventListener('mousedown', (e) => {
-            isDown = true;
-            startX = e.pageX - carouselWrapper.offsetLeft;
-            scrollLeft = carouselWrapper.scrollLeft;
-        });
+    function updateCoverflow(newIndex) {
+        if (totalCards === 0) return;
+        activeIndex = (newIndex + totalCards) % totalCards;
 
-        carouselWrapper.addEventListener('mouseleave', () => isDown = false);
-        carouselWrapper.addEventListener('mouseup', () => isDown = false);
+        coverflowCards.forEach((card, idx) => {
+            const diff = idx - activeIndex;
+            const absDiff = Math.abs(diff);
 
-        carouselWrapper.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - carouselWrapper.offsetLeft;
-            const walk = (x - startX) * 2;
-            carouselWrapper.scrollLeft = scrollLeft - walk;
+            if (diff === 0) {
+                // Active Center Card
+                card.style.transform = `translateX(0px) translateZ(140px) rotateY(0deg) scale(1.15)`;
+                card.style.opacity = '1';
+                card.style.zIndex = '100';
+                card.style.filter = 'none';
+                card.classList.add('active');
+
+                // Update text display
+                if (coverflowInfoTitle) coverflowInfoTitle.textContent = card.getAttribute('data-title');
+                if (coverflowInfoType) coverflowInfoType.textContent = card.getAttribute('data-type');
+                if (coverflowInfoDate) coverflowInfoDate.textContent = card.getAttribute('data-date');
+            } else if (diff < 0) {
+                // Left stacked cards (rotated inward)
+                const spacing = diff * 70 - 130;
+                const depth = absDiff * -100;
+                const rotation = Math.min(65, 45 + absDiff * 5);
+                const opacity = Math.max(0.15, 1 - absDiff * 0.22);
+                
+                card.style.transform = `translateX(${spacing}px) translateZ(${depth}px) rotateY(${rotation}deg) scale(0.9)`;
+                card.style.opacity = opacity.toString();
+                card.style.zIndex = (50 - absDiff).toString();
+                card.style.filter = `blur(${Math.min(3, absDiff * 0.8)}px)`;
+                card.classList.remove('active');
+            } else {
+                // Right stacked cards (rotated inward)
+                const spacing = diff * 70 + 130;
+                const depth = absDiff * -100;
+                const rotation = -Math.min(65, 45 + absDiff * 5);
+                const opacity = Math.max(0.15, 1 - absDiff * 0.22);
+
+                card.style.transform = `translateX(${spacing}px) translateZ(${depth}px) rotateY(${rotation}deg) scale(0.9)`;
+                card.style.opacity = opacity.toString();
+                card.style.zIndex = (50 - absDiff).toString();
+                card.style.filter = `blur(${Math.min(3, absDiff * 0.8)}px)`;
+                card.classList.remove('active');
+            }
         });
     }
+
+    // Initialize Coverflow
+    updateCoverflow(0);
+
+    // Controls
+    coverflowPrev?.addEventListener('click', () => updateCoverflow(activeIndex - 1));
+    coverflowNext?.addEventListener('click', () => updateCoverflow(activeIndex + 1));
+
+    // Click on card to jump to center
+    coverflowCards.forEach((card, idx) => {
+        card.addEventListener('click', () => updateCoverflow(idx));
+    });
+
+    // Wheel Scroll & Drag Gestures
+    coverflowViewport?.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaX) > 30 || Math.abs(e.deltaY) > 30) {
+            if (e.deltaX > 0 || e.deltaY > 0) updateCoverflow(activeIndex + 1);
+            else updateCoverflow(activeIndex - 1);
+        }
+    }, { passive: true });
+
+    let isDrag = false;
+    let startX = 0;
+
+    coverflowViewport?.addEventListener('mousedown', (e) => {
+        isDrag = true;
+        startX = e.clientX;
+    });
+
+    window.addEventListener('mouseup', () => isDrag = false);
+
+    coverflowViewport?.addEventListener('mousemove', (e) => {
+        if (!isDrag) return;
+        const diffX = e.clientX - startX;
+        if (Math.abs(diffX) > 60) {
+            if (diffX < 0) updateCoverflow(activeIndex + 1);
+            else updateCoverflow(activeIndex - 1);
+            isDrag = false;
+        }
+    });
+
+    // Touch Swipe
+    let touchStartX = 0;
+    coverflowViewport?.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    coverflowViewport?.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diffX = touchEndX - touchStartX;
+        if (Math.abs(diffX) > 40) {
+            if (diffX < 0) updateCoverflow(activeIndex + 1);
+            else updateCoverflow(activeIndex - 1);
+        }
+    }, { passive: true });
 
     // ==========================================================================
     // 5. Audio Player Functions
