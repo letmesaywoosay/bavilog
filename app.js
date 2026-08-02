@@ -498,6 +498,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 (p.bio||[]).forEach(text => { const par = document.createElement('p'); par.className = 'bio-paragraph'; par.textContent = text; bioBody.appendChild(par); });
             }
         }
+
+        // COVERFLOW DECK OVERRIDES
+        if (ad.coverflow && ad.coverflow.cards && ad.coverflow.cards.length > 0) {
+            const deck = document.getElementById('coverflowDeck');
+            if (deck) {
+                deck.innerHTML = ad.coverflow.cards.map((c, i) => `
+                    <div class="coverflow-card" data-index="${i}" data-title="${c.title}" data-type="${c.type||'SINGLE'}" data-date="${c.date||''}">
+                        <img src="${c.cover}" alt="${c.title}">
+                    </div>
+                `).join('');
+                
+                const updatedCards = deck.querySelectorAll('.coverflow-card');
+                updatedCards.forEach((card, idx) => {
+                    card.addEventListener('click', () => updateCoverflow(idx));
+                });
+                updateCoverflow(0);
+            }
+        }
     })();
 
 });

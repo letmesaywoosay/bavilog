@@ -249,6 +249,7 @@ select option{background:var(--bg3);color:var(--text);}
     <nav class="sb-nav">
       <button class="nav-btn active" data-sec="hero"><span class="nav-ic">🏠</span> Hero Banner</button>
       <button class="nav-btn" data-sec="profile"><span class="nav-ic">👤</span> Profile</button>
+      <button class="nav-btn" data-sec="coverflow"><span class="nav-ic">💿</span> Coverflow Deck</button>
       <button class="nav-btn" data-sec="disco"><span class="nav-ic">💿</span> Discography</button>
       <button class="nav-btn" data-sec="gallery"><span class="nav-ic">🖼️</span> Gallery</button>
       <button class="nav-btn" data-sec="schedule"><span class="nav-ic">📅</span> Schedule</button>
@@ -358,6 +359,37 @@ select option{background:var(--bg3);color:var(--text);}
       <div class="form-actions">
         <button class="btn btn-primary" id="saveProfile">💾 프로필 저장</button>
         <button class="btn btn-ghost" id="resetProfile">↺ 기본값 복원</button>
+      </div>
+    </div>
+
+    <!-- COVERFLOW DECK -->
+    <div id="sec-coverflow" class="section">
+      <div class="sec-hd"><h2>💿 3D Visual Archive / Coverflow Deck</h2><p>메인 페이지 3D Coverflow 앨범 덱의 앨범 카드들을 등록·수정·삭제합니다</p></div>
+      <div class="card">
+        <div class="card-hd">
+          <span>새 Coverflow 카드 등록</span>
+          <button class="btn btn-outline btn-sm" id="syncDiscoBtn">⚡ Discography 앨범 전체 가져오기</button>
+        </div>
+        <div class="card-bd">
+          <div class="frow c3">
+            <div class="fg"><label class="fl">카드 제목</label><input type="text" id="cf-title" placeholder="예: BAVIation"></div>
+            <div class="fg"><label class="fl">뱃지 / 유형</label><input type="text" id="cf-type" placeholder="예: 1ST SPECIAL EP"></div>
+            <div class="fg"><label class="fl">날짜</label><input type="text" id="cf-date" placeholder="예: 2026.07.11"></div>
+          </div>
+          <div class="fg">
+            <label class="fl">커버 이미지</label>
+            <div class="uzone sm" id="cfZone">
+              <input type="file" class="fi" id="cfFile" accept="image/*">
+              <div class="uph" id="cfPh"><div class="u-ic">💿</div><div class="u-txt">이미지 업로드</div><div class="u-hint">정사각형 권장</div></div>
+              <img id="cfPrev" class="prev-img prev-sq hidden" alt="Cover">
+            </div>
+          </div>
+          <button class="btn btn-primary mt1" id="addCfCardBtn">+ Coverflow 카드 추가</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd">등록된 Coverflow 덱 목록</div>
+        <div class="card-bd" id="cfList"></div>
       </div>
     </div>
 
@@ -481,6 +513,12 @@ const DEFAULTS = {
     tags:['#Pink','#Ponytail','#DreamyVoice','#MyOwnSpace','#Tech','#SmallDeviations'],
     timeline:[{date:'2026.07.11',desc:"1st Special EP 'BAVIation' 발매 & 데뷔"},{date:'2026.07.17',desc:"싱글 'Just One Minute' 발매 예정"},{date:'2026.07.25',desc:"싱글 '안녕, 세상아(Unpressed)' 발매 예정"}]
   },
+  coverflow:{cards:[
+    {id:'cf-0',title:'BAVIation',type:'1ST SPECIAL EP',date:'2026.07.11',cover:'../assets/images/album_baviation.jpg'},
+    {id:'cf-1',title:'Just One Minute',type:'SINGLE',date:'2026.07.17',cover:'../assets/images/album_just_one_minute.png'},
+    {id:'cf-2',title:'안녕, 세상아(Unpressed)',type:'NEW SINGLE',date:'2026.07.25',cover:'../assets/images/album_annyeong_sesanga.jpg'},
+    {id:'cf-3',title:'Airy Voice Identity',type:'CONCEPT',date:'2026.07.11',cover:'../assets/images/profile_avatar.jpg'}
+  ]},
   discography:{adminAlbums:[]},
   gallery:{adminPhotos:[]},
   schedule:{items:[]}
@@ -492,7 +530,7 @@ const BUILTIN=[
   {id:'album-5',type:'Single',name:'안녕, 세상아(Unpressed)',release:'2026.07.25',cover:'../assets/images/album_annyeong_sesanga.jpg'}
 ];
 
-let data=clone(DEFAULTS), newTracks=[], newCoverB64=null;
+let data=clone(DEFAULTS), newTracks=[], newCoverB64=null, newCfCoverB64=null;
 
 /* ── UTILS ── */
 function clone(o){return JSON.parse(JSON.stringify(o));}
@@ -541,6 +579,7 @@ function switchSec(name){
   g(`sec-${name}`).classList.add('active');
   if(name==='hero')renderHero();
   if(name==='profile')renderProfile();
+  if(name==='coverflow')renderCoverflow();
   if(name==='disco')renderDisco();
   if(name==='gallery')renderGallery();
   if(name==='schedule')renderSchedule();
@@ -680,12 +719,99 @@ function setupSchedule(){
   };
 }
 
+/* ── COVERFLOW DECK ── */
+function renderCoverflow(){
+  const c=g('cfList'),cards=data.coverflow?.cards||[];
+  if(!cards.length){c.innerHTML='<div class="empty">등록된 Coverflow 카드가 없습니다.</div>';return;}
+  c.innerHTML=cards.map((item,i)=>`
+    <div class="arow">
+      <img class="athumb" src="${item.cover}" alt="${item.title}" onerror="this.style.display='none'">
+      <div class="ameta">
+        <div class="atype">${item.type||'SINGLE'}</div>
+        <div class="aname">${item.title}</div>
+        <div class="adate">${item.date||''}</div>
+      </div>
+      <button class="btn btn-ghost btn-xs" data-cfup="${i}">⬆️</button>
+      <button class="btn btn-ghost btn-xs" data-cfdn="${i}">⬇️</button>
+      <button class="btn btn-danger btn-sm" data-cfdel="${i}">🗑️ 삭제</button>
+    </div>
+  `).join('');
+
+  c.querySelectorAll('[data-cfdel]').forEach(b=>b.onclick=e=>{
+    data.coverflow.cards.splice(+e.target.dataset.cfdel,1);
+    save();renderCoverflow();toast('Coverflow 카드가 삭제되었습니다.','info');
+  });
+
+  c.querySelectorAll('[data-cfup]').forEach(b=>b.onclick=e=>{
+    const i=+e.target.dataset.cfup;
+    if(i>0){
+      const tmp=data.coverflow.cards[i];
+      data.coverflow.cards[i]=data.coverflow.cards[i-1];
+      data.coverflow.cards[i-1]=tmp;
+      save();renderCoverflow();
+    }
+  });
+
+  c.querySelectorAll('[data-cfdn]').forEach(b=>b.onclick=e=>{
+    const i=+e.target.dataset.cfdn;
+    if(i<data.coverflow.cards.length-1){
+      const tmp=data.coverflow.cards[i];
+      data.coverflow.cards[i]=data.coverflow.cards[i+1];
+      data.coverflow.cards[i+1]=tmp;
+      save();renderCoverflow();
+    }
+  });
+}
+
+function setupCoverflow(){
+  upzone('cfZone','cfFile',async f=>{
+    newCfCoverB64=await compress(f);
+    g('cfPrev').src=newCfCoverB64;
+    g('cfPrev').classList.remove('hidden');
+    g('cfPh').classList.add('hidden');
+    g('cfZone').classList.add('has');
+  });
+
+  g('addCfCardBtn').onclick=()=>{
+    const title=g('cf-title').value.trim();
+    if(!title){toast('카드 제목을 입력해주세요.','err');return;}
+    if(!data.coverflow)data.coverflow={cards:[]};
+    data.coverflow.cards.push({
+      id:`cf-${Date.now()}`,
+      title,
+      type:g('cf-type').value.trim()||'SINGLE',
+      date:g('cf-date').value.trim()||'2026.07.11',
+      cover:newCfCoverB64||'../assets/images/album_baviation.jpg'
+    });
+    save();
+    g('cf-title').value='';g('cf-type').value='';g('cf-date').value='';
+    g('cfPrev').classList.add('hidden');g('cfPh').classList.remove('hidden');g('cfZone').classList.remove('has');
+    newCfCoverB64=null;
+    renderCoverflow();toast('✅ Coverflow 카드가 추가되었습니다!');
+  };
+
+  g('syncDiscoBtn').onclick=()=>{
+    if(!data.coverflow)data.coverflow={cards:[]};
+    BUILTIN.forEach(b=>{
+      if(!data.coverflow.cards.some(c=>c.title===b.name)){
+        data.coverflow.cards.push({id:`cf-${b.id}`,title:b.name,type:b.type,date:b.release,cover:b.cover});
+      }
+    });
+    (data.discography?.adminAlbums||[]).forEach(a=>{
+      if(!data.coverflow.cards.some(c=>c.title===a.name)){
+        data.coverflow.cards.push({id:`cf-${a.id}`,title:a.name,type:a.type,date:a.release,cover:a.cover||'../assets/images/album_baviation.jpg'});
+      }
+    });
+    save();renderCoverflow();toast('⚡ Discography 앨범들이 Coverflow 덱에 동기화되었습니다!');
+  };
+}
+
 /* ── DASHBOARD INIT ── */
 function initDash(){
   load();
   document.querySelectorAll('.nav-btn').forEach(b=>b.onclick=()=>switchSec(b.dataset.sec));
   g('logoutBtn').onclick=doLogout;
-  setupHero(); setupProfile(); setupDisco(); setupGallery(); setupSchedule();
+  setupHero(); setupProfile(); setupCoverflow(); setupDisco(); setupGallery(); setupSchedule();
   switchSec('hero');
 }
 
