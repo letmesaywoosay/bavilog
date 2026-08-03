@@ -645,7 +645,8 @@ img {
     padding: 0 32px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    text-align: center;
     flex-wrap: wrap;
     gap: 16px;
 }
