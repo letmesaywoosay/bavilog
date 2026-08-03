@@ -70,7 +70,7 @@
         
         <!-- SECTION 1: HOME (3D DISCOGRAPHY COVERFLOW HERO) -->
         <section id="home" class="hero-section" style="min-height: calc(100vh - 100px); display: flex; flex-direction: column; justify-content: center; padding: 40px 0 60px;">
-            <div class="coverflow-section">
+            <div class="coverflow-section" id="discography">
                 <div class="coverflow-header">
                     <h2 class="global-headline-s">
                         <span class="is-grey">VISUAL ARCHIVE — </span>DISCOGRAPHY
@@ -89,24 +89,52 @@
                     <div class="coverflow-deck" id="coverflowDeck">
                         <div class="coverflow-card" data-index="0" data-title="BAVIation" data-type="1ST SPECIAL EP" data-date="2026.07.11">
                             <img src="assets/images/album_baviation.jpg" alt="BAVIation">
+                            <div class="coverflow-hover-play">
+                                <div class="play-ic-btn"><i data-lucide="play" style="width: 24px; height: 24px; fill: #fff; margin-left: 2px;"></i></div>
+                                <span class="play-ic-txt">LISTEN TRACKS</span>
+                            </div>
                         </div>
                         <div class="coverflow-card" data-index="1" data-title="Just One Minute" data-type="SINGLE" data-date="2026.07.17">
                             <img src="assets/images/album_just_one_minute.png" alt="Just One Minute">
+                            <div class="coverflow-hover-play">
+                                <div class="play-ic-btn"><i data-lucide="play" style="width: 24px; height: 24px; fill: #fff; margin-left: 2px;"></i></div>
+                                <span class="play-ic-txt">LISTEN TRACKS</span>
+                            </div>
                         </div>
                         <div class="coverflow-card" data-index="2" data-title="안녕, 세상아(Unpressed)" data-type="NEW SINGLE" data-date="2026.07.25">
                             <img src="assets/images/album_annyeong_sesanga.jpg" alt="안녕, 세상아">
+                            <div class="coverflow-hover-play">
+                                <div class="play-ic-btn"><i data-lucide="play" style="width: 24px; height: 24px; fill: #fff; margin-left: 2px;"></i></div>
+                                <span class="play-ic-txt">LISTEN TRACKS</span>
+                            </div>
                         </div>
                         <div class="coverflow-card" data-index="3" data-title="Airy Voice Identity" data-type="CONCEPT" data-date="2026.07.11">
                             <img src="assets/images/profile_avatar.jpg" alt="Airy Voice">
+                            <div class="coverflow-hover-play">
+                                <div class="play-ic-btn"><i data-lucide="play" style="width: 24px; height: 24px; fill: #fff; margin-left: 2px;"></i></div>
+                                <span class="play-ic-txt">LISTEN TRACKS</span>
+                            </div>
                         </div>
                         <div class="coverflow-card" data-index="4" data-title="Perfect Glitch" data-type="TITLE TRACK" data-date="2026.07.11">
                             <img src="assets/images/album_baviation.jpg" alt="Perfect Glitch">
+                            <div class="coverflow-hover-play">
+                                <div class="play-ic-btn"><i data-lucide="play" style="width: 24px; height: 24px; fill: #fff; margin-left: 2px;"></i></div>
+                                <span class="play-ic-txt">LISTEN TRACKS</span>
+                            </div>
                         </div>
                         <div class="coverflow-card" data-index="5" data-title="Hyper-Pop Spectrum" data-type="SPECTRUM" data-date="2026.07.17">
                             <img src="assets/images/album_just_one_minute.png" alt="Hyper-Pop Spectrum">
+                            <div class="coverflow-hover-play">
+                                <div class="play-ic-btn"><i data-lucide="play" style="width: 24px; height: 24px; fill: #fff; margin-left: 2px;"></i></div>
+                                <span class="play-ic-txt">LISTEN TRACKS</span>
+                            </div>
                         </div>
                         <div class="coverflow-card" data-index="6" data-title="Unpressed Narrative" data-type="SINGLE" data-date="2026.07.25">
                             <img src="assets/images/album_annyeong_sesanga.jpg" alt="Unpressed Narrative">
+                            <div class="coverflow-hover-play">
+                                <div class="play-ic-btn"><i data-lucide="play" style="width: 24px; height: 24px; fill: #fff; margin-left: 2px;"></i></div>
+                                <span class="play-ic-txt">LISTEN TRACKS</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -225,70 +253,6 @@
             </div>
         </section>
 
-        <!-- SECTION 4: DISCOGRAPHY -->
-        <section id="discography" class="discography-section">
-            <div class="section-header">
-                <h2 class="global-headline-l section-title">
-                    <span class="is-grey">SOUND ENGINE — </span>DISCOGRAPHY
-                </h2>
-                <p class="section-subtitle">바비(BAVI)의 공식 앨범 & 음원 트랙</p>
-            </div>
-
-            <div class="album-grid">
-                <!-- Album 1: BAVIation -->
-                <div class="album-card glass" data-album-id="album-3">
-                    <div class="album-cover-wrapper">
-                        <img src="assets/images/album_baviation.jpg" alt="BAVIation" class="album-cover">
-                        <div class="album-hover-overlay">
-                            <button class="btn-icon-play" data-track-url="assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.wav">
-                                <i data-lucide="play" style="width: 28px; height: 28px; fill: currentColor;"></i>
-                            </button>
-                            <button class="btn-glass btn-album-details">VIEW TRACKS</button>
-                        </div>
-                    </div>
-                    <div class="album-info">
-                        <span class="album-type">1st Special EP</span>
-                        <h3 class="album-name">BAVIation</h3>
-                        <span class="album-release">2026.07.11</span>
-                    </div>
-                </div>
-
-                <!-- Album 2: Just One Minute -->
-                <div class="album-card glass" data-album-id="album-4">
-                    <div class="album-cover-wrapper">
-                        <img src="assets/images/album_just_one_minute.png" alt="Just One Minute" class="album-cover">
-                        <div class="album-hover-overlay">
-                            <button class="btn-icon-play" data-track-url="assets/audio/Single_Just One Minute/BAVI_Just One Minute.wav">
-                                <i data-lucide="play" style="width: 28px; height: 28px; fill: currentColor;"></i>
-                            </button>
-                            <button class="btn-glass btn-album-details">VIEW TRACKS</button>
-                        </div>
-                    </div>
-                    <div class="album-info">
-                        <span class="album-type">Single</span>
-                        <h3 class="album-name">Just One Minute</h3>
-                        <span class="album-release">2026.07.17</span>
-                    </div>
-                </div>
-
-                <!-- Album 3: 안녕, 세상아 -->
-                <div class="album-card glass" data-album-id="album-5">
-                    <div class="album-cover-wrapper">
-                        <img src="assets/images/album_annyeong_sesanga.jpg" alt="안녕, 세상아" class="album-cover">
-                        <div class="album-hover-overlay">
-                            <button class="btn-icon-play" data-track-url="assets/audio/Single_Annyeong Sesanga/BAVI_Annyeong Sesanga.wav">
-                                <i data-lucide="play" style="width: 28px; height: 28px; fill: currentColor;"></i>
-                            </button>
-                            <button class="btn-glass btn-album-details">VIEW TRACKS</button>
-                        </div>
-                    </div>
-                    <div class="album-info">
-                        <span class="album-type">Single</span>
-                        <h3 class="album-name">안녕, 세상아(Unpressed)</h3>
-                        <span class="album-release">2026.07.25</span>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <!-- SECTION 5: GALLERY -->
@@ -412,6 +376,6 @@
     <!-- Audio Element -->
     <audio id="audioElement" preload="auto"></audio>
 
-    <script src="app.js?v=61"></script>
+    <script src="app.js?v=62"></script>
 </body>
 </html>

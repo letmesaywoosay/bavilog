@@ -235,14 +235,109 @@ document.addEventListener('DOMContentLoaded', () => {
     coverflowPrev?.addEventListener('click', () => updateCoverflow(activeIndex - 1));
     coverflowNext?.addEventListener('click', () => updateCoverflow(activeIndex + 1));
 
-    // Event Delegation for clicking any card
+    // Helper function to open Tracklist Modal for any album title
+    function openAlbumModalForTitle(title, fallbackCover, fallbackType, fallbackDate) {
+        if (!title) return;
+
+        let foundKey = Object.keys(albumData).find(k => 
+            albumData[k].name.toLowerCase().trim() === title.toLowerCase().trim() ||
+            title.toLowerCase().trim().includes(albumData[k].name.toLowerCase().trim()) ||
+            albumData[k].name.toLowerCase().trim().includes(title.toLowerCase().trim())
+        );
+        
+        let album = foundKey ? albumData[foundKey] : null;
+
+        if (!album) {
+            try {
+                const ad = JSON.parse(localStorage.getItem('bavi_admin_data') || 'null');
+                if (ad && ad.discography && ad.discography.adminAlbums) {
+                    const foundAdmin = ad.discography.adminAlbums.find(a => a.name.toLowerCase().trim() === title.toLowerCase().trim());
+                    if (foundAdmin) album = foundAdmin;
+                }
+            } catch(e) {}
+        }
+
+        if (!album) {
+            album = {
+                name: title,
+                type: fallbackType || 'SINGLE',
+                release: fallbackDate || '2026.07.11',
+                desc: `${title} — BAVI의 공식 트랙입니다. 플레이 버튼을 눌러 음원을 즉시 감상할 수 있습니다.`,
+                cover: fallbackCover || 'assets/images/album_baviation.jpg',
+                tracks: [
+                    { id: `t-${Date.now()}`, title: title, duration: '3:04', isTitle: true, url: 'assets/audio/EP_BAVIation part1/06. BAVI_Perfect Glitch.wav' }
+                ]
+            };
+        }
+
+        const modalAlbumImg = document.getElementById('modalAlbumImg');
+        const modalAlbumType = document.getElementById('modalAlbumType');
+        const modalAlbumName = document.getElementById('modalAlbumName');
+        const modalAlbumDesc = document.getElementById('modalAlbumDesc');
+        const modalTracklist = document.getElementById('modalTracklist');
+
+        if (modalAlbumImg) modalAlbumImg.src = album.cover || fallbackCover || 'assets/images/album_baviation.jpg';
+        if (modalAlbumType) modalAlbumType.textContent = album.type || fallbackType || 'SINGLE';
+        if (modalAlbumName) modalAlbumName.textContent = album.name || title;
+        if (modalAlbumDesc) modalAlbumDesc.textContent = album.desc || '';
+
+        if (modalTracklist) {
+            modalTracklist.innerHTML = '';
+            (album.tracks || []).forEach((track, index) => {
+                const item = document.createElement('div');
+                item.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:rgba(255,255,255,0.05); border-radius:14px; border:1px solid rgba(255,255,255,0.1);';
+                item.innerHTML = `
+                    <span style="font-weight:700; color:var(--accent-cyan); width:28px;">${String(index + 1).padStart(2, '0')}</span>
+                    <span style="flex:1; margin:0 16px; font-weight:600; font-size:0.95rem; color:#fff;">${track.title} ${track.isTitle ? '<span style="font-size:0.7rem; color:var(--accent-pink); margin-left:8px; font-weight:700;">[TITLE]</span>' : ''}</span>
+                    <span style="color:var(--text-grey); font-size:0.85rem; margin-right:16px;">${track.duration || '3:00'}</span>
+                    <button class="btn-play-track" data-title="${track.title}" data-album="${album.name || title}" data-url="${track.url}" data-cover="${album.cover || fallbackCover}" style="background:linear-gradient(135deg, var(--accent-pink), var(--accent-violet)); border:none; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; transition:transform 0.2s;">
+                        <i data-lucide="play" style="width:16px; height:16px; fill:#fff;"></i>
+                    </button>
+                `;
+                modalTracklist.appendChild(item);
+            });
+
+            if (window.lucide) lucide.createIcons();
+
+            modalTracklist.querySelectorAll('.btn-play-track').forEach(pBtn => {
+                pBtn.addEventListener('click', () => {
+                    const url = pBtn.getAttribute('data-url');
+                    const trackTitle = pBtn.getAttribute('data-title');
+                    const albumName = pBtn.getAttribute('data-album');
+                    const albumImg = pBtn.getAttribute('data-cover');
+
+                    let idx = playlist.findIndex(t => t.url === url);
+                    if (idx === -1 && url) {
+                        playlist.push({ title: trackTitle, albumName: albumName, url: url, albumImg: albumImg });
+                        idx = playlist.length - 1;
+                    }
+                    if (idx !== -1) loadSong(idx);
+                });
+            });
+        }
+
+        const albumModal = document.getElementById('albumModal');
+        if (albumModal) albumModal.classList.add('active');
+    }
+
+    // Event Delegation for clicking any card or play button overlay
     coverflowDeck?.addEventListener('click', (e) => {
         const card = e.target.closest('.coverflow-card');
-        if (card) {
-            const index = Array.from(getCoverflowCards()).indexOf(card);
-            if (index !== -1) {
-                updateCoverflow(index);
-            }
+        if (!card) return;
+
+        const index = Array.from(getCoverflowCards()).indexOf(card);
+        if (index === -1) return;
+
+        const isPlayBtnClick = e.target.closest('.coverflow-hover-play') || e.target.closest('.play-ic-btn');
+
+        if (index === activeIndex || isPlayBtnClick) {
+            const title = card.getAttribute('data-title') || 'BAVIation';
+            const cover = card.querySelector('img')?.src || '';
+            const type = card.getAttribute('data-type') || 'SINGLE';
+            const date = card.getAttribute('data-date') || '';
+            openAlbumModalForTitle(title, cover, type, date);
+        } else {
+            updateCoverflow(index);
         }
     });
 
@@ -539,10 +634,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     return `
                         <div class="coverflow-card" data-index="${i}" data-title="${c.title}" data-type="${c.type||'SINGLE'}" data-date="${c.date||''}">
                             <img src="${coverSrc}" alt="${c.title}">
+                            <div class="coverflow-hover-play">
+                                <div class="play-ic-btn"><i data-lucide="play" style="width: 24px; height: 24px; fill: #fff; margin-left: 2px;"></i></div>
+                                <span class="play-ic-txt">LISTEN TRACKS</span>
+                            </div>
                         </div>
                     `;
                 }).join('');
-                
+                if (window.lucide) lucide.createIcons();
                 updateCoverflow(0);
             }
         }
