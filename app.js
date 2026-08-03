@@ -637,7 +637,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="coverflow-card" data-index="${i}" data-title="${c.title}" data-type="${c.type||'SINGLE'}" data-date="${c.date||''}">
                             <img src="${coverSrc}" alt="${c.title}">
                             <div class="coverflow-hover-play">
-                                <div class="play-ic-btn"><i data-lucide="play" style="width: 24px; height: 24px; fill: #fff; margin-left: 2px;"></i></div>
+                                <div class="play-ic-btn">
+                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="#ffffff" style="margin-left: 3px;"><path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11-6.86a1 1 0 0 0 0-1.72l-11-6.86a1 1 0 0 0-1.5.86z"/></svg>
+                                </div>
                                 <span class="play-ic-txt">LISTEN TRACKS</span>
                             </div>
                         </div>
