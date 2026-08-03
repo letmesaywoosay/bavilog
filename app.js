@@ -234,13 +234,32 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('click', () => updateCoverflow(idx));
     });
 
-    // Wheel Scroll & Drag Gestures
-    coverflowViewport?.addEventListener('wheel', (e) => {
-        if (Math.abs(e.deltaX) > 30 || Math.abs(e.deltaY) > 30) {
-            if (e.deltaX > 0 || e.deltaY > 0) updateCoverflow(activeIndex + 1);
-            else updateCoverflow(activeIndex - 1);
+    // Wheel Scroll with Page Lock & Throttling
+    let isWheelThrottled = false;
+    const coverflowSection = document.querySelector('.coverflow-section');
+
+    const handleWheelScroll = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (isWheelThrottled) return;
+
+        const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        if (Math.abs(delta) > 5) {
+            isWheelThrottled = true;
+            if (delta > 0) {
+                updateCoverflow(activeIndex + 1);
+            } else {
+                updateCoverflow(activeIndex - 1);
+            }
+            setTimeout(() => {
+                isWheelThrottled = false;
+            }, 220);
         }
-    }, { passive: true });
+    };
+
+    coverflowViewport?.addEventListener('wheel', handleWheelScroll, { passive: false });
+    coverflowSection?.addEventListener('wheel', handleWheelScroll, { passive: false });
 
     let isDrag = false;
     let startX = 0;
