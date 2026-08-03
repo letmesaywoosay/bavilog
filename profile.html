@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROFILE — BAVI Official Website</title>
+    <meta name="description" content="BAVI(바비) 아티스트 프로필, 정체성, 바이오그래피 및 타임라인">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- GSAP & Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Taste Labs Inspired Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo" id="headerLogo">
+                <span class="logo-txt">BAVI</span>
+            </a>
+            
+            <nav class="nav-desktop">
+                <a href="index.html" class="nav-link" data-scramble="DISCOGRAPHY">DISCOGRAPHY</a>
+                <a href="profile.html" class="nav-link active" data-scramble="PROFILE">PROFILE</a>
+                <a href="#contact" class="nav-link" data-scramble="CONTACT">CONTACT</a>
+            </nav>
+
+            <div class="header-action">
+                <a href="index.html" class="btn-pill-scramble" data-scramble="LISTEN NOW">
+                    <i data-lucide="disc" style="width: 14px; height: 14px; color: var(--accent-cyan);"></i> LISTEN NOW
+                </a>
+                <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="nav-mobile" id="navMobile">
+        <a href="index.html" class="nav-mobile-link">DISCOGRAPHY</a>
+        <a href="profile.html" class="nav-mobile-link">PROFILE</a>
+        <a href="#contact" class="nav-mobile-link">CONTACT</a>
+    </div>
+
+    <!-- Main Content -->
+    <main style="padding-top: 100px;">
+        
+        <!-- SECTION: PROFILE -->
+        <section id="profile" class="profile-section">
+            <div class="section-header">
+                <h2 class="global-headline-l section-title">
+                    <span class="is-grey">ARTIST PROFILE — </span>IDENTITY & BIO
+                </h2>
+                <p class="section-subtitle">아티스트 바비(BAVI)의 독보적인 예술성과 주파수</p>
+            </div>
+            
+            <div class="profile-container">
+                <div class="profile-card glass">
+                    <div class="bio-header">
+                        <div class="bio-avatar-wrapper">
+                            <img src="assets/images/profile_avatar.jpg" alt="BAVI profile avatar" class="bio-avatar">
+                        </div>
+                        <div class="bio-title">
+                            <h3>BAVI <span class="korean-name">(바비)</span></h3>
+                            <p class="bio-tag">Soloist / Singer-Songwriter</p>
+                        </div>
+                    </div>
+                    <div class="bio-body">
+                        <p class="bio-quote">"우리는 일탈을 통해 성장하는거야."</p>
+                        <p class="bio-paragraph">
+                            BAVI(바비)는 정형화된 팝의 틀을 깨는 감각적인 글리치 팝(Glitch Pop)과 위트 있는 얼터너티브 팝을 결합하여 자신만의 독보적인 주파수를 개척해 나가는 싱어송라이터입니다.
+                        </p>
+                        <p class="bio-paragraph">
+                            허스키함을 완전히 걷어낸, 극도로 맑고 투명하면서도 비몽사몽한 나른함이 묻어나는 20대 초반의 에어리(Airy) 보컬 톤은 청자들에게 마치 디지털 미로 속이나 아늑한 나만의 비밀방(Secret Room)에 누워있는 듯한 묘하고 중독적인 공간감을 선사합니다.
+                        </p>
+                        <p class="bio-paragraph">
+                            컴퓨터 시스템의 반전이나 오류를 뜻하는 HELLO WORLD, PERFECT GLITCH, EASTER EGG와 같은 키워드를 직접 작사·작곡으로 풀어내며, 차가운 디지털 코드 속에 숨겨진 낭만적인 일탈의 서사를 노래합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="profile-details-grid">
+                    <!-- Info Card -->
+                    <div class="profile-card glass">
+                        <h4 class="card-title"><i data-lucide="user"></i> Information</h4>
+                        <ul class="info-list">
+                            <li><strong>Name :</strong> BAVI (박하은)</li>
+                            <li><strong>Debut :</strong> 2026.07.11 ('BAVIation')</li>
+                            <li><strong>Genre :</strong> Glitch-pop, Hyper-pop</li>
+                            <li><strong>Label :</strong> VVS Producing</li>
+                        </ul>
+                    </div>
+
+                    <!-- Skills/Keywords Card -->
+                    <div class="profile-card glass">
+                        <h4 class="card-title"><i data-lucide="sparkles"></i> Identity Keywords</h4>
+                        <div class="keyword-tags">
+                            <span class="tag tag-pink">#Pink</span>
+                            <span class="tag tag-purple">#Ponytail</span>
+                            <span class="tag tag-cyan">#DreamyVoice</span>
+                            <span class="tag tag-pink">#MyOwnSpace</span>
+                            <span class="tag tag-cyan">#Tech</span>
+                            <span class="tag tag-purple">#SmallDeviations</span>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Card -->
+                    <div class="profile-card glass timeline-card">
+                        <h4 class="card-title"><i data-lucide="milestone"></i> Timeline</h4>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <span class="timeline-date">2026.07.11</span>
+                                <p class="timeline-desc">1st Special EP 'BAVIation' 발매 & 데뷔</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <span class="timeline-date">2026.07.17</span>
+                                <p class="timeline-desc">싱글 'Just One Minute' 발매</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <span class="timeline-date">2026.07.25</span>
+                                <p class="timeline-desc">싱글 '안녕, 세상아(Unpressed)' 발매</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer id="contact" class="footer-section">
+            <div class="footer-container">
+                <div>
+                    <h4 class="footer-col-title">CONNECT ON</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="https://www.instagram.com/bavibabygirl" target="_blank" rel="noopener" class="footer-link-item">Instagram</a></li>
+                        <li><a href="https://open.spotify.com/artist/3LAVKyNfSUhK5RZzJ25a20" target="_blank" rel="noopener" class="footer-link-item">Spotify</a></li>
+                        <li><a href="https://music.youtube.com/channel/UCmr8Wt03FOxg6LyorEFgOtg" target="_blank" rel="noopener" class="footer-link-item">YouTube Music</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-col-title">GET IN TOUCH</h4>
+                    <button class="copy-email-btn" id="copyEmailBtn">
+                        <i data-lucide="copy" style="width: 14px; height: 14px;"></i>
+                        <span id="copyEmailTxt">hello@bavilog.com</span>
+                    </button>
+                </div>
+
+                <div>
+                    <h4 class="footer-col-title">LOCATION</h4>
+                    <p class="footer-link-item">SEOUL, SOUTH KOREA</p>
+                    <p class="footer-link-item" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">VVS PRODUCING LAB</p>
+                </div>
+
+                <div>
+                    <h4 class="footer-col-title">ADMIN PANEL</h4>
+                    <a href="/admin/" target="_blank" class="footer-link-item" style="color: var(--accent-cyan);">
+                        <i data-lucide="lock" style="width: 12px; height: 12px; display: inline-block;"></i> Admin Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>&copy; 2026 BAVI & VVS PRODUCING. ALL RIGHTS RESERVED.</span>
+                <span>BAVI LOG / SOUND INFRASTRUCTURE</span>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Persistent Audio Player Bar -->
+    <div class="player-bar" id="playerBar">
+        <div class="player-track-info">
+            <img src="assets/images/album_baviation.jpg" alt="Now Playing" class="player-album-img" id="playerAlbumImg">
+            <div class="player-text">
+                <span class="player-title" id="playerSongTitle">Perfect Glitch</span>
+                <span class="player-artist" id="playerSongArtist">BAVI</span>
+            </div>
+        </div>
+
+        <div class="player-controls">
+            <button class="player-btn" id="playerBtnPrev"><i data-lucide="skip-back"></i></button>
+            <button class="player-btn player-btn-main" id="playerBtnPlay"><i data-lucide="play" id="playIcon"></i></button>
+            <button class="player-btn" id="playerBtnNext"><i data-lucide="skip-forward"></i></button>
+        </div>
+
+        <div class="player-progress-container">
+            <span class="progress-time" id="currentTimeLabel">0:00</span>
+            <div class="progress-bar-wrapper" id="progressBarWrapper">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <span class="progress-time" id="durationLabel">0:00</span>
+        </div>
+    </div>
+
+    <!-- Album Detail Modal -->
+    <div class="modal-overlay" id="albumModal">
+        <div class="modal-container glass">
+            <button class="modal-close" id="modalCloseBtn"><i data-lucide="x"></i></button>
+            
+            <div style="display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 32px;">
+                <img src="" id="modalAlbumImg" style="width: 200px; height: 200px; border-radius: 20px; object-fit: cover;">
+                <div style="flex: 1; min-width: 240px;">
+                    <span id="modalAlbumType" class="album-type"></span>
+                    <h2 id="modalAlbumName" style="font-size: 2rem; margin: 8px 0 12px;"></h2>
+                    <p id="modalAlbumDesc" style="color: var(--text-grey); font-size: 0.95rem; line-height: 1.6;"></p>
+                </div>
+            </div>
+
+            <h4 style="font-size: 1.1rem; margin-bottom: 16px;">TRACKLIST</h4>
+            <div id="modalTracklist" style="display: flex; flex-direction: column; gap: 12px;"></div>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="audioElement" preload="auto"></audio>
+
+    <script src="app.js?v=64"></script>
+</body>
+</html>

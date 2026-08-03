@@ -229,7 +229,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize Coverflow
-    updateCoverflow(0);
+    if (coverflowDeck && getCoverflowCards().length > 0) {
+        updateCoverflow(0);
+    }
 
     // Controls
     coverflowPrev?.addEventListener('click', () => updateCoverflow(activeIndex - 1));
