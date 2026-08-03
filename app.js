@@ -649,6 +649,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateCoverflow(0);
             }
         }
+
+        // CONTACT / FOOTER OVERRIDES
+        if (ad.contact) {
+            const c = ad.contact;
+            if (c.email) { const el = document.getElementById('copyEmailTxt'); if (el) el.textContent = c.email; }
+            if (c.spotify) { const el = document.querySelector('a[href*="spotify.com"]'); if (el) el.href = c.spotify; }
+            if (c.youtubeMusic) { const el = document.querySelector('a[href*="youtube.com"]'); if (el) el.href = c.youtubeMusic; }
+            if (c.appleMusic) { const el = document.querySelector('a[href*="apple.com"]'); if (el) el.href = c.appleMusic; }
+            if (c.instagram) { const el = document.querySelector('a[href*="instagram.com"]'); if (el) el.href = c.instagram; }
+        }
     })();
 
 });

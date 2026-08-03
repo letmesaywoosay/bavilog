@@ -2,224 +2,213 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>BAVI Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAVI — Admin Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --bg:#09050f;--bg2:#120d20;--bg3:#1a1230;
-  --card:rgba(255,255,255,.05);--border:rgba(255,255,255,.09);
-  --accent:#8b5cf6;--cyan:#00e5ff;
-  --text:#f0eeff;--text2:rgba(240,238,255,.6);--text3:rgba(240,238,255,.35);
-  --danger:#f43f5e;--ok:#10b981;--warn:#f59e0b;
-  --sidebar:220px;--r:12px;--t:.18s;
+/* ═══ BAVI ADMIN DESIGN SYSTEM ═══ */
+:root {
+  --bg: #0b0813;
+  --bg-card: rgba(20, 15, 32, 0.7);
+  --bg-input: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.1);
+  --border-focus: #00e5ff;
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --accent: #00e5ff;
+  --pink: #ff2e93;
+  --text: #f3f4f6;
+  --text-sub: #9ca3af;
+  --text-muted: #6b7280;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --success: #10b981;
+  --font-body: 'Inter', sans-serif;
+  --font-head: 'Outfit', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+  --sidebar-w: 260px;
 }
-html,body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.55;}
-::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:rgba(139,92,246,.4);border-radius:4px;}
-.hidden{display:none!important;}
-.mt1{margin-top:8px;}.mt2{margin-top:16px;}
-.flex{display:flex;align-items:center;gap:10px;}
-.empty{text-align:center;padding:24px;color:var(--text3);font-size:.85rem;}
-hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0;}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button, input, textarea, select { font-family: inherit; font-size: inherit; color: inherit; }
 
-/* LOGIN */
-.login-wrap{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse 80% 60% at 50% 25%,rgba(139,92,246,.2) 0%,transparent 70%),
-             linear-gradient(160deg,#09050f,#12082a 50%,#050d1a);
+/* ═══ LOGIN OVERLAY ═══ */
+.login-wrap {
+  position: fixed; inset: 0; z-index: 9999;
+  background: radial-gradient(circle at 50% 40%, rgba(139,92,246,0.15) 0%, rgba(11,8,19,0.98) 70%);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
 }
-.login-card{
-  width:100%;max-width:420px;
-  background:rgba(255,255,255,.04);border:1px solid var(--border);
-  border-radius:24px;padding:48px 40px;
-  backdrop-filter:blur(24px);
-  box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(139,92,246,.12);
-  animation:fadeUp .4s ease;
+.login-card {
+  width: 100%; max-width: 400px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 30px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  text-align: center;
 }
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-.logo-txt{
-  font-family:'Outfit',sans-serif;font-size:2.4rem;font-weight:800;letter-spacing:5px;
-  background:linear-gradient(135deg,#8b5cf6,#00e5ff);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  margin-bottom:6px;
-}
-.login-title{font-size:1.4rem;font-weight:600;}
-.login-sub{color:var(--text3);font-size:.85rem;margin-bottom:32px;margin-top:3px;}
-.login-err{color:var(--danger);font-size:.82rem;text-align:center;margin-top:12px;}
+.login-logo { font-family: var(--font-head); font-size: 28px; font-weight: 800; letter-spacing: 0.1em; color: #fff; margin-bottom: 4px; }
+.login-sub { font-size: 12px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 24px; }
+.login-form { display: flex; flex-direction: column; gap: 14px; }
+.login-err { color: var(--danger); font-size: 13px; display: none; }
+.login-err:not(.hidden) { display: block; }
 
-/* LAYOUT */
-.layout{display:flex;min-height:100vh;}
-.sidebar{
-  width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:10;overflow-y:auto;
+/* ═══ LAYOUT ═══ */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: var(--sidebar-w); background: rgba(15, 11, 26, 0.95);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; bottom: 0; left: 0; z-index: 100;
+  backdrop-filter: blur(10px);
 }
-.sb-head{padding:26px 20px 18px;border-bottom:1px solid var(--border);}
-.sb-logo{
-  font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:4px;
-  background:linear-gradient(135deg,#8b5cf6,#00e5ff);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+.sb-head { padding: 24px 20px 18px; border-bottom: 1px solid var(--border); }
+.sb-logo { font-family: var(--font-head); font-size: 22px; font-weight: 800; letter-spacing: 0.08em; }
+.sb-sub { font-size: 11px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.12em; }
+.sb-nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
+.nav-btn {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 12px 14px; border-radius: 10px; border: none; background: transparent;
+  color: var(--text-sub); font-weight: 500; text-align: left; cursor: pointer;
+  transition: all 0.2s ease;
 }
-.sb-sub{font-size:.65rem;color:var(--text3);letter-spacing:2.5px;text-transform:uppercase;margin-top:2px;}
-.sb-nav{flex:1;padding:14px 10px;display:flex;flex-direction:column;gap:3px;}
-.nav-btn{
-  display:flex;align-items:center;gap:10px;
-  padding:11px 14px;border-radius:10px;border:none;
-  background:transparent;color:var(--text2);
-  font-size:.875rem;font-weight:500;font-family:inherit;cursor:pointer;
-  transition:all var(--t);text-align:left;width:100%;
+.nav-btn:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.nav-btn.active { background: rgba(139,92,246,0.2); color: #fff; border: 1px solid rgba(139,92,246,0.4); font-weight: 600; }
+.nav-ic { font-size: 16px; width: 20px; text-align: center; }
+.sb-foot { padding: 16px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+
+.main { flex: 1; margin-left: var(--sidebar-w); padding: 32px; max-width: 1200px; }
+.section { display: none; }
+.section.active { display: block; }
+.sec-hd { margin-bottom: 24px; }
+.sec-hd h2 { font-family: var(--font-head); font-size: 24px; font-weight: 700; }
+.sec-hd p { color: var(--text-sub); font-size: 13px; margin-top: 4px; }
+
+/* ═══ UI COMPONENTS ═══ */
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; margin-bottom: 24px; overflow: hidden;
+  backdrop-filter: blur(10px);
 }
-.nav-btn:hover{background:rgba(139,92,246,.1);color:var(--text);}
-.nav-btn.active{background:rgba(139,92,246,.18);color:var(--cyan);border-left:3px solid var(--accent);padding-left:11px;}
-.nav-ic{font-size:1rem;width:20px;text-align:center;}
-.sb-foot{padding:14px 10px 20px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px;}
-.main{flex:1;margin-left:var(--sidebar);padding:36px 36px 60px;overflow-y:auto;}
-.sec-hd{margin-bottom:24px;}
-.sec-hd h2{
-  font-size:1.5rem;font-weight:700;
-  background:linear-gradient(135deg,#8b5cf6,#00e5ff);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+.card-hd {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: space-between;
 }
-.sec-hd p{color:var(--text3);font-size:.85rem;margin-top:3px;}
-.section{display:none;}.section.active{display:block;}
-.notice{
-  background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);
-  border-radius:var(--r);padding:11px 16px;font-size:.82rem;color:var(--warn);
-  margin-bottom:18px;
+.card-bd { padding: 20px; }
+.notice {
+  background: rgba(0, 229, 255, 0.08); border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: 10px; padding: 12px 16px; color: var(--accent); font-size: 13px; margin-bottom: 20px;
 }
 
-/* CARDS */
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:18px;overflow:hidden;}
-.card-hd{
-  padding:14px 22px;border-bottom:1px solid var(--border);
-  font-size:.75rem;font-weight:700;color:var(--text2);
-  text-transform:uppercase;letter-spacing:1.2px;
-  display:flex;align-items:center;justify-content:space-between;
+.fg { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.fg:last-child { margin-bottom: 0; }
+.fl { font-size: 12px; font-weight: 600; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em; }
+input[type="text"], input[type="password"], textarea, select {
+  width: 100%; background: var(--bg-input); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; color: var(--text); outline: none;
+  transition: border-color 0.2s;
 }
-.card-bd{padding:22px;}
-
-/* FORMS */
-.frow{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;}
-.frow.c2{grid-template-columns:1fr 1fr;}.frow.c3{grid-template-columns:1fr 1fr 1fr;}
-.fg{margin-bottom:16px;}.fg:last-child{margin-bottom:0;}
-label.fl{display:block;font-size:.72rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;}
-input[type=text],input[type=password],textarea,select{
-  width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);
-  border-radius:9px;padding:10px 13px;color:var(--text);font-size:.875rem;
-  font-family:inherit;outline:none;transition:border .18s,box-shadow .18s;appearance:none;
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
+  border-color: var(--border-focus); box-shadow: 0 0 10px rgba(0,229,255,0.15);
 }
-input:focus,textarea:focus,select:focus{border-color:rgba(139,92,246,.6);box-shadow:0 0 0 3px rgba(139,92,246,.12);}
-textarea{resize:vertical;min-height:88px;line-height:1.65;}
-select{
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='rgba(240,238,255,0.4)' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 13px center;padding-right:34px;cursor:pointer;
+select option { background: #140f20; color: #fff; }
+
+.frow { display: grid; gap: 16px; }
+.frow.c2 { grid-template-columns: 1fr 1fr; }
+.frow.c3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 18px; border-radius: 8px; border: none; font-weight: 600;
+  cursor: pointer; transition: all 0.2s ease;
 }
-select option{background:var(--bg3);color:var(--text);}
-.form-actions{display:flex;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--border);}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); box-shadow: 0 4px 15px rgba(139,92,246,0.4); }
+.btn-secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid var(--border); }
+.btn-secondary:hover { background: rgba(255,255,255,0.15); }
+.btn-danger { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+.btn-danger:hover { background: var(--danger); color: #fff; }
+.btn-ghost { background: transparent; color: var(--text-sub); }
+.btn-ghost:hover { background: rgba(255,255,255,0.05); color: #fff; }
+.btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+.btn-outline:hover { background: rgba(0,229,255,0.1); }
 
-/* BUTTONS */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  padding:10px 18px;border-radius:9px;border:none;
-  font-size:.875rem;font-weight:600;font-family:inherit;
-  cursor:pointer;transition:all .18s;text-decoration:none;white-space:nowrap;
+.btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 6px; }
+.btn-xs { padding: 4px 8px; font-size: 11px; border-radius: 4px; }
+
+/* ═══ UPLOAD ZONE ═══ */
+.uzone {
+  border: 2px dashed var(--border); border-radius: 12px; padding: 24px;
+  text-align: center; cursor: pointer; transition: all 0.2s; position: relative;
 }
-.btn:disabled{opacity:.4;cursor:not-allowed;}
-.btn-primary{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;box-shadow:0 4px 14px rgba(139,92,246,.3);}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(139,92,246,.45);}
-.btn-secondary{background:rgba(255,255,255,.07);color:var(--text2);border:1px solid var(--border);}
-.btn-secondary:hover{background:rgba(255,255,255,.12);color:var(--text);}
-.btn-danger{background:rgba(244,63,94,.1);color:var(--danger);border:1px solid rgba(244,63,94,.25);}
-.btn-danger:hover{background:rgba(244,63,94,.2);}
-.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border);}
-.btn-ghost:hover{background:rgba(255,255,255,.06);color:var(--text);}
-.btn-outline{background:transparent;color:var(--cyan);border:1px solid rgba(0,229,255,.3);}
-.btn-outline:hover{background:rgba(0,229,255,.06);}
-.btn-sm{padding:6px 13px;font-size:.78rem;border-radius:7px;}
-.btn-xs{padding:4px 9px;font-size:.72rem;border-radius:6px;}
-.btn-full{width:100%;}
+.uzone:hover, .uzone.drag { border-color: var(--accent); background: rgba(0,229,255,0.03); }
+.uzone.sm { padding: 14px; }
+.fi { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.u-ic { font-size: 24px; margin-bottom: 6px; }
+.u-txt { font-weight: 500; font-size: 13px; }
+.u-hint { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.prev-img { max-width: 140px; max-height: 140px; border-radius: 10px; object-fit: cover; margin: 10px auto 0; display: block; border: 1px solid var(--border); }
 
-/* UPLOAD ZONES */
-.uzone{
-  border:2px dashed var(--border);border-radius:13px;padding:32px 18px;
-  text-align:center;cursor:pointer;transition:all .18s;position:relative;
-  min-height:120px;display:flex;align-items:center;justify-content:center;
+/* ═══ LIST ITEMS ═══ */
+.arow {
+  display: flex; align-items: center; gap: 14px; padding: 12px 14px;
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+  border-radius: 10px; margin-bottom: 8px;
 }
-.uzone:hover,.uzone.drag{border-color:var(--accent);background:rgba(139,92,246,.06);}
-.uzone.has{border-style:solid;border-color:rgba(139,92,246,.4);}
-.uzone.sm{padding:16px;min-height:80px;}
-.uzone .fi{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.uph{pointer-events:none;}
-.u-ic{font-size:1.8rem;margin-bottom:6px;}
-.u-txt{font-size:.875rem;color:var(--text2);margin-bottom:3px;}
-.u-hint{font-size:.72rem;color:var(--text3);}
-.prev-img{max-width:160px;max-height:160px;border-radius:9px;object-fit:cover;display:block;margin:0 auto;box-shadow:0 6px 20px rgba(0,0,0,.4);}
-.prev-circle{border-radius:50%;width:80px;height:80px;}
-.prev-sq{border-radius:9px;width:140px;height:140px;object-fit:cover;}
+.athumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; }
+.athumb-ph { width: 44px; height: 44px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.ameta { flex: 1; }
+.atype { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; }
+.aname { font-weight: 600; font-size: 14px; }
+.adate { font-size: 11px; color: var(--text-muted); }
+.badge-builtin { font-size: 10px; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; color: var(--text-sub); }
 
-/* DYNAMIC LISTS */
-.bio-para{display:flex;gap:8px;margin-bottom:10px;}
-.bio-para textarea{flex:1;}
-.tag-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;min-height:32px;}
-.tpill{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:5px 11px;border-radius:20px;font-size:.78rem;
-  background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);color:var(--text);
+.track-item {
+  background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;
 }
-.tpill button{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.65rem;padding:0;line-height:1;}
-.tpill button:hover{color:var(--danger);}
-.tl-row{display:grid;grid-template-columns:150px 1fr auto;gap:8px;margin-bottom:9px;align-items:center;}
+.track-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.tnum { font-family: var(--font-code); font-size: 12px; color: var(--text-muted); width: 16px; }
+.tdur { width: 70px !important; text-align: center; }
+.tchk { display: flex; align-items: center; gap: 4px; font-size: 12px; cursor: pointer; color: var(--text-sub); white-space: nowrap; }
+.track-urls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-/* ALBUM LIST */
-.arow{
-  display:flex;align-items:center;gap:12px;
-  padding:11px 14px;border-radius:10px;border:1px solid var(--border);
-  background:rgba(255,255,255,.02);margin-bottom:8px;transition:background .18s;
+.tpill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;
+  background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 20px; font-size: 12px; color: #d8b4fe; margin: 0 4px 4px 0;
 }
-.arow:hover{background:rgba(255,255,255,.05);}
-.athumb{width:44px;height:44px;border-radius:7px;object-fit:cover;flex-shrink:0;background:var(--bg3);}
-.athumb-ph{width:44px;height:44px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:var(--bg3);font-size:1.2rem;flex-shrink:0;}
-.ameta{flex:1;min-width:0;}
-.ameta .atype{font-size:.65rem;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
-.ameta .aname{font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ameta .adate{font-size:.75rem;color:var(--text3);}
-.badge-builtin{font-size:.65rem;padding:3px 9px;border-radius:12px;background:rgba(255,255,255,.05);color:var(--text3);border:1px solid var(--border);}
+.tpill button { background: none; border: none; color: #f87171; cursor: pointer; font-size: 11px; }
 
-/* TRACKS */
-.track-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:9px;padding:11px 13px;margin-bottom:8px;}
-.track-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.tnum{font-size:.75rem;color:var(--text3);font-weight:700;min-width:18px;}
-.tdur{max-width:80px!important;}
-.tchk{display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--text2);white-space:nowrap;cursor:pointer;}
-.track-urls{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.track-urls input{font-size:.78rem;}
+.bio-para { display: flex; gap: 8px; margin-bottom: 8px; }
+.tl-row { display: grid; grid-template-columns: 120px 1fr 40px; gap: 8px; margin-bottom: 8px; }
 
-/* GALLERY */
-.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px;}
-.gal-item{position:relative;border-radius:9px;overflow:hidden;aspect-ratio:1;}
-.gal-item img{width:100%;height:100%;object-fit:cover;display:block;}
-.gal-ov{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:space-between;padding:7px;opacity:0;transition:opacity .18s;}
-.gal-item:hover .gal-ov{opacity:1;}
-.gal-cat{font-size:.6rem;color:var(--cyan);text-transform:uppercase;font-weight:700;background:rgba(0,0,0,.4);padding:2px 6px;border-radius:4px;}
-
-/* SCHEDULE */
-.sch-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--border);border-radius:9px;background:rgba(255,255,255,.02);margin-bottom:8px;}
-.sch-date{font-size:.82rem;color:var(--cyan);font-weight:700;min-width:90px;}
-.sch-desc{flex:1;font-size:.875rem;}
-.ss{font-size:.7rem;padding:3px 9px;border-radius:12px;font-weight:600;}
-.ss-upcoming{background:rgba(139,92,246,.12);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
-.ss-done{background:rgba(16,185,129,.1);color:var(--ok);border:1px solid rgba(16,185,129,.3);}
-
-/* TOAST */
-#toast{
-  position:fixed;bottom:26px;right:26px;z-index:9999;
-  padding:12px 20px;border-radius:11px;font-size:.875rem;font-weight:500;
-  max-width:300px;box-shadow:0 8px 28px rgba(0,0,0,.5);animation:toastIn .28s ease;
+/* ═══ TOAST ═══ */
+#toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 10000;
+  padding: 12px 20px; border-radius: 10px; font-weight: 600; font-size: 13px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
-.tok{background:rgba(16,185,129,.95);color:#fff;}
-.terr{background:rgba(244,63,94,.95);color:#fff;}
-.tinfo{background:rgba(139,92,246,.95);color:#fff;}
-@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#toast.tok { background: rgba(16, 185, 129, 0.9); color: #fff; }
+#toast.terr { background: rgba(239, 68, 68, 0.9); color: #fff; }
+#toast.tinfo { background: rgba(139, 92, 246, 0.9); color: #fff; }
+.hidden { display: none !important; }
+.mt1 { margin-top: 12px; }
+.form-actions { display: flex; gap: 12px; margin-top: 20px; }
 </style>
 </head>
 <body>
@@ -227,15 +216,16 @@ select option{background:var(--bg3);color:var(--text);}
 <!-- ═══ LOGIN ═══ -->
 <div id="loginWrap" class="login-wrap">
   <div class="login-card">
-    <div class="logo-txt">BAVI</div>
-    <h1 class="login-title">Admin Panel</h1>
-    <p class="login-sub">관리자 로그인이 필요합니다</p>
-    <div class="fg">
-      <label class="fl">비밀번호</label>
-      <input type="password" id="pwInput" placeholder="Password" autocomplete="current-password">
+    <div class="login-logo">BAVI</div>
+    <div class="login-sub">Admin Control Center</div>
+    <div class="login-form">
+      <div class="fg">
+        <label class="fl">보안 비밀번호</label>
+        <input type="password" id="pwInput" placeholder="Password를 입력하세요">
+      </div>
+      <div class="login-err hidden" id="loginErr">비밀번호가 올바르지 않습니다.</div>
+      <button class="btn btn-primary" id="loginBtn" style="width:100%; margin-top:6px;">관리자 로그인</button>
     </div>
-    <button class="btn btn-primary btn-full" id="loginBtn" style="margin-top:8px;">로그인</button>
-    <p class="login-err hidden" id="loginErr">⚠️ 비밀번호가 올바르지 않습니다.</p>
   </div>
 </div>
 
@@ -247,12 +237,9 @@ select option{background:var(--bg3);color:var(--text);}
       <div class="sb-sub">Admin Panel</div>
     </div>
     <nav class="sb-nav">
-      <button class="nav-btn active" data-sec="hero"><span class="nav-ic">🏠</span> Hero Banner</button>
+      <button class="nav-btn active" data-sec="disco"><span class="nav-ic">💿</span> Discography</button>
       <button class="nav-btn" data-sec="profile"><span class="nav-ic">👤</span> Profile</button>
-      <button class="nav-btn" data-sec="coverflow"><span class="nav-ic">💿</span> Coverflow Deck</button>
-      <button class="nav-btn" data-sec="disco"><span class="nav-ic">💿</span> Discography</button>
-      <button class="nav-btn" data-sec="gallery"><span class="nav-ic">🖼️</span> Gallery</button>
-      <button class="nav-btn" data-sec="schedule"><span class="nav-ic">📅</span> Schedule</button>
+      <button class="nav-btn" data-sec="contact"><span class="nav-ic">📬</span> Contact / Footer</button>
     </nav>
     <div class="sb-foot">
       <a href="../index.html" target="_blank" class="btn btn-ghost btn-sm">🌐 사이트 보기</a>
@@ -261,151 +248,59 @@ select option{background:var(--bg3);color:var(--text);}
   </aside>
 
   <main class="main">
-    <!-- HERO -->
-    <div id="sec-hero" class="section active">
-      <div class="sec-hd"><h2>🏠 Hero Banner</h2><p>메인 히어로 배너의 제목·내용·이미지를 수정합니다</p></div>
-      <div class="notice">⚠️ 저장 후 메인 사이트를 새로고침(Ctrl+Shift+R)하면 반영됩니다.</div>
-      <div class="card">
-        <div class="card-hd">배너 텍스트</div>
-        <div class="card-bd">
-          <div class="frow c2">
-            <div class="fg"><label class="fl">배너 제목</label><input type="text" id="h-title" placeholder="BAVIation"></div>
-            <div class="fg"><label class="fl">재생 트랙 제목</label><input type="text" id="h-track" placeholder="Perfect Glitch"></div>
-          </div>
-          <div class="fg"><label class="fl">배너 설명 (HTML 가능)</label><textarea id="h-desc" rows="3"></textarea></div>
-          <div class="fg"><label class="fl">재생 시 토스트 메시지</label><input type="text" id="h-toast"></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-hd">배너 이미지 (원형으로 표시)</div>
-        <div class="card-bd">
-          <div class="uzone" id="heroZone">
-            <input type="file" class="fi" id="heroFile" accept="image/*">
-            <div class="uph" id="heroPh"><div class="u-ic">🖼️</div><div class="u-txt">클릭하거나 드래그하세요</div><div class="u-hint">권장: 정사각형 이미지</div></div>
-            <img id="heroPrev" class="prev-img hidden" alt="Hero Preview">
-          </div>
-          <div class="mt1"><button class="btn btn-secondary btn-sm" id="heroClear">🗑️ 이미지 초기화</button></div>
-        </div>
-      </div>
-      <div class="form-actions">
-        <button class="btn btn-primary" id="saveHero">💾 저장하기</button>
-        <button class="btn btn-ghost" id="resetHero">↺ 기본값 초기화</button>
-      </div>
-    </div>
 
-    <!-- PROFILE -->
-    <div id="sec-profile" class="section">
-      <div class="sec-hd"><h2>👤 Profile</h2><p>아티스트 프로필의 모든 내용을 수정합니다</p></div>
-      <div class="card">
-        <div class="card-hd">기본 정보 & 아바타</div>
-        <div class="card-bd">
-          <div class="frow c3">
-            <div class="fg"><label class="fl">아티스트명</label><input type="text" id="p-name" placeholder="BAVI"></div>
-            <div class="fg"><label class="fl">한국어 이름</label><input type="text" id="p-kname" placeholder="바비"></div>
-            <div class="fg"><label class="fl">역할/포지션</label><input type="text" id="p-role" placeholder="Soloist / Singer-Songwriter"></div>
-          </div>
-          <div class="fg">
-            <label class="fl">프로필 아바타</label>
-            <div class="uzone sm" id="avatarZone">
-              <input type="file" class="fi" id="avatarFile" accept="image/*">
-              <div class="uph" id="avatarPh"><div class="u-ic">📷</div><div class="u-txt">아바타 이미지 업로드</div></div>
-              <img id="avatarPrev" class="prev-img prev-circle hidden" alt="Avatar">
-            </div>
-            <button class="btn btn-secondary btn-sm mt1" id="avatarClear">🗑️ 이미지 초기화</button>
-          </div>
-        </div>
+    <!-- DISCOGRAPHY & 3D COVERFLOW -->
+    <div id="sec-disco" class="section active">
+      <div class="sec-hd">
+        <h2>💿 Discography & 3D Coverflow Deck</h2>
+        <p>메인 페이지 3D Coverflow 앨범 덱 카드와 음원 트랙 데이터를 통합 관리합니다</p>
       </div>
-      <div class="card">
-        <div class="card-hd">소개 글</div>
-        <div class="card-bd">
-          <div class="fg"><label class="fl">볼드 인용구</label><input type="text" id="p-quote" placeholder='"우리는 일탈을 통해 성장하는거야."'></div>
-          <div class="fg">
-            <label class="fl">소개 문단</label>
-            <div id="bioParagraphs"></div>
-            <button class="btn btn-outline btn-sm mt1" id="addParaBtn">+ 문단 추가</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-hd">Information 카드</div>
-        <div class="card-bd">
-          <div class="frow c2">
-            <div class="fg"><label class="fl">Name</label><input type="text" id="p-realname" placeholder="BAVI (박하은)"></div>
-            <div class="fg"><label class="fl">Debut</label><input type="text" id="p-debut" placeholder="2026.07.11 ('BAVIation')"></div>
-            <div class="fg"><label class="fl">Genre</label><input type="text" id="p-genre" placeholder="Glitch-pop, Hyper-pop"></div>
-            <div class="fg"><label class="fl">Label</label><input type="text" id="p-label" placeholder="VVS Producing"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-hd">Identity 태그</div>
-        <div class="card-bd">
-          <div class="tag-cloud" id="tagCloud"></div>
-          <div class="flex"><input type="text" id="tagInput" placeholder="#Pink" style="max-width:180px;"><button class="btn btn-outline btn-sm" id="addTagBtn">+ 추가</button></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-hd">Timeline</div>
-        <div class="card-bd">
-          <div id="tlItems"></div>
-          <hr class="sep">
-          <div class="frow">
-            <div class="fg"><label class="fl">날짜</label><input type="text" id="tlDate" placeholder="2026.07.25"></div>
-            <div class="fg"><label class="fl">내용</label><input type="text" id="tlDesc" placeholder="일정 내용"></div>
-            <div class="fg" style="align-self:flex-end;"><button class="btn btn-outline btn-sm" id="addTlBtn">+ 추가</button></div>
-          </div>
-        </div>
-      </div>
-      <div class="form-actions">
-        <button class="btn btn-primary" id="saveProfile">💾 프로필 저장</button>
-        <button class="btn btn-ghost" id="resetProfile">↺ 기본값 복원</button>
-      </div>
-    </div>
+      
+      <div class="notice">⚡ 저장 후 메인 사이트를 새로고침(Ctrl+Shift+R)하면 즉시 반영됩니다.</div>
 
-    <!-- COVERFLOW DECK -->
-    <div id="sec-coverflow" class="section">
-      <div class="sec-hd"><h2>💿 3D Visual Archive / Coverflow Deck</h2><p>메인 페이지 3D Coverflow 앨범 덱의 앨범 카드들을 등록·수정·삭제합니다</p></div>
+      <!-- 3D Coverflow Deck Manager -->
       <div class="card">
         <div class="card-hd">
-          <span>새 Coverflow 카드 등록</span>
+          <span>💿 3D Coverflow Deck 카드 관리</span>
           <button class="btn btn-outline btn-sm" id="syncDiscoBtn">⚡ Discography 앨범 전체 가져오기</button>
         </div>
         <div class="card-bd">
           <div class="frow c3">
             <div class="fg"><label class="fl">카드 제목</label><input type="text" id="cf-title" placeholder="예: BAVIation"></div>
             <div class="fg"><label class="fl">뱃지 / 유형</label><input type="text" id="cf-type" placeholder="예: 1ST SPECIAL EP"></div>
-            <div class="fg"><label class="fl">날짜</label><input type="text" id="cf-date" placeholder="예: 2026.07.11"></div>
+            <div class="fg"><label class="fl">발매일</label><input type="text" id="cf-date" placeholder="예: 2026.07.11"></div>
           </div>
           <div class="fg">
             <label class="fl">커버 이미지</label>
             <div class="uzone sm" id="cfZone">
               <input type="file" class="fi" id="cfFile" accept="image/*">
               <div class="uph" id="cfPh"><div class="u-ic">💿</div><div class="u-txt">이미지 업로드</div><div class="u-hint">정사각형 권장</div></div>
-              <img id="cfPrev" class="prev-img prev-sq hidden" alt="Cover">
+              <img id="cfPrev" class="prev-img hidden" alt="Cover">
             </div>
           </div>
           <button class="btn btn-primary mt1" id="addCfCardBtn">+ Coverflow 카드 추가</button>
+          
+          <h4 style="font-size: 13px; font-weight: 600; margin: 20px 0 10px; color: var(--text-sub);">현재 등록된 Coverflow 덱 순서 (상하버튼으로 순서 조정)</h4>
+          <div id="cfList"></div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-hd">등록된 Coverflow 덱 목록</div>
-        <div class="card-bd" id="cfList"></div>
-      </div>
-    </div>
 
-    <!-- DISCOGRAPHY -->
-    <div id="sec-disco" class="section">
-      <div class="sec-hd"><h2>💿 Discography</h2><p>음반을 등록·관리합니다</p></div>
+      <!-- Album Sound & Tracks Manager -->
       <div class="card">
-        <div class="card-hd">기존 등록 앨범 (기본 내장)</div>
+        <div class="card-hd">기존 기본 앨범 (사이트 내장 데이터)</div>
         <div class="card-bd"><div id="existingAlbums"></div></div>
       </div>
+      
       <div class="card">
-        <div class="card-hd"><span>어드민 추가 앨범</span><button class="btn btn-primary btn-sm" id="toggleAddAlbum">+ 새 앨범 추가</button></div>
+        <div class="card-hd">
+          <span>어드민 추가 앨범 (음원 & 트랙리스트)</span>
+          <button class="btn btn-primary btn-sm" id="toggleAddAlbum">+ 새 앨범 추가</button>
+        </div>
         <div class="card-bd"><div id="adminAlbums"></div></div>
       </div>
+
       <div class="card hidden" id="addAlbumCard">
-        <div class="card-hd">새 앨범 등록</div>
+        <div class="card-hd">새 앨범 & 음원 등록</div>
         <div class="card-bd">
           <div class="frow c3">
             <div class="fg"><label class="fl">앨범 유형</label>
@@ -424,7 +319,7 @@ select option{background:var(--bg3);color:var(--text);}
             <div class="uzone sm" id="coverZone">
               <input type="file" class="fi" id="coverFile" accept="image/*">
               <div class="uph" id="coverPh"><div class="u-ic">💿</div><div class="u-txt">앨범 커버 업로드</div><div class="u-hint">정사각형 권장</div></div>
-              <img id="coverPrev" class="prev-img prev-sq hidden" alt="Cover">
+              <img id="coverPrev" class="prev-img hidden" alt="Cover">
             </div>
           </div>
           <div class="fg">
@@ -440,51 +335,125 @@ select option{background:var(--bg3);color:var(--text);}
       </div>
     </div>
 
-    <!-- GALLERY -->
-    <div id="sec-gallery" class="section">
-      <div class="sec-hd"><h2>🖼️ Gallery</h2><p>갤러리 사진을 등록·삭제합니다</p></div>
+    <!-- PROFILE -->
+    <div id="sec-profile" class="section">
+      <div class="sec-hd">
+        <h2>👤 Profile</h2>
+        <p>독립 프로필 페이지(profile.html)의 바이오그래피, 인포메이션, 키워드, 타임라인을 수정합니다</p>
+      </div>
+
       <div class="card">
-        <div class="card-hd">사진 업로드</div>
+        <div class="card-hd">기본 정보 & 아바타 이미지</div>
         <div class="card-bd">
           <div class="frow c2">
-            <div class="fg"><label class="fl">카테고리</label>
-              <select id="g-cat"><option value="STAGE">STAGE</option><option value="CONCEPT">CONCEPT</option><option value="BEHIND">BEHIND</option></select>
-            </div>
-            <div class="fg"><label class="fl">설명 (선택)</label><input type="text" id="g-caption" placeholder="사진 설명"></div>
+            <div class="fg"><label class="fl">활동명</label><input type="text" id="p-name" placeholder="BAVI"></div>
+            <div class="fg"><label class="fl">한글명</label><input type="text" id="p-kname" placeholder="바비"></div>
           </div>
-          <div class="uzone" id="galleryZone">
-            <input type="file" class="fi" id="galleryFile" accept="image/*" multiple>
-            <div class="uph"><div class="u-ic">📸</div><div class="u-txt">클릭하거나 사진을 드래그하세요</div><div class="u-hint">여러 장 동시 업로드 가능</div></div>
+          <div class="frow c2">
+            <div class="fg"><label class="fl">포지션 / 포맷</label><input type="text" id="p-role" placeholder="Soloist / Singer-Songwriter"></div>
+            <div class="fg"><label class="fl">대표 인용 문구</label><input type="text" id="p-quote" placeholder='"우리는 일탈을 통해 성장하는거야."'></div>
+          </div>
+          <div class="fg">
+            <label class="fl">아바타 프로필 이미지</label>
+            <div class="uzone sm" id="avatarZone">
+              <input type="file" class="fi" id="avatarFile" accept="image/*">
+              <div class="uph" id="avatarPh"><div class="u-ic">👤</div><div class="u-txt">아바타 이미지 업로드</div></div>
+              <img id="avatarPrev" class="prev-img hidden" alt="Avatar">
+            </div>
+            <button class="btn btn-secondary btn-xs mt1" id="avatarClear">🗑️ 아바타 초기화</button>
           </div>
         </div>
       </div>
+
       <div class="card">
-        <div class="card-hd">등록된 사진</div>
-        <div class="card-bd"><div class="gal-grid" id="galGrid"></div></div>
+        <div class="card-hd">
+          <span>바이오그래피 (소개 문단)</span>
+          <button class="btn btn-secondary btn-sm" id="addParaBtn">+ 문단 추가</button>
+        </div>
+        <div class="card-bd" id="bioParagraphs"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd">상세 정보 목록 (Information)</div>
+        <div class="card-bd">
+          <div class="frow c2">
+            <div class="fg"><label class="fl">Name (본명)</label><input type="text" id="p-realname"></div>
+            <div class="fg"><label class="fl">Debut (데뷔일)</label><input type="text" id="p-debut"></div>
+          </div>
+          <div class="frow c2">
+            <div class="fg"><label class="fl">Genre (장르)</label><input type="text" id="p-genre"></div>
+            <div class="fg"><label class="fl">Label (레이블)</label><input type="text" id="p-label"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd">정체성 키워드 태그 (Identity Keywords)</div>
+        <div class="card-bd">
+          <div class="fg">
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="tagInput" placeholder="예: #Pink, #GlitchPop (엔터키 등록)">
+              <button class="btn btn-secondary btn-sm" id="addTagBtn">추가</button>
+            </div>
+          </div>
+          <div id="tagCloud"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd">
+          <span>아티스트 타임라인 (Timeline)</span>
+          <button class="btn btn-secondary btn-sm" id="addTlBtn">+ 일정 추가</button>
+        </div>
+        <div class="card-bd">
+          <div class="frow c2 mb1" style="margin-bottom:10px;">
+            <input type="text" id="tlDate" placeholder="YYYY.MM.DD">
+            <input type="text" id="tlDesc" placeholder="이벤트 내용">
+          </div>
+          <div id="tlItems"></div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" id="saveProfile">💾 프로필 저장</button>
+        <button class="btn btn-ghost" id="resetProfile">↺ 기본값 복원</button>
       </div>
     </div>
 
-    <!-- SCHEDULE -->
-    <div id="sec-schedule" class="section">
-      <div class="sec-hd"><h2>📅 Schedule</h2><p>타임라인·스케줄을 관리합니다</p></div>
+    <!-- CONTACT / FOOTER -->
+    <div id="sec-contact" class="section">
+      <div class="sec-hd">
+        <h2>📬 Contact & Footer</h2>
+        <p>사이트 하단 푸터의 이메일 복사, 위치 정보 및 공식 외부 스트리밍 채널 링크를 관리합니다</p>
+      </div>
+
       <div class="card">
-        <div class="card-hd">새 일정 추가</div>
+        <div class="card-hd">연락처 & 위치 정보</div>
         <div class="card-bd">
-          <div class="frow c3">
-            <div class="fg"><label class="fl">날짜</label><input type="text" id="sch-date" placeholder="2026.07.25"></div>
-            <div class="fg"><label class="fl">내용</label><input type="text" id="sch-desc" placeholder="일정 설명"></div>
-            <div class="fg"><label class="fl">상태</label>
-              <select id="sch-status"><option value="">일반</option><option value="upcoming">예정</option><option value="done">완료</option></select>
-            </div>
+          <div class="fg"><label class="fl">대표 문의 이메일</label><input type="text" id="c-email" placeholder="hello@bavilog.com"></div>
+          <div class="frow c2">
+            <div class="fg"><label class="fl">위치 (도시/국가)</label><input type="text" id="c-location" placeholder="SEOUL, SOUTH KOREA"></div>
+            <div class="fg"><label class="fl">위치 상세 (스튜디오)</label><input type="text" id="c-locationsub" placeholder="VVS PRODUCING LAB"></div>
           </div>
-          <button class="btn btn-primary" id="addSchBtn">+ 일정 추가</button>
         </div>
       </div>
+
       <div class="card">
-        <div class="card-hd">등록된 일정</div>
-        <div class="card-bd" id="schList"></div>
+        <div class="card-hd">공식 스트리밍 & SNS 채널 URL</div>
+        <div class="card-bd">
+          <div class="fg"><label class="fl">Spotify URL</label><input type="text" id="c-spotify" placeholder="https://open.spotify.com/artist/..."></div>
+          <div class="fg"><label class="fl">YouTube Music URL</label><input type="text" id="c-ytmusic" placeholder="https://music.youtube.com/channel/..."></div>
+          <div class="fg"><label class="fl">Apple Music URL</label><input type="text" id="c-applemusic" placeholder="https://music.apple.com/..."></div>
+          <div class="fg"><label class="fl">Instagram URL</label><input type="text" id="c-instagram" placeholder="https://www.instagram.com/..."></div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" id="saveContact">💾 설정 저장</button>
+        <button class="btn btn-ghost" id="resetContact">↺ 기본값 복원</button>
       </div>
     </div>
+
   </main>
 </div>
 
@@ -492,7 +461,7 @@ select option{background:var(--bg3);color:var(--text);}
 
 <script>
 /* ============================================================
-   BAVI Admin — All JS inlined (no external dependency)
+   BAVI Admin — Reorganized Structure System
    Password: dntpdl9881!!
    ============================================================ */
 (function(){
@@ -504,232 +473,164 @@ const SESSION    = 'bavi_admin_auth';
 
 /* ── DEFAULTS ── */
 const DEFAULTS = {
-  hero:{title:'BAVIation',desc:"BAVI의 스페셜 EP 앨범 'BAVIation' 발매.<br>몽환적이면서도 세련된 타이틀곡 'Perfect Glitch'를 지금 감상해보세요.",trackTitle:'Perfect Glitch',toastMsg:'Playing: Perfect Glitch (1st Special EP)',image:null},
-  profile:{name:'BAVI',koreanName:'바비',role:'Soloist / Singer-Songwriter',quote:'"우리는 일탈을 통해 성장하는거야."',avatar:null,
-    bio:['BAVI(바비)는 정형화된 팝의 틀을 깨는 감각적인 글리치 팝(Glitch Pop)과 위트 있는 얼터너티브 팝을 결합하여 자신만의 독보적인 주파수를 개척해 나가는 싱어송라이터입니다.',
-         '허스키함을 완전히 걷어낸, 극도로 맑고 투명하면서도 비몽사몽한 나른함이 묻어나는 20대 초반의 에어리(Airy) 보컬 톤은 청자들에게 마치 디지털 미로 속이나 아늑한 나만의 비밀방(Secret Room)에 누워있는 듯한 묘하고 중독적인 공간감을 선사합니다.',
-         '컴퓨터 시스템의 반전이나 오류를 뜻하는 HELLO WORLD, PERFECT GLITCH, EASTER EGG와 같은 키워드를 직접 작사·작곡으로 풀어내며, 차가운 디지털 코드 속에 숨겨진 낭만적인 일탈의 서사를 노래합니다.'],
-    info:{realName:'BAVI (박하은)',debut:"2026.07.11 ('BAVIation')",genre:'Glitch-pop, Hyper-pop',label:'VVS Producing'},
-    tags:['#Pink','#Ponytail','#DreamyVoice','#MyOwnSpace','#Tech','#SmallDeviations'],
-    timeline:[{date:'2026.07.11',desc:"1st Special EP 'BAVIation' 발매 & 데뷔"},{date:'2026.07.17',desc:"싱글 'Just One Minute' 발매 예정"},{date:'2026.07.25',desc:"싱글 '안녕, 세상아(Unpressed)' 발매 예정"}]
+  profile: {
+    name: 'BAVI', koreanName: '바비', role: 'Soloist / Singer-Songwriter', quote: '"우리는 일탈을 통해 성장하는거야."', avatar: null,
+    bio: [
+      'BAVI(바비)는 정형화된 팝의 틀을 깨는 감각적인 글리치 팝(Glitch Pop)과 위트 있는 얼터너티브 팝을 결합하여 자신만의 독보적인 주파수를 개척해 나가는 싱어송라이터입니다.',
+      '허스키함을 완전히 걷어낸, 극도로 맑고 투명하면서도 비몽사몽한 나른함이 묻어나는 20대 초반의 에어리(Airy) 보컬 톤은 청자들에게 마치 디지털 미로 속이나 아늑한 나만의 비밀방(Secret Room)에 누워있는 듯한 묘하고 중독적인 공간감을 선사합니다.',
+      '컴퓨터 시스템의 반전이나 오류를 뜻하는 HELLO WORLD, PERFECT GLITCH, EASTER EGG와 같은 키워드를 직접 작사·작곡으로 풀어내며, 차가운 디지털 코드 속에 숨겨진 낭만적인 일탈의 서사를 노래합니다.'
+    ],
+    info: { realName: 'BAVI (박하은)', debut: "2026.07.11 ('BAVIation')", genre: 'Glitch-pop, Hyper-pop', label: 'VVS Producing' },
+    tags: ['#Pink', '#Ponytail', '#DreamyVoice', '#MyOwnSpace', '#Tech', '#SmallDeviations'],
+    timeline: [
+      { date: '2026.07.11', desc: "1st Special EP 'BAVIation' 발매 & 데뷔" },
+      { date: '2026.07.17', desc: "싱글 'Just One Minute' 발매" },
+      { date: '2026.07.25', desc: "싱글 '안녕, 세상아(Unpressed)' 발매" }
+    ]
   },
-  coverflow:{cards:[
-    {id:'cf-0',title:'BAVIation',type:'1ST SPECIAL EP',date:'2026.07.11',cover:'../assets/images/album_baviation.jpg'},
-    {id:'cf-1',title:'Just One Minute',type:'SINGLE',date:'2026.07.17',cover:'../assets/images/album_just_one_minute.png'},
-    {id:'cf-2',title:'안녕, 세상아(Unpressed)',type:'NEW SINGLE',date:'2026.07.25',cover:'../assets/images/album_annyeong_sesanga.jpg'},
-    {id:'cf-3',title:'Airy Voice Identity',type:'CONCEPT',date:'2026.07.11',cover:'../assets/images/profile_avatar.jpg'}
-  ]},
-  discography:{adminAlbums:[]},
-  gallery:{adminPhotos:[]},
-  schedule:{items:[]}
+  coverflow: {
+    cards: [
+      { id: 'cf-0', title: 'BAVIation', type: '1ST SPECIAL EP', date: '2026.07.11', cover: '../assets/images/album_baviation.jpg' },
+      { id: 'cf-1', title: 'Just One Minute', type: 'SINGLE', date: '2026.07.17', cover: '../assets/images/album_just_one_minute.png' },
+      { id: 'cf-2', title: '안녕, 세상아(Unpressed)', type: 'NEW SINGLE', date: '2026.07.25', cover: '../assets/images/album_annyeong_sesanga.jpg' },
+      { id: 'cf-3', title: 'Airy Voice Identity', type: 'CONCEPT', date: '2026.07.11', cover: '../assets/images/profile_avatar.jpg' }
+    ]
+  },
+  discography: { adminAlbums: [] },
+  contact: {
+    email: 'hello@bavilog.com',
+    location: 'SEOUL, SOUTH KOREA',
+    locationSub: 'VVS PRODUCING LAB',
+    spotify: 'https://open.spotify.com/artist/3LAVKyNfSUhK5RZzJ25a20',
+    youtubeMusic: 'https://music.youtube.com/channel/UCmr8Wt03FOxg6LyorEFgOtg',
+    appleMusic: 'https://music.apple.com/kr/artist/bavi/6779288188',
+    instagram: 'https://www.instagram.com/bavibabygirl'
+  }
 };
 
-const BUILTIN=[
-  {id:'album-3',type:'1st Special EP',name:'BAVIation',release:'2026.07.11',cover:'../assets/images/album_baviation.jpg'},
-  {id:'album-4',type:'Single',name:'Just One Minute',release:'2026.07.17',cover:'../assets/images/album_just_one_minute.png'},
-  {id:'album-5',type:'Single',name:'안녕, 세상아(Unpressed)',release:'2026.07.25',cover:'../assets/images/album_annyeong_sesanga.jpg'}
+const BUILTIN = [
+  { id: 'album-3', type: '1st Special EP', name: 'BAVIation', release: '2026.07.11', cover: '../assets/images/album_baviation.jpg' },
+  { id: 'album-4', type: 'Single', name: 'Just One Minute', release: '2026.07.17', cover: '../assets/images/album_just_one_minute.png' },
+  { id: 'album-5', type: 'Single', name: '안녕, 세상아(Unpressed)', release: '2026.07.25', cover: '../assets/images/album_annyeong_sesanga.jpg' }
 ];
 
-let data=clone(DEFAULTS), newTracks=[], newCoverB64=null, newCfCoverB64=null;
+let data = clone(DEFAULTS), newTracks = [], newCoverB64 = null, newCfCoverB64 = null;
 
 /* ── UTILS ── */
-function clone(o){return JSON.parse(JSON.stringify(o));}
-function merge(t,s){if(!s)return t;for(const k of Object.keys(s)){if(s[k]&&typeof s[k]==='object'&&!Array.isArray(s[k])){if(!t[k]||typeof t[k]!=='object')t[k]={};merge(t[k],s[k]);}else t[k]=s[k];}return t;}
-function g(id){return document.getElementById(id);}
-function load(){const r=localStorage.getItem(STORE);if(r)try{data=merge(clone(DEFAULTS),JSON.parse(r));}catch(e){}}
-function save(){localStorage.setItem(STORE,JSON.stringify(data));}
+function clone(o) { return JSON.parse(JSON.stringify(o)); }
+function merge(t, s) {
+  if (!s) return t;
+  for (const k of Object.keys(s)) {
+    if (s[k] && typeof s[k] === 'object' && !Array.isArray(s[k])) {
+      if (!t[k] || typeof t[k] !== 'object') t[k] = {};
+      merge(t[k], s[k]);
+    } else t[k] = s[k];
+  }
+  return t;
+}
+function g(id) { return document.getElementById(id); }
+function load() {
+  const r = localStorage.getItem(STORE);
+  if (r) try { data = merge(clone(DEFAULTS), JSON.parse(r)); } catch (e) {}
+}
+function save() { localStorage.setItem(STORE, JSON.stringify(data)); }
 
 let toastTmr;
-function toast(msg,type='ok'){const el=g('toast');el.textContent=msg;el.className=`t${type}`;el.classList.remove('hidden');clearTimeout(toastTmr);toastTmr=setTimeout(()=>el.classList.add('hidden'),3000);}
+function toast(msg, type = 'ok') {
+  const el = g('toast');
+  el.textContent = msg;
+  el.className = `t${type}`;
+  el.classList.remove('hidden');
+  clearTimeout(toastTmr);
+  toastTmr = setTimeout(() => el.classList.add('hidden'), 3000);
+}
 
-function b64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=rej;r.readAsDataURL(file);});}
-async function compress(file,maxPx=800,q=0.82){return new Promise(res=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(url);let{width:w,height:h}=img;if(w>maxPx||h>maxPx){const r=Math.min(maxPx/w,maxPx/h);w=Math.round(w*r);h=Math.round(h*r);}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);res(c.toDataURL('image/jpeg',q));};img.src=url;});}
+async function compress(file, maxPx = 800, q = 0.82) {
+  return new Promise(res => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let { width: w, height: h } = img;
+      if (w > maxPx || h > maxPx) {
+        const r = Math.min(maxPx / w, maxPx / h);
+        w = Math.round(w * r); h = Math.round(h * r);
+      }
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      res(c.toDataURL('image/jpeg', q));
+    };
+    img.src = url;
+  });
+}
 
-function upzone(zoneId,fileId,onFile,multi=false){
-  const z=g(zoneId),fi=g(fileId);if(!z||!fi)return;
-  z.addEventListener('click',e=>{if(e.target!==fi)fi.click();});
-  z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag');});
-  z.addEventListener('dragleave',()=>z.classList.remove('drag'));
-  z.addEventListener('drop',async e=>{e.preventDefault();z.classList.remove('drag');const fs=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));if(multi)for(const f of fs)await onFile(f);else if(fs[0])await onFile(fs[0]);});
-  fi.addEventListener('change',async e=>{const fs=[...e.target.files];if(multi)for(const f of fs)await onFile(f);else if(fs[0])await onFile(fs[0]);fi.value='';});
+function upzone(zoneId, fileId, onFile, multi = false) {
+  const z = g(zoneId), fi = g(fileId);
+  if (!z || !fi) return;
+  z.addEventListener('click', e => { if (e.target !== fi) fi.click(); });
+  z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('drag'); });
+  z.addEventListener('dragleave', () => z.classList.remove('drag'));
+  z.addEventListener('drop', async e => {
+    e.preventDefault(); z.classList.remove('drag');
+    const fs = [...e.dataTransfer.files].filter(f => f.type.startsWith('image/'));
+    if (multi) for (const f of fs) await onFile(f);
+    else if (fs[0]) await onFile(fs[0]);
+  });
+  fi.addEventListener('change', async e => {
+    const fs = [...e.target.files];
+    if (multi) for (const f of fs) await onFile(f);
+    else if (fs[0]) await onFile(fs[0]);
+    fi.value = '';
+  });
 }
 
 /* ── AUTH ── */
-function loggedIn(){return sessionStorage.getItem(SESSION)==='1';}
-function tryLogin(){
-  const pw=g('pwInput').value;
-  if(pw===PW){
-    sessionStorage.setItem(SESSION,'1');
+function loggedIn() { return sessionStorage.getItem(SESSION) === '1'; }
+function tryLogin() {
+  const pw = g('pwInput').value;
+  if (pw === PW) {
+    sessionStorage.setItem(SESSION, '1');
     g('loginWrap').classList.add('hidden');
     g('adminLayout').classList.remove('hidden');
     initDash();
-  }else{
+  } else {
     g('loginErr').classList.remove('hidden');
-    g('pwInput').value='';
+    g('pwInput').value = '';
     g('pwInput').focus();
   }
 }
-function doLogout(){sessionStorage.removeItem(SESSION);g('loginWrap').classList.remove('hidden');g('adminLayout').classList.add('hidden');g('pwInput').value='';g('loginErr').classList.add('hidden');}
+function doLogout() {
+  sessionStorage.removeItem(SESSION);
+  g('loginWrap').classList.remove('hidden');
+  g('adminLayout').classList.add('hidden');
+  g('pwInput').value = '';
+  g('loginErr').classList.add('hidden');
+}
 
 /* ── NAV ── */
-function switchSec(name){
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelector(`.nav-btn[data-sec="${name}"]`).classList.add('active');
-  g(`sec-${name}`).classList.add('active');
-  if(name==='hero')renderHero();
-  if(name==='profile')renderProfile();
-  if(name==='coverflow')renderCoverflow();
-  if(name==='disco')renderDisco();
-  if(name==='gallery')renderGallery();
-  if(name==='schedule')renderSchedule();
+function switchSec(name) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const btn = document.querySelector(`.nav-btn[data-sec="${name}"]`);
+  const sec = g(`sec-${name}`);
+  if (btn) btn.classList.add('active');
+  if (sec) sec.classList.add('active');
+  if (name === 'disco') { renderCoverflow(); renderDisco(); }
+  if (name === 'profile') renderProfile();
+  if (name === 'contact') renderContact();
 }
 
-/* ── HERO ── */
-function renderHero(){
-  g('h-title').value=data.hero.title||'';
-  g('h-desc').value=data.hero.desc||'';
-  g('h-track').value=data.hero.trackTitle||'';
-  g('h-toast').value=data.hero.toastMsg||'';
-  if(data.hero.image){g('heroPrev').src=data.hero.image;g('heroPrev').classList.remove('hidden');g('heroPh').classList.add('hidden');g('heroZone').classList.add('has');}
-  else{g('heroPrev').classList.add('hidden');g('heroPh').classList.remove('hidden');g('heroZone').classList.remove('has');}
-}
-function setupHero(){
-  upzone('heroZone','heroFile',async f=>{const b=await compress(f);data.hero.image=b;g('heroPrev').src=b;g('heroPrev').classList.remove('hidden');g('heroPh').classList.add('hidden');g('heroZone').classList.add('has');});
-  g('heroClear').onclick=()=>{data.hero.image=null;g('heroPrev').classList.add('hidden');g('heroPh').classList.remove('hidden');g('heroZone').classList.remove('has');save();toast('이미지 초기화됨','info');};
-  g('saveHero').onclick=()=>{data.hero.title=g('h-title').value.trim();data.hero.desc=g('h-desc').value;data.hero.trackTitle=g('h-track').value.trim();data.hero.toastMsg=g('h-toast').value.trim();save();toast('✅ Hero 배너 저장됨!');};
-  g('resetHero').onclick=()=>{if(!confirm('초기화?'))return;data.hero=clone(DEFAULTS.hero);save();renderHero();toast('초기화됨','info');};
-}
-
-/* ── PROFILE ── */
-function renderProfile(){
-  g('p-name').value=data.profile.name||''; g('p-kname').value=data.profile.koreanName||'';
-  g('p-role').value=data.profile.role||''; g('p-quote').value=data.profile.quote||'';
-  g('p-realname').value=data.profile.info?.realName||''; g('p-debut').value=data.profile.info?.debut||'';
-  g('p-genre').value=data.profile.info?.genre||''; g('p-label').value=data.profile.info?.label||'';
-  if(data.profile.avatar){g('avatarPrev').src=data.profile.avatar;g('avatarPrev').classList.remove('hidden');g('avatarPh').classList.add('hidden');}
-  else{g('avatarPrev').classList.add('hidden');g('avatarPh').classList.remove('hidden');}
-  renderBio(); renderTags(); renderTl();
-}
-function renderBio(){
-  const c=g('bioParagraphs');c.innerHTML='';
-  (data.profile.bio||[]).forEach((p,i)=>{
-    const d=document.createElement('div');d.className='bio-para';
-    d.innerHTML=`<textarea rows="3" data-i="${i}">${p}</textarea><button class="btn btn-danger btn-sm" data-del="${i}">✕</button>`;
-    c.appendChild(d);
-  });
-  c.querySelectorAll('textarea[data-i]').forEach(ta=>ta.oninput=e=>data.profile.bio[+e.target.dataset.i]=e.target.value);
-  c.querySelectorAll('[data-del]').forEach(b=>b.onclick=e=>{data.profile.bio.splice(+e.target.dataset.del,1);renderBio();});
-}
-function renderTags(){
-  const c=g('tagCloud');c.innerHTML='';
-  (data.profile.tags||[]).forEach((t,i)=>{const s=document.createElement('span');s.className='tpill';s.innerHTML=`${t} <button data-ti="${i}">✕</button>`;c.appendChild(s);});
-  c.querySelectorAll('[data-ti]').forEach(b=>b.onclick=e=>{data.profile.tags.splice(+e.target.dataset.ti,1);renderTags();});
-}
-function renderTl(){
-  const c=g('tlItems');c.innerHTML='';
-  (data.profile.timeline||[]).forEach((item,i)=>{
-    const d=document.createElement('div');d.className='tl-row';
-    d.innerHTML=`<input type="text" value="${item.date}" data-ti="${i}" data-f="date" placeholder="날짜"><input type="text" value="${item.desc}" data-ti="${i}" data-f="desc" placeholder="내용"><button class="btn btn-danger btn-xs" data-tdel="${i}">✕</button>`;
-    c.appendChild(d);
-  });
-  c.querySelectorAll('input[data-ti]').forEach(inp=>inp.oninput=e=>{data.profile.timeline[+e.target.dataset.ti][e.target.dataset.f]=e.target.value;});
-  c.querySelectorAll('[data-tdel]').forEach(b=>b.onclick=e=>{data.profile.timeline.splice(+e.target.dataset.tdel,1);renderTl();});
-}
-function setupProfile(){
-  upzone('avatarZone','avatarFile',async f=>{const b=await compress(f,400);data.profile.avatar=b;g('avatarPrev').src=b;g('avatarPrev').classList.remove('hidden');g('avatarPh').classList.add('hidden');});
-  g('avatarClear').onclick=()=>{data.profile.avatar=null;g('avatarPrev').classList.add('hidden');g('avatarPh').classList.remove('hidden');save();toast('아바타 초기화됨','info');};
-  g('addParaBtn').onclick=()=>{data.profile.bio.push('');renderBio();const ts=g('bioParagraphs').querySelectorAll('textarea');if(ts.length)ts[ts.length-1].focus();};
-  g('addTagBtn').onclick=addTag; g('tagInput').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addTag();}};
-  g('addTlBtn').onclick=addTl; g('tlDate').onkeydown=e=>{if(e.key==='Enter')addTl();}; g('tlDesc').onkeydown=e=>{if(e.key==='Enter')addTl();};
-  g('saveProfile').onclick=()=>{
-    data.profile.name=g('p-name').value.trim(); data.profile.koreanName=g('p-kname').value.trim();
-    data.profile.role=g('p-role').value.trim(); data.profile.quote=g('p-quote').value.trim();
-    data.profile.info={realName:g('p-realname').value.trim(),debut:g('p-debut').value.trim(),genre:g('p-genre').value.trim(),label:g('p-label').value.trim()};
-    save();toast('✅ 프로필 저장됨!');
-  };
-  g('resetProfile').onclick=()=>{if(!confirm('기본값으로 복원?'))return;data.profile=clone(DEFAULTS.profile);save();renderProfile();toast('복원됨','info');};
-}
-function addTag(){const inp=g('tagInput');let t=inp.value.trim();if(!t)return;if(!t.startsWith('#'))t='#'+t;data.profile.tags.push(t);inp.value='';renderTags();}
-function addTl(){const d=g('tlDate').value.trim(),t=g('tlDesc').value.trim();if(!d||!t){toast('날짜와 내용 입력 필요','err');return;}data.profile.timeline.push({date:d,desc:t});g('tlDate').value='';g('tlDesc').value='';renderTl();}
-
-/* ── DISCOGRAPHY ── */
-function renderDisco(){
-  g('existingAlbums').innerHTML=BUILTIN.map(a=>`<div class="arow"><img class="athumb" src="${a.cover}" onerror="this.style.display='none'" alt="${a.name}"><div class="ameta"><div class="atype">${a.type}</div><div class="aname">${a.name}</div><div class="adate">${a.release}</div></div><span class="badge-builtin">내장</span></div>`).join('');
-  renderAdminAlbums();
-}
-function renderAdminAlbums(){
-  const c=g('adminAlbums'),al=data.discography.adminAlbums||[];
-  if(!al.length){c.innerHTML='<div class="empty">등록된 앨범이 없습니다.</div>';return;}
-  c.innerHTML=al.map((a,i)=>`<div class="arow">${a.cover?`<img class="athumb" src="${a.cover}" alt="${a.name}">`:'<div class="athumb-ph">💿</div>'}<div class="ameta"><div class="atype">${a.type}</div><div class="aname">${a.name}</div><div class="adate">${a.release} · ${(a.tracks||[]).length}트랙</div></div><button class="btn btn-danger btn-sm" data-adel="${i}">🗑️</button></div>`).join('');
-  c.querySelectorAll('[data-adel]').forEach(b=>b.onclick=e=>{if(!confirm('삭제?'))return;data.discography.adminAlbums.splice(+e.target.dataset.adel,1);save();renderAdminAlbums();toast('삭제됨','info');});
-}
-function renderTracks(){
-  const c=g('trackList');c.innerHTML='';
-  newTracks.forEach((t,i)=>{
-    const d=document.createElement('div');d.className='track-item';
-    d.innerHTML=`<div class="track-top"><span class="tnum">${i+1}</span><input type="text" placeholder="트랙 제목" value="${t.title}" data-ti="${i}" data-f="title" style="flex:1;"><input type="text" class="tdur" placeholder="3:04" value="${t.duration}" data-ti="${i}" data-f="duration"><label class="tchk"><input type="checkbox" ${t.isTitle?'checked':''} data-tci="${i}"> 타이틀</label><button class="btn btn-danger btn-xs" data-trdel="${i}">✕</button></div><div class="track-urls"><input type="text" placeholder="음원 경로 (assets/audio/...wav)" value="${t.url}" data-ti="${i}" data-f="url"><input type="text" placeholder="가사 경로 (선택, ...txt)" value="${t.lyricsUrl}" data-ti="${i}" data-f="lyricsUrl"></div>`;
-    c.appendChild(d);
-  });
-  c.querySelectorAll('input[data-f]').forEach(inp=>inp.oninput=e=>newTracks[+e.target.dataset.ti][e.target.dataset.f]=e.target.value);
-  c.querySelectorAll('input[data-tci]').forEach(cb=>cb.onchange=e=>newTracks[+e.target.dataset.tci].isTitle=e.target.checked);
-  c.querySelectorAll('[data-trdel]').forEach(b=>b.onclick=e=>{newTracks.splice(+e.target.dataset.trdel,1);renderTracks();});
-}
-function setupDisco(){
-  g('toggleAddAlbum').onclick=()=>{
-    const card=g('addAlbumCard'),show=card.classList.contains('hidden');
-    card.classList.toggle('hidden');
-    if(show){g('al-name').value='';g('al-release').value='';g('al-desc').value='';g('coverPrev').classList.add('hidden');g('coverPh').classList.remove('hidden');g('coverZone').classList.remove('has');newTracks=[{title:'',duration:'',url:'',lyricsUrl:'',isTitle:true}];newCoverB64=null;renderTracks();}
-  };
-  upzone('coverZone','coverFile',async f=>{newCoverB64=await compress(f);g('coverPrev').src=newCoverB64;g('coverPrev').classList.remove('hidden');g('coverPh').classList.add('hidden');g('coverZone').classList.add('has');});
-  g('addTrackBtn').onclick=()=>{newTracks.push({title:'',duration:'',url:'',lyricsUrl:'',isTitle:false});renderTracks();};
-  g('saveAlbumBtn').onclick=()=>{
-    const name=g('al-name').value.trim();if(!name){toast('앨범 제목 필요','err');return;}
-    data.discography.adminAlbums.push({id:`a-${Date.now()}`,type:g('al-type').value,name,release:g('al-release').value.trim(),desc:g('al-desc').value.trim(),cover:newCoverB64||null,tracks:newTracks.filter(t=>t.title.trim())});
-    save();g('addAlbumCard').classList.add('hidden');renderAdminAlbums();toast('✅ 앨범 등록됨!');
-  };
-  g('cancelAlbumBtn').onclick=()=>g('addAlbumCard').classList.add('hidden');
-}
-
-/* ── GALLERY ── */
-function renderGallery(){
-  const c=g('galGrid'),ph=data.gallery.adminPhotos||[];
-  if(!ph.length){c.innerHTML='<div class="empty">등록된 사진이 없습니다.</div>';return;}
-  c.innerHTML=ph.map((p,i)=>`<div class="gal-item"><img src="${p.src}" alt="${p.caption||''}"><div class="gal-ov"><span class="gal-cat">${p.category}</span><button class="btn btn-danger btn-xs" data-gdel="${i}">✕</button></div></div>`).join('');
-  c.querySelectorAll('[data-gdel]').forEach(b=>b.onclick=e=>{data.gallery.adminPhotos.splice(+e.target.dataset.gdel,1);save();renderGallery();toast('삭제됨','info');});
-}
-function setupGallery(){
-  upzone('galleryZone','galleryFile',async f=>{const b=await compress(f,1200,0.85);data.gallery.adminPhotos.push({id:`g-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,src:b,category:g('g-cat').value,caption:g('g-caption').value.trim(),filename:f.name});save();renderGallery();},true);
-}
-
-/* ── SCHEDULE ── */
-function renderSchedule(){
-  const c=g('schList'),items=data.schedule.items||[];
-  if(!items.length){c.innerHTML='<div class="empty">등록된 일정이 없습니다.</div>';return;}
-  c.innerHTML=items.map((s,i)=>`<div class="sch-item"><span class="sch-date">${s.date}</span><span class="sch-desc">${s.desc}</span>${s.status?`<span class="ss ss-${s.status}">${s.status==='upcoming'?'예정':'완료'}</span>`:''}<button class="btn btn-danger btn-xs" data-sdel="${i}">✕</button></div>`).join('');
-  c.querySelectorAll('[data-sdel]').forEach(b=>b.onclick=e=>{data.schedule.items.splice(+e.target.dataset.sdel,1);save();renderSchedule();toast('삭제됨','info');});
-}
-function setupSchedule(){
-  g('addSchBtn').onclick=()=>{
-    const d=g('sch-date').value.trim(),t=g('sch-desc').value.trim();
-    if(!d||!t){toast('날짜와 내용 필요','err');return;}
-    data.schedule.items.push({date:d,desc:t,status:g('sch-status').value});
-    save();g('sch-date').value='';g('sch-desc').value='';g('sch-status').value='';
-    renderSchedule();toast('✅ 일정 추가됨!');
-  };
-}
-
-/* ── COVERFLOW DECK ── */
-function renderCoverflow(){
-  const c=g('cfList'),cards=data.coverflow?.cards||[];
-  if(!cards.length){c.innerHTML='<div class="empty">등록된 Coverflow 카드가 없습니다.</div>';return;}
-  c.innerHTML=cards.map((item,i)=>`
+/* ── DISCOGRAPHY & COVERFLOW ── */
+function renderCoverflow() {
+  const c = g('cfList'), cards = data.coverflow?.cards || [];
+  if (!cards.length) { c.innerHTML = '<div class="empty">등록된 Coverflow 카드가 없습니다.</div>'; return; }
+  c.innerHTML = cards.map((item, i) => `
     <div class="arow">
       <img class="athumb" src="${item.cover}" alt="${item.title}" onerror="this.style.display='none'">
       <div class="ameta">
-        <div class="atype">${item.type||'SINGLE'}</div>
+        <div class="atype">${item.type || 'SINGLE'}</div>
         <div class="aname">${item.title}</div>
-        <div class="adate">${item.date||''}</div>
+        <div class="adate">${item.date || ''}</div>
       </div>
       <button class="btn btn-ghost btn-xs" data-cfup="${i}">⬆️</button>
       <button class="btn btn-ghost btn-xs" data-cfdn="${i}">⬇️</button>
@@ -737,89 +638,209 @@ function renderCoverflow(){
     </div>
   `).join('');
 
-  c.querySelectorAll('[data-cfdel]').forEach(b=>b.onclick=e=>{
-    data.coverflow.cards.splice(+e.target.dataset.cfdel,1);
-    save();renderCoverflow();toast('Coverflow 카드가 삭제되었습니다.','info');
+  c.querySelectorAll('[data-cfdel]').forEach(b => b.onclick = e => {
+    data.coverflow.cards.splice(+e.target.dataset.cfdel, 1);
+    save(); renderCoverflow(); toast('Coverflow 카드가 삭제되었습니다.', 'info');
   });
 
-  c.querySelectorAll('[data-cfup]').forEach(b=>b.onclick=e=>{
-    const i=+e.target.dataset.cfup;
-    if(i>0){
-      const tmp=data.coverflow.cards[i];
-      data.coverflow.cards[i]=data.coverflow.cards[i-1];
-      data.coverflow.cards[i-1]=tmp;
-      save();renderCoverflow();
+  c.querySelectorAll('[data-cfup]').forEach(b => b.onclick = e => {
+    const i = +e.target.dataset.cfup;
+    if (i > 0) {
+      const tmp = data.coverflow.cards[i];
+      data.coverflow.cards[i] = data.coverflow.cards[i - 1];
+      data.coverflow.cards[i - 1] = tmp;
+      save(); renderCoverflow();
     }
   });
 
-  c.querySelectorAll('[data-cfdn]').forEach(b=>b.onclick=e=>{
-    const i=+e.target.dataset.cfdn;
-    if(i<data.coverflow.cards.length-1){
-      const tmp=data.coverflow.cards[i];
-      data.coverflow.cards[i]=data.coverflow.cards[i+1];
-      data.coverflow.cards[i+1]=tmp;
-      save();renderCoverflow();
+  c.querySelectorAll('[data-cfdn]').forEach(b => b.onclick = e => {
+    const i = +e.target.dataset.cfdn;
+    if (i < data.coverflow.cards.length - 1) {
+      const tmp = data.coverflow.cards[i];
+      data.coverflow.cards[i] = data.coverflow.cards[i + 1];
+      data.coverflow.cards[i + 1] = tmp;
+      save(); renderCoverflow();
     }
   });
 }
 
-function setupCoverflow(){
-  upzone('cfZone','cfFile',async f=>{
-    newCfCoverB64=await compress(f);
-    g('cfPrev').src=newCfCoverB64;
+function setupCoverflow() {
+  upzone('cfZone', 'cfFile', async f => {
+    newCfCoverB64 = await compress(f);
+    g('cfPrev').src = newCfCoverB64;
     g('cfPrev').classList.remove('hidden');
     g('cfPh').classList.add('hidden');
     g('cfZone').classList.add('has');
   });
 
-  g('addCfCardBtn').onclick=()=>{
-    const title=g('cf-title').value.trim();
-    if(!title){toast('카드 제목을 입력해주세요.','err');return;}
-    if(!data.coverflow)data.coverflow={cards:[]};
+  g('addCfCardBtn').onclick = () => {
+    const title = g('cf-title').value.trim();
+    if (!title) { toast('카드 제목을 입력해주세요.', 'err'); return; }
+    if (!data.coverflow) data.coverflow = { cards: [] };
     data.coverflow.cards.push({
-      id:`cf-${Date.now()}`,
+      id: `cf-${Date.now()}`,
       title,
-      type:g('cf-type').value.trim()||'SINGLE',
-      date:g('cf-date').value.trim()||'2026.07.11',
-      cover:newCfCoverB64||'../assets/images/album_baviation.jpg'
+      type: g('cf-type').value.trim() || 'SINGLE',
+      date: g('cf-date').value.trim() || '2026.07.11',
+      cover: newCfCoverB64 || '../assets/images/album_baviation.jpg'
     });
     save();
-    g('cf-title').value='';g('cf-type').value='';g('cf-date').value='';
-    g('cfPrev').classList.add('hidden');g('cfPh').classList.remove('hidden');g('cfZone').classList.remove('has');
-    newCfCoverB64=null;
-    renderCoverflow();toast('✅ Coverflow 카드가 추가되었습니다!');
+    g('cf-title').value = ''; g('cf-type').value = ''; g('cf-date').value = '';
+    g('cfPrev').classList.add('hidden'); g('cfPh').classList.remove('hidden'); g('cfZone').classList.remove('has');
+    newCfCoverB64 = null;
+    renderCoverflow(); toast('✅ Coverflow 카드가 추가되었습니다!');
   };
 
-  g('syncDiscoBtn').onclick=()=>{
-    if(!data.coverflow)data.coverflow={cards:[]};
-    BUILTIN.forEach(b=>{
-      if(!data.coverflow.cards.some(c=>c.title===b.name)){
-        data.coverflow.cards.push({id:`cf-${b.id}`,title:b.name,type:b.type,date:b.release,cover:b.cover});
+  g('syncDiscoBtn').onclick = () => {
+    if (!data.coverflow) data.coverflow = { cards: [] };
+    BUILTIN.forEach(b => {
+      if (!data.coverflow.cards.some(c => c.title === b.name)) {
+        data.coverflow.cards.push({ id: `cf-${b.id}`, title: b.name, type: b.type, date: b.release, cover: b.cover });
       }
     });
-    (data.discography?.adminAlbums||[]).forEach(a=>{
-      if(!data.coverflow.cards.some(c=>c.title===a.name)){
-        data.coverflow.cards.push({id:`cf-${a.id}`,title:a.name,type:a.type,date:a.release,cover:a.cover||'../assets/images/album_baviation.jpg'});
+    (data.discography?.adminAlbums || []).forEach(a => {
+      if (!data.coverflow.cards.some(c => c.title === a.name)) {
+        data.coverflow.cards.push({ id: `cf-${a.id}`, title: a.name, type: a.type, date: a.release, cover: a.cover || '../assets/images/album_baviation.jpg' });
       }
     });
-    save();renderCoverflow();toast('⚡ Discography 앨범들이 Coverflow 덱에 동기화되었습니다!');
+    save(); renderCoverflow(); toast('⚡ Discography 앨범들이 Coverflow 덱에 동기화되었습니다!');
+  };
+}
+
+function renderDisco() {
+  g('existingAlbums').innerHTML = BUILTIN.map(a => `<div class="arow"><img class="athumb" src="${a.cover}" onerror="this.style.display='none'" alt="${a.name}"><div class="ameta"><div class="atype">${a.type}</div><div class="aname">${a.name}</div><div class="adate">${a.release}</div></div><span class="badge-builtin">내장</span></div>`).join('');
+  renderAdminAlbums();
+}
+function renderAdminAlbums() {
+  const c = g('adminAlbums'), al = data.discography?.adminAlbums || [];
+  if (!al.length) { c.innerHTML = '<div class="empty" style="color:var(--text-muted); font-size:13px;">등록된 어드민 추가 앨범이 없습니다.</div>'; return; }
+  c.innerHTML = al.map((a, i) => `<div class="arow">${a.cover ? `<img class="athumb" src="${a.cover}" alt="${a.name}">` : '<div class="athumb-ph">💿</div>'}<div class="ameta"><div class="atype">${a.type}</div><div class="aname">${a.name}</div><div class="adate">${a.release} · ${(a.tracks || []).length}트랙</div></div><button class="btn btn-danger btn-sm" data-adel="${i}">🗑️</button></div>`).join('');
+  c.querySelectorAll('[data-adel]').forEach(b => b.onclick = e => { if (!confirm('앨범을 삭제하시겠습니까?')) return; data.discography.adminAlbums.splice(+e.target.dataset.adel, 1); save(); renderAdminAlbums(); toast('삭제되었습니다.', 'info'); });
+}
+function renderTracks() {
+  const c = g('trackList'); c.innerHTML = '';
+  newTracks.forEach((t, i) => {
+    const d = document.createElement('div'); d.className = 'track-item';
+    d.innerHTML = `<div class="track-top"><span class="tnum">${i + 1}</span><input type="text" placeholder="트랙 제목" value="${t.title}" data-ti="${i}" data-f="title" style="flex:1;"><input type="text" class="tdur" placeholder="3:04" value="${t.duration}" data-ti="${i}" data-f="duration"><label class="tchk"><input type="checkbox" ${t.isTitle ? 'checked' : ''} data-tci="${i}"> 타이틀</label><button class="btn btn-danger btn-xs" data-trdel="${i}">✕</button></div><div class="track-urls"><input type="text" placeholder="음원 경로 (assets/audio/...wav)" value="${t.url}" data-ti="${i}" data-f="url"><input type="text" placeholder="가사 경로 (선택, ...txt)" value="${t.lyricsUrl}" data-ti="${i}" data-f="lyricsUrl"></div>`;
+    c.appendChild(d);
+  });
+  c.querySelectorAll('input[data-f]').forEach(inp => inp.oninput = e => newTracks[+e.target.dataset.ti][e.target.dataset.f] = e.target.value);
+  c.querySelectorAll('input[data-tci]').forEach(cb => cb.onchange = e => newTracks[+e.target.dataset.tci].isTitle = e.target.checked);
+  c.querySelectorAll('[data-trdel]').forEach(b => b.onclick = e => { newTracks.splice(+e.target.dataset.trdel, 1); renderTracks(); });
+}
+function setupDisco() {
+  g('toggleAddAlbum').onclick = () => {
+    const card = g('addAlbumCard'), show = card.classList.contains('hidden');
+    card.classList.toggle('hidden');
+    if (show) { g('al-name').value = ''; g('al-release').value = ''; g('al-desc').value = ''; g('coverPrev').classList.add('hidden'); g('coverPh').classList.remove('hidden'); g('coverZone').classList.remove('has'); newTracks = [{ title: '', duration: '', url: '', lyricsUrl: '', isTitle: true }]; newCoverB64 = null; renderTracks(); }
+  };
+  upzone('coverZone', 'coverFile', async f => { newCoverB64 = await compress(f); g('coverPrev').src = newCoverB64; g('coverPrev').classList.remove('hidden'); g('coverPh').classList.add('hidden'); g('coverZone').classList.add('has'); });
+  g('addTrackBtn').onclick = () => { newTracks.push({ title: '', duration: '', url: '', lyricsUrl: '', isTitle: false }); renderTracks(); };
+  g('saveAlbumBtn').onclick = () => {
+    const name = g('al-name').value.trim(); if (!name) { toast('앨범 제목을 입력해주세요.', 'err'); return; }
+    if (!data.discography) data.discography = { adminAlbums: [] };
+    data.discography.adminAlbums.push({ id: `a-${Date.now()}`, type: g('al-type').value, name, release: g('al-release').value.trim(), desc: g('al-desc').value.trim(), cover: newCoverB64 || null, tracks: newTracks.filter(t => t.title.trim()) });
+    save(); g('addAlbumCard').classList.add('hidden'); renderAdminAlbums(); toast('✅ 앨범이 등록되었습니다!');
+  };
+  g('cancelAlbumBtn').onclick = () => g('addAlbumCard').classList.add('hidden');
+}
+
+/* ── PROFILE ── */
+function renderProfile() {
+  g('p-name').value = data.profile.name || ''; g('p-kname').value = data.profile.koreanName || '';
+  g('p-role').value = data.profile.role || ''; g('p-quote').value = data.profile.quote || '';
+  g('p-realname').value = data.profile.info?.realName || ''; g('p-debut').value = data.profile.info?.debut || '';
+  g('p-genre').value = data.profile.info?.genre || ''; g('p-label').value = data.profile.info?.label || '';
+  if (data.profile.avatar) { g('avatarPrev').src = data.profile.avatar; g('avatarPrev').classList.remove('hidden'); g('avatarPh').classList.add('hidden'); }
+  else { g('avatarPrev').classList.add('hidden'); g('avatarPh').classList.remove('hidden'); }
+  renderBio(); renderTags(); renderTl();
+}
+function renderBio() {
+  const c = g('bioParagraphs'); c.innerHTML = '';
+  (data.profile.bio || []).forEach((p, i) => {
+    const d = document.createElement('div'); d.className = 'bio-para';
+    d.innerHTML = `<textarea rows="3" data-i="${i}">${p}</textarea><button class="btn btn-danger btn-sm" data-del="${i}">✕</button>`;
+    c.appendChild(d);
+  });
+  c.querySelectorAll('textarea[data-i]').forEach(ta => ta.oninput = e => data.profile.bio[+e.target.dataset.i] = e.target.value);
+  c.querySelectorAll('[data-del]').forEach(b => b.onclick = e => { data.profile.bio.splice(+e.target.dataset.del, 1); renderBio(); });
+}
+function renderTags() {
+  const c = g('tagCloud'); c.innerHTML = '';
+  (data.profile.tags || []).forEach((t, i) => { const s = document.createElement('span'); s.className = 'tpill'; s.innerHTML = `${t} <button data-ti="${i}">✕</button>`; c.appendChild(s); });
+  c.querySelectorAll('[data-ti]').forEach(b => b.onclick = e => { data.profile.tags.splice(+e.target.dataset.ti, 1); renderTags(); });
+}
+function renderTl() {
+  const c = g('tlItems'); c.innerHTML = '';
+  (data.profile.timeline || []).forEach((item, i) => {
+    const d = document.createElement('div'); d.className = 'tl-row';
+    d.innerHTML = `<input type="text" value="${item.date}" data-ti="${i}" data-f="date" placeholder="날짜"><input type="text" value="${item.desc}" data-ti="${i}" data-f="desc" placeholder="내용"><button class="btn btn-danger btn-xs" data-tdel="${i}">✕</button>`;
+    c.appendChild(d);
+  });
+  c.querySelectorAll('input[data-ti]').forEach(inp => inp.oninput = e => { data.profile.timeline[+e.target.dataset.ti][e.target.dataset.f] = e.target.value; });
+  c.querySelectorAll('[data-tdel]').forEach(b => b.onclick = e => { data.profile.timeline.splice(+e.target.dataset.tdel, 1); renderTl(); });
+}
+function setupProfile() {
+  upzone('avatarZone', 'avatarFile', async f => { const b = await compress(f, 400); data.profile.avatar = b; g('avatarPrev').src = b; g('avatarPrev').classList.remove('hidden'); g('avatarPh').classList.add('hidden'); });
+  g('avatarClear').onclick = () => { data.profile.avatar = null; g('avatarPrev').classList.add('hidden'); g('avatarPh').classList.remove('hidden'); save(); toast('아바타 초기화됨', 'info'); };
+  g('addParaBtn').onclick = () => { data.profile.bio.push(''); renderBio(); const ts = g('bioParagraphs').querySelectorAll('textarea'); if (ts.length) ts[ts.length - 1].focus(); };
+  g('addTagBtn').onclick = addTag; g('tagInput').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); addTag(); } };
+  g('addTlBtn').onclick = addTl; g('tlDate').onkeydown = e => { if (e.key === 'Enter') addTl(); }; g('tlDesc').onkeydown = e => { if (e.key === 'Enter') addTl(); };
+  g('saveProfile').onclick = () => {
+    data.profile.name = g('p-name').value.trim(); data.profile.koreanName = g('p-kname').value.trim();
+    data.profile.role = g('p-role').value.trim(); data.profile.quote = g('p-quote').value.trim();
+    data.profile.info = { realName: g('p-realname').value.trim(), debut: g('p-debut').value.trim(), genre: g('p-genre').value.trim(), label: g('p-label').value.trim() };
+    save(); toast('✅ 프로필 저장이 완료되었습니다!');
+  };
+  g('resetProfile').onclick = () => { if (!confirm('기본 프로필값으로 복원하시겠습니까?')) return; data.profile = clone(DEFAULTS.profile); save(); renderProfile(); toast('프로필 기본값 복원됨', 'info'); };
+}
+function addTag() { const inp = g('tagInput'); let t = inp.value.trim(); if (!t) return; if (!t.startsWith('#')) t = '#' + t; data.profile.tags.push(t); inp.value = ''; renderTags(); }
+function addTl() { const d = g('tlDate').value.trim(), t = g('tlDesc').value.trim(); if (!d || !t) { toast('날짜와 내용을 입력하세요.', 'err'); return; } data.profile.timeline.push({ date: d, desc: t }); g('tlDate').value = ''; g('tlDesc').value = ''; renderTl(); }
+
+/* ── CONTACT ── */
+function renderContact() {
+  if (!data.contact) data.contact = clone(DEFAULTS.contact);
+  g('c-email').value = data.contact.email || '';
+  g('c-location').value = data.contact.location || '';
+  g('c-locationsub').value = data.contact.locationSub || '';
+  g('c-spotify').value = data.contact.spotify || '';
+  g('c-ytmusic').value = data.contact.youtubeMusic || '';
+  g('c-applemusic').value = data.contact.appleMusic || '';
+  g('c-instagram').value = data.contact.instagram || '';
+}
+function setupContact() {
+  g('saveContact').onclick = () => {
+    if (!data.contact) data.contact = {};
+    data.contact.email = g('c-email').value.trim();
+    data.contact.location = g('c-location').value.trim();
+    data.contact.locationSub = g('c-locationsub').value.trim();
+    data.contact.spotify = g('c-spotify').value.trim();
+    data.contact.youtubeMusic = g('c-ytmusic').value.trim();
+    data.contact.appleMusic = g('c-applemusic').value.trim();
+    data.contact.instagram = g('c-instagram').value.trim();
+    save(); toast('✅ Contact / Footer 설정이 저장되었습니다!');
+  };
+  g('resetContact').onclick = () => {
+    if (!confirm('기본 Contact 설정으로 복원하시겠습니까?')) return;
+    data.contact = clone(DEFAULTS.contact);
+    save(); renderContact(); toast('기본값 복원됨', 'info');
   };
 }
 
 /* ── DASHBOARD INIT ── */
-function initDash(){
+function initDash() {
   load();
-  document.querySelectorAll('.nav-btn').forEach(b=>b.onclick=()=>switchSec(b.dataset.sec));
-  g('logoutBtn').onclick=doLogout;
-  setupHero(); setupProfile(); setupCoverflow(); setupDisco(); setupGallery(); setupSchedule();
-  switchSec('hero');
+  document.querySelectorAll('.nav-btn').forEach(b => b.onclick = () => switchSec(b.dataset.sec));
+  g('logoutBtn').onclick = doLogout;
+  setupCoverflow(); setupDisco(); setupProfile(); setupContact();
+  switchSec('disco');
 }
 
 /* ── ENTRY ── */
-document.addEventListener('DOMContentLoaded',()=>{
-  if(loggedIn()){g('loginWrap').classList.add('hidden');g('adminLayout').classList.remove('hidden');initDash();}
-  g('loginBtn').onclick=tryLogin;
-  g('pwInput').onkeydown=e=>{if(e.key==='Enter')tryLogin();};
+document.addEventListener('DOMContentLoaded', () => {
+  if (loggedIn()) { g('loginWrap').classList.add('hidden'); g('adminLayout').classList.remove('hidden'); initDash(); }
+  g('loginBtn').onclick = tryLogin;
+  g('pwInput').onkeydown = e => { if (e.key === 'Enter') tryLogin(); };
 });
 
 })(); // end IIFE
