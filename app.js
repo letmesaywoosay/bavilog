@@ -163,8 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
     // 4. 3D Coverflow Album Deck Engine (Matching Reference Image)
     // ==========================================================================
-    const coverflowCards = document.querySelectorAll('.coverflow-card');
     const coverflowViewport = document.getElementById('coverflowViewport');
+    const coverflowDeck = document.getElementById('coverflowDeck');
     const coverflowPrev = document.getElementById('coverflowPrev');
     const coverflowNext = document.getElementById('coverflowNext');
     const coverflowInfoTitle = document.getElementById('coverflowInfoTitle');
@@ -172,13 +172,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const coverflowInfoDate = document.getElementById('coverflowInfoDate');
 
     let activeIndex = 0;
-    const totalCards = coverflowCards.length;
+
+    function getCoverflowCards() {
+        return document.querySelectorAll('.coverflow-card');
+    }
 
     function updateCoverflow(newIndex) {
-        if (totalCards === 0) return;
-        activeIndex = (newIndex + totalCards) % totalCards;
+        const cards = getCoverflowCards();
+        const total = cards.length;
+        if (total === 0) return;
 
-        coverflowCards.forEach((card, idx) => {
+        activeIndex = (newIndex + total) % total;
+
+        cards.forEach((card, idx) => {
             const diff = idx - activeIndex;
             const absDiff = Math.abs(diff);
 
@@ -191,9 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.classList.add('active');
 
                 // Update text display
-                if (coverflowInfoTitle) coverflowInfoTitle.textContent = card.getAttribute('data-title');
-                if (coverflowInfoType) coverflowInfoType.textContent = card.getAttribute('data-type');
-                if (coverflowInfoDate) coverflowInfoDate.textContent = card.getAttribute('data-date');
+                if (coverflowInfoTitle) coverflowInfoTitle.textContent = card.getAttribute('data-title') || '';
+                if (coverflowInfoType) coverflowInfoType.textContent = card.getAttribute('data-type') || '';
+                if (coverflowInfoDate) coverflowInfoDate.textContent = card.getAttribute('data-date') || '';
             } else if (diff < 0) {
                 // Left stacked cards (rotated inward)
                 const spacing = diff * 70 - 130;
@@ -229,9 +235,15 @@ document.addEventListener('DOMContentLoaded', () => {
     coverflowPrev?.addEventListener('click', () => updateCoverflow(activeIndex - 1));
     coverflowNext?.addEventListener('click', () => updateCoverflow(activeIndex + 1));
 
-    // Click on card to jump to center
-    coverflowCards.forEach((card, idx) => {
-        card.addEventListener('click', () => updateCoverflow(idx));
+    // Event Delegation for clicking any card
+    coverflowDeck?.addEventListener('click', (e) => {
+        const card = e.target.closest('.coverflow-card');
+        if (card) {
+            const index = Array.from(getCoverflowCards()).indexOf(card);
+            if (index !== -1) {
+                updateCoverflow(index);
+            }
+        }
     });
 
     // Wheel Scroll with Page Lock & Throttling
@@ -522,16 +534,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ad.coverflow && ad.coverflow.cards && ad.coverflow.cards.length > 0) {
             const deck = document.getElementById('coverflowDeck');
             if (deck) {
-                deck.innerHTML = ad.coverflow.cards.map((c, i) => `
-                    <div class="coverflow-card" data-index="${i}" data-title="${c.title}" data-type="${c.type||'SINGLE'}" data-date="${c.date||''}">
-                        <img src="${c.cover}" alt="${c.title}">
-                    </div>
-                `).join('');
+                deck.innerHTML = ad.coverflow.cards.map((c, i) => {
+                    const coverSrc = (c.cover || 'assets/images/album_baviation.jpg').replace(/^..\//, '');
+                    return `
+                        <div class="coverflow-card" data-index="${i}" data-title="${c.title}" data-type="${c.type||'SINGLE'}" data-date="${c.date||''}">
+                            <img src="${coverSrc}" alt="${c.title}">
+                        </div>
+                    `;
+                }).join('');
                 
-                const updatedCards = deck.querySelectorAll('.coverflow-card');
-                updatedCards.forEach((card, idx) => {
-                    card.addEventListener('click', () => updateCoverflow(idx));
-                });
                 updateCoverflow(0);
             }
         }
