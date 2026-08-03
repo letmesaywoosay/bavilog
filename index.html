@@ -68,58 +68,9 @@
     <!-- Main Content -->
     <main>
         
-        <!-- SECTION 1: HERO -->
-        <section id="home" class="hero-section">
-            <div class="hero-inner">
-                <div class="hero-content">
-                    <div class="hero-badge-wrap">
-                        <span class="pill-badge">
-                            <span class="dot"></span>
-                            <span id="heroSubtitle">SOLOIST / SINGER-SONGWRITER BAVI</span>
-                        </span>
-                    </div>
-
-                    <h1 class="global-headline-xl hero-title" id="heroTitle">
-                        <span class="is-grey">DECODING THE SOUNDSCAPE</span><br>
-                        BAVIation PART 2
-                    </h1>
-
-                    <p class="hero-desc" id="heroDesc">
-                        정형화된 팝의 틀을 깨는 글리치 팝과 극도로 맑은 에어리 보컬.<br>
-                        몽환적이면서도 세련된 타이틀곡 'Perfect Glitch'의 새로운 주파수를 경험해보세요.
-                    </p>
-
-                    <div class="hero-actions">
-                        <button class="btn-primary" id="heroPlayBtn">
-                            <i data-lucide="play" style="width: 18px; height: 18px; fill: currentColor;"></i> PLAY TITLE TRACK
-                        </button>
-                        <a href="#profile" class="btn-secondary">DISCOVER BAVI</a>
-                    </div>
-                </div>
-
-                <div class="hero-visual">
-                    <div class="hero-image-wrapper glass">
-                        <img src="assets/images/album_baviation.jpg" alt="Album Cover" class="hero-img" id="heroImg">
-                        <div class="hero-image-glow"></div>
-                        
-                        <div class="hero-floating-tag">
-                            <div class="audio-bars">
-                                <div class="audio-bar"></div>
-                                <div class="audio-bar"></div>
-                                <div class="audio-bar"></div>
-                                <div class="audio-bar"></div>
-                            </div>
-                            <div class="tag-info">
-                                <span class="tag-title">Perfect Glitch</span>
-                                <span class="tag-sub">1st Special EP BAVIation</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3D COVERFLOW ALBUM DECK INTEGRATED IN HOME SCREEN -->
-            <div class="coverflow-section" style="padding-top: 40px;">
+        <!-- SECTION 1: HOME (3D DISCOGRAPHY COVERFLOW HERO) -->
+        <section id="home" class="hero-section" style="min-height: calc(100vh - 100px); display: flex; flex-direction: column; justify-content: center; padding: 40px 0 60px;">
+            <div class="coverflow-section">
                 <div class="coverflow-header">
                     <h2 class="global-headline-s">
                         <span class="is-grey">VISUAL ARCHIVE — </span>DISCOGRAPHY
@@ -461,6 +412,6 @@
     <!-- Audio Element -->
     <audio id="audioElement" preload="auto"></audio>
 
-    <script src="app.js?v=60"></script>
+    <script src="app.js?v=61"></script>
 </body>
 </html>
