@@ -36,15 +36,13 @@
             </a>
             
             <nav class="nav-desktop">
-                <a href="#home" class="nav-link active" data-scramble="HOME">HOME</a>
+                <a href="#home" class="nav-link active" data-scramble="DISCOGRAPHY">DISCOGRAPHY</a>
                 <a href="#profile" class="nav-link" data-scramble="PROFILE">PROFILE</a>
-                <a href="#discography" class="nav-link" data-scramble="DISCOGRAPHY">DISCOGRAPHY</a>
-                <a href="#gallery" class="nav-link" data-scramble="GALLERY">GALLERY</a>
                 <a href="#contact" class="nav-link" data-scramble="CONTACT">CONTACT</a>
             </nav>
 
             <div class="header-action">
-                <a href="#discography" class="btn-pill-scramble" data-scramble="LISTEN NOW">
+                <a href="#home" class="btn-pill-scramble" data-scramble="LISTEN NOW">
                     <i data-lucide="disc" style="width: 14px; height: 14px; color: var(--accent-cyan);"></i> LISTEN NOW
                 </a>
                 <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -58,10 +56,8 @@
 
     <!-- Mobile Navigation Overlay -->
     <div class="nav-mobile" id="navMobile">
-        <a href="#home" class="nav-mobile-link">HOME</a>
+        <a href="#home" class="nav-mobile-link">DISCOGRAPHY</a>
         <a href="#profile" class="nav-mobile-link">PROFILE</a>
-        <a href="#discography" class="nav-mobile-link">DISCOGRAPHY</a>
-        <a href="#gallery" class="nav-mobile-link">GALLERY</a>
         <a href="#contact" class="nav-mobile-link">CONTACT</a>
     </div>
 
@@ -255,38 +251,6 @@
 
         </section>
 
-        <!-- SECTION 5: GALLERY -->
-        <section id="gallery" class="gallery-section">
-            <div class="section-header text-center">
-                <h2 class="global-headline-l section-title">
-                    <span class="is-grey">VISUAL WORLD — </span>GALLERY
-                </h2>
-                <p class="section-subtitle">무대와 비하인드 순간들의 시각적 기록</p>
-            </div>
-
-            <div class="gallery-filters">
-                <button class="btn-filter active" data-filter="all">ALL</button>
-                <button class="btn-filter" data-filter="stage">STAGE</button>
-                <button class="btn-filter" data-filter="concept">CONCEPT</button>
-                <button class="btn-filter" data-filter="behind">BEHIND</button>
-            </div>
-
-            <div class="gallery-grid">
-                <div class="gallery-item glass" data-category="stage">
-                    <img src="assets/images/album_baviation.jpg" alt="Stage shot">
-                </div>
-                <div class="gallery-item glass" data-category="concept">
-                    <img src="assets/images/album_just_one_minute.png" alt="Concept shot">
-                </div>
-                <div class="gallery-item glass" data-category="behind">
-                    <img src="assets/images/album_annyeong_sesanga.jpg" alt="Behind shot">
-                </div>
-                <div class="gallery-item glass" data-category="concept">
-                    <img src="assets/images/profile_avatar.jpg" alt="Portrait">
-                </div>
-            </div>
-        </section>
-
         <!-- SECTION 7: TASTE LABS STYLE FOOTER -->
         <footer id="contact" class="footer-section">
             <div class="footer-container">
@@ -376,6 +340,6 @@
     <!-- Audio Element -->
     <audio id="audioElement" preload="auto"></audio>
 
-    <script src="app.js?v=62"></script>
+    <script src="app.js?v=63"></script>
 </body>
 </html>
